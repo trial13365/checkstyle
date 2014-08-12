@@ -18,13 +18,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
-import com.google.common.collect.Lists;
-import com.puppycrawl.tools.checkstyle.api.JavadocTagInfo;
-import com.puppycrawl.tools.checkstyle.api.TextBlock;
-import com.puppycrawl.tools.checkstyle.api.Utils;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.common.collect.Lists;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.JavadocTagInfo;
+import com.puppycrawl.tools.checkstyle.api.TextBlock;
+import com.puppycrawl.tools.checkstyle.api.Utils;
 
 /**
  * Contains utility methods for working with Javadoc.
@@ -138,4 +140,48 @@ public final class JavadocUtils
         /** all validTags. */
         ALL;
     }
+
+    /**
+     * Checks that aCommentContent starts with '*' javadoc comment identifier.
+     *
+     * @param aCommentContent content of block comment
+     * @return true if aCommentContent starts with '*' javadoc comment identifier.
+     */
+    public static boolean isJavadocComment(String aCommentContent)
+    {
+        boolean result = false;
+
+        if (!aCommentContent.isEmpty()) {
+            final char docCommentIdentificator = aCommentContent.charAt(0);
+            result = docCommentIdentificator == '*';
+        }
+
+        return result;
+    }
+
+    /**
+     * Checks block comment content starts with '*' javadoc comment identifier.
+     *
+     * @param aBlockCommentBegin block comment AST
+     * @return true if block comment content starts with '*' javadoc comment identifier.
+     */
+    public static boolean isJavadocComment(DetailAST aBlockCommentBegin)
+    {
+        final char docCommentIdentificator = getBlockCommentContent(
+                aBlockCommentBegin).charAt(0);
+        return docCommentIdentificator == '*';
+    }
+
+    /**
+     * Gets content of block comment.
+     *
+     * @param aBlockCommentBegin block comment AST.
+     * @return content of block comment.
+     */
+    public static String getBlockCommentContent(DetailAST aBlockCommentBegin)
+    {
+        final DetailAST commentContent = aBlockCommentBegin.getFirstChild();
+        return commentContent.getText();
+    }
+
 }
