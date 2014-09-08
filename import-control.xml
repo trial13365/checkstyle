@@ -7,8 +7,7 @@
 
   <allow pkg="antlr"/>
   <allow pkg="org.antlr.v4.runtime"/>
-  <allow pkg="com.google.common.base"/>
-  <allow pkg="com.google.common.collect"/>
+  <allow pkg="com.google.common"/>
   <allow pkg="com.puppycrawl.tools.checkstyle.api"/>
   <allow pkg="com.puppycrawl.tools.checkstyle.checks"/>
   <allow pkg="java.io"/>

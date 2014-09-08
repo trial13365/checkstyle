@@ -29,16 +29,22 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import com.google.common.base.CaseFormat;
+import com.google.common.primitives.Ints;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocUtils;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocLexer;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser;
 
 /**
+ * Base class for Checks that process Javadoc comments.
+ *
  * @author Baratali Izmailov
  */
 public abstract class AbstractJavadocCheck extends Check
@@ -50,27 +56,113 @@ public abstract class AbstractJavadocCheck extends Check
             new DescriptiveErrorListener();
 
     /**
-     * Origin AST node of block comment.
+     * DetailAST node of considered Javadoc comment that is just a block comment
+     * in Java language syntax tree.
      */
     private DetailAST mBlockCommentAst;
 
     /**
-     * Process javadoc parse tree.
+     * Returns the default token types a check is interested in.
      *
-     * @param aJavadoc parse tree.
+     * @return the default token types
+     * @see JavadocTokenTypes
      */
-    public abstract void processJavadocParseTree(ParseTree aJavadoc);
+    public abstract int[] getDefaultJavadocTokens();
+
+    /**
+     * Called before the starting to process a tree.
+     *
+     * @param aRootAst the root of the tree
+     */
+    public void beginJavadocTree(JavadocAst aRootAst)
+    {
+    }
+
+    /**
+     * Called after finished processing a tree.
+     *
+     * @param aRootAst the root of the tree
+     */
+    public void finishJavadocTree(JavadocAst aRootAst)
+    {
+    }
+
+    /**
+     * Called to process a Javadoc token.
+     * @param aAst the token to process
+     */
+    public void visitJavadocToken(JavadocAst aAst)
+    {
+    }
+
+    /**
+     * Called after all the child nodes have been process.
+     *
+     * @param aAst the token leaving
+     */
+    public void leaveJavadocToken(JavadocAst aAst)
+    {
+    }
 
     @Override
-    public int[] getDefaultTokens()
+    public final int[] getDefaultTokens()
     {
         return new int[] {TokenTypes.BLOCK_COMMENT_BEGIN };
     }
 
     @Override
-    public boolean isCommentNodesRequired()
+    public final int[] getAcceptableTokens()
+    {
+        return super.getAcceptableTokens();
+    }
+
+    @Override
+    public final int[] getRequiredTokens()
+    {
+        return super.getRequiredTokens();
+    }
+
+    @Override
+    public final boolean isCommentNodesRequired()
     {
         return true;
+    }
+
+    @Override
+    public final void visitToken(DetailAST aBlockCommentAst)
+    {
+        mBlockCommentAst = aBlockCommentAst;
+
+        final String commentContent = JavadocUtils.getBlockCommentContent(aBlockCommentAst);
+
+        if (JavadocUtils.isJavadocComment(commentContent)) {
+
+            final String javadocComment = commentContent.substring(1);
+
+            // Log messages should have line number in scope of file,
+            // not in scope of Javadoc comment.
+            // Offset is line number of beginning of Javadoc comment.
+            mErrorListener.setOffset(aBlockCommentAst.getLineNo() - 1);
+
+            try {
+                final ParseTree parseTree = parseJavadoc(javadocComment);
+
+                final JavadocAst tree = convertParseTree2Ast(parseTree, null, null);
+
+                processTree(tree);
+            }
+            catch (IOException e) {
+                // Antlr can not initiate its ANTLRInputStream
+                log(aBlockCommentAst.getLineNo(), "javadoc.parse.error",
+                        e.getMessage());
+            }
+            catch (ParseCancellationException e) {
+                // If syntax error occurs then message is printed by error listener
+                // and parser throws this runtime exception to stop parsing.
+                // Just stop processing current Javadoc comment.
+                return;
+            }
+        }
     }
 
     protected DetailAST getBlockCommentAst()
@@ -78,36 +170,133 @@ public abstract class AbstractJavadocCheck extends Check
         return mBlockCommentAst;
     }
 
-    @Override
-    public void visitToken(DetailAST aBlockCommentBegin)
+    /**
+     * Converts ParseTree to JavadocAST.
+     * @param aNode
+     *        ParseTree node
+     * @param aParent
+     *        JavadocAST parent
+     * @param aPreviousSibling
+     *        JavadocAST previous sibling
+     * @return tree JavdocAST
+     */
+    private JavadocAst convertParseTree2Ast(ParseTree aNode, JavadocAst aParent, JavadocAst aPreviousSibling)
     {
-        mBlockCommentAst = aBlockCommentBegin;
-        final String commentContent =
-                JavadocUtils.getBlockCommentContent(aBlockCommentBegin);
-        if (JavadocUtils.isJavadocComment(commentContent)) {
-            final String javadocComment = commentContent.substring(1);
-            mErrorListener.setOffset(aBlockCommentBegin.getLineNo() - 1);
-            try {
-                System.out.println("Parsing: "
-                        + getFileContents().getFilename());
-                final ParseTree parseTree = parseJavadoc(javadocComment);
-                processJavadocParseTree(parseTree);
+        final JavadocAst nodeAst = createJavadocAstNode(aNode, aParent, aPreviousSibling);
+
+        final int childCount = aNode.getChildCount();
+
+        if (childCount > 0) {
+            final ParseTree firstChild = aNode.getChild(0);
+            final JavadocAst firstChildAst = convertParseTree2Ast(firstChild, nodeAst, null);
+
+            nodeAst.setFirstChild(firstChildAst);
+
+            JavadocAst previousAst = firstChildAst;
+            for (int i = 1; i < childCount; i++) {
+                final ParseTree nextChild = aNode.getChild(i);
+                final JavadocAst nextChildAst = convertParseTree2Ast(nextChild, nodeAst, previousAst);
+
+                previousAst = nextChildAst;
             }
-            catch (ParseCancellationException e) {
-                return;
-            }
-            catch (IOException e) {
-                log(aBlockCommentBegin.getLineNo(), "javadoc.parse.error",
-                        e.getMessage());
-            }
+
+        }
+
+        return nodeAst;
+    }
+
+    /**
+     * Creates JavadocAST node from ParseTree node.
+     *
+     * @param aNode ParseTree node
+     * @param aParentAst parent of created JavadocAST node
+     * @param aPreviousSibling previous sibling to created node
+     * @return JavadocAST node
+     */
+    private JavadocAst createJavadocAstNode(ParseTree aNode, JavadocAst aParentAst
+            , JavadocAst aPreviousSibling)
+    {
+        final JavadocAst ast = new JavadocAst();
+        ast.setParent(aParentAst);
+        ast.setColumnNumber(getColumn(aNode));
+        ast.setLineNumber(getLine(aNode) + mBlockCommentAst.getLineNo());
+        ast.setChildCount(aNode.getChildCount());
+        ast.setText(aNode.getText());
+
+        if (aPreviousSibling != null) {
+            ast.setPreviousSibling(aPreviousSibling);
+            aPreviousSibling.setNextSibling(ast);
+        }
+
+        int tokenId = -1;
+
+        if (aNode instanceof TerminalNode) {
+            tokenId = ((TerminalNode) aNode).getSymbol().getType();
+        }
+        else {
+            final String className = getNodeClassNameWithoutContext(aNode);
+            final String typeName =
+                    CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, className);
+            tokenId = JavadocTokenTypes.getTokenId(typeName);
+        }
+
+        ast.setType(tokenId);
+
+        return ast;
+    }
+
+    /**
+     * Gets class name of ParseTree node and removes 'Context' postfix at the end.
+     *
+     * @param aNode ParseTree node.
+     * @return class name without 'Context'
+     */
+    private static String getNodeClassNameWithoutContext(ParseTree aNode) {
+        final String className = aNode.getClass().getSimpleName();
+        // remove 'Context' at the end
+        final int contextLength = 7;
+        return className.substring(0, className.length() - contextLength);
+    }
+
+    /**
+     * Gets line number from ParseTree node.
+     * @param aTree ParseTree node
+     * @return line number
+     */
+    private static int getLine(ParseTree aTree)
+    {
+        if (aTree instanceof TerminalNode) {
+            return ((TerminalNode) aTree).getSymbol().getLine() - 1;
+        }
+        else {
+            final ParserRuleContext rule = (ParserRuleContext) aTree;
+            return rule.start.getLine() - 1;
+        }
+    }
+
+    /**
+     * Gets column number from ParseTree node.
+     * @param aTree ParseTree node
+     * @return column number
+     */
+    private static int getColumn(ParseTree aTree)
+    {
+        if (aTree instanceof TerminalNode) {
+            return ((TerminalNode) aTree).getSymbol().getCharPositionInLine();
+        }
+        else {
+            final ParserRuleContext rule = (ParserRuleContext) aTree;
+            return rule.start.getCharPositionInLine();
         }
     }
 
     /**
      * Parses block comment content as javadoc comment.
-     * @param aBlockComment block comment content.
+     * @param aBlockComment
+     *        block comment content.
      * @return parse tree
-     * @throws IOException errors in ANTLRInputStream
+     * @throws IOException
+     *         errors in ANTLRInputStream
      */
     private ParseTree parseJavadoc(String aBlockComment)
         throws IOException
@@ -118,17 +307,77 @@ public abstract class AbstractJavadocCheck extends Check
         final ANTLRInputStream input = new ANTLRInputStream(in);
 
         final JavadocLexer lexer = new JavadocLexer(input);
+
+        // remove default error listeners
         lexer.removeErrorListeners();
+
+        // add custom error listener that logs parsing errors
         lexer.addErrorListener(mErrorListener);
 
         final CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         final JavadocParser parser = new JavadocParser(tokens);
+
+        // remove default error listeners
         parser.removeErrorListeners();
+
+        // add custom error listener that logs syntax errors
         parser.addErrorListener(mErrorListener);
+
+        // This strategy stops parsing when parser error occurs.
+        // By default it uses Error Recover Strategy which is slow and useless.
         parser.setErrorHandler(new BailErrorStrategy());
 
         return parser.javadoc();
+    }
+
+    /**
+     * Processes JavadocAST tree notifying Check.
+     *
+     * @param aRoot root of JavadocAST tree.
+     */
+    private void processTree(JavadocAst aRoot)
+    {
+        beginJavadocTree(aRoot);
+        walk(aRoot);
+        finishJavadocTree(aRoot);
+    }
+
+    /**
+     * Processes a node calling Check at interested nodes.
+     *
+     * @param aRoot
+     *        the root of tree for process
+     */
+    private void walk(JavadocAst aRoot)
+    {
+        final int[] defaultTokenTypes = getDefaultJavadocTokens();
+
+        if (defaultTokenTypes == null) {
+            return;
+        }
+
+        JavadocAst curNode = aRoot;
+        while (curNode != null) {
+            final boolean waitsFor = Ints.contains(defaultTokenTypes, curNode.getType());
+
+            if (waitsFor) {
+                visitJavadocToken(curNode);
+            }
+            JavadocAst toVisit = curNode.getFirstChild();
+            while ((curNode != null) && (toVisit == null)) {
+
+                if (waitsFor) {
+                    leaveJavadocToken(curNode);
+                }
+
+                toVisit = curNode.getNextSibling();
+                if (toVisit == null) {
+                    curNode = curNode.getParent();
+                }
+            }
+            curNode = toVisit;
+        }
     }
 
     /**
@@ -137,17 +386,18 @@ public abstract class AbstractJavadocCheck extends Check
     class DescriptiveErrorListener extends BaseErrorListener
     {
         /**
-         * Line number offset.
+         * Offset is line number of beginning of the Javadoc comment.
+         * Log messages should have line number in scope of file, not in scope of Javadoc comment.
          */
         private int mOffset;
 
         /**
-         * Set of error messages.
+         * Set of known error messages that could be occurred while parsing Javadoc comment.
          */
-        private Set<String> mErrorMessages;
+        private final Set<String> mErrorMessages;
 
         /**
-         * Add default error messages.
+         * Adds default error messages.
          */
         public DescriptiveErrorListener()
         {
@@ -155,9 +405,14 @@ public abstract class AbstractJavadocCheck extends Check
 
             mErrorMessages = new HashSet<String>();
             mErrorMessages.add("javadoc.missed.html.close");
-            mErrorMessages.add("javadoc.missed.value.inline.tag.argument");
         }
 
+        /**
+         * Sets offset. Offset is line number of beginning of the Javadoc comment.
+         * Log messages should have line number in scope of file, not in scope of Javadoc comment.
+         *
+         * @param aOffset offset line number
+         */
         public void setOffset(int aOffset)
         {
             mOffset = aOffset;
@@ -169,9 +424,11 @@ public abstract class AbstractJavadocCheck extends Check
                 int aLine, int aCharPositionInLine,
                 String aMsg, RecognitionException aEx)
         {
+            // if message is error code from collection of known errors
             if (mErrorMessages.contains(aMsg)) {
                 log(mOffset + aLine, aMsg);
             }
+            // else print general error message
             else {
                 log(mOffset + aLine, "javadoc.parse.error", aMsg);
             }

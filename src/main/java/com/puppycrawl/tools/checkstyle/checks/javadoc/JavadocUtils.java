@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.JavadocAst;
 import com.puppycrawl.tools.checkstyle.api.JavadocTagInfo;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.api.Utils;
@@ -182,6 +183,45 @@ public final class JavadocUtils
     {
         final DetailAST commentContent = aBlockCommentBegin.getFirstChild();
         return commentContent.getText();
+    }
+
+    /**
+     * Returns the number of direct child tokens that have the specified type.
+     * @param aNode
+     *        Javadoc AST node
+     * @param aType
+     *        the token type to match
+     * @return the number of matching token
+     */
+    public static int getChildCount(JavadocAst aNode, int aType)
+    {
+        int count = 0;
+        for (JavadocAst i = aNode.getFirstChild(); i != null; i = i.getNextSibling()) {
+            if (i.getType() == aType) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Returns the first child token that has a specified type.
+     * @param aNode
+     *        Javadoc AST node
+     * @param aType
+     *        the token type to match
+     * @return the matching token, or null if no match
+     */
+    public static JavadocAst findFirstToken(JavadocAst aNode, int aType)
+    {
+        JavadocAst retVal = null;
+        for (JavadocAst i = aNode.getFirstChild(); i != null; i = i.getNextSibling()) {
+            if (i.getType() == aType) {
+                retVal = i;
+                break;
+            }
+        }
+        return retVal;
     }
 
 }

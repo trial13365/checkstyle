@@ -271,6 +271,16 @@ public class JavadocParseTreeTest
         compareTrees(expectedTree, generatedTree);
     }
 
+    @Test
+    public void negativeNumberInAttribute()
+        throws IOException
+    {
+        String filename = folderWithInputFiles + "/htmlTags/NegativeNumberInAttribute.txt";
+        ParseTree generatedTree = parseJavadoc(getFileContent(new File(filename)));
+        ParseTree expectedTree = ParseTreeBuilder.treeNegativeNumberInAttribute();
+        compareTrees(expectedTree, generatedTree);
+    }
+
     private void compareTrees(ParseTree t1, ParseTree t2)
     {
         Assert.assertEquals(t1.toStringTree(parser), t2.toStringTree(parser));

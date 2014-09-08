@@ -12,19 +12,19 @@ options { tokenVocab=JavadocLexer; }
 
 	boolean isJavadocTag(int type) {
 		switch(type) {
-			case JAVADOC_TAG_AUTHOR:
-			case JAVADOC_TAG_DEPRECATED:
-			case JAVADOC_TAG_EXCEPTION: 
-			case JAVADOC_TAG_PARAM:
-			case JAVADOC_TAG_RETURN:
-			case JAVADOC_TAG_SEE:
-			case JAVADOC_TAG_SERIAL:
-			case JAVADOC_TAG_SERIAL_FIELD:
-			case JAVADOC_TAG_SERIAL_DATA:
-			case JAVADOC_TAG_SINCE:
-			case JAVADOC_TAG_THROWS:
-			case JAVADOC_TAG_VERSION:
-			case JAVADOC_TAG_CUSTOM:
+			case JAVADOC_TAG_AUTHOR_LITERAL:
+			case JAVADOC_TAG_DEPRECATED_LITERAL:
+			case JAVADOC_TAG_EXCEPTION_LITERAL: 
+			case JAVADOC_TAG_PARAM_LITERAL:
+			case JAVADOC_TAG_RETURN_LITERAL:
+			case JAVADOC_TAG_SEE_LITERAL:
+			case JAVADOC_TAG_SERIAL_LITERAL:
+			case JAVADOC_TAG_SERIAL_FIELD_LITERAL:
+			case JAVADOC_TAG_SERIAL_DATA_LITERAL:
+			case JAVADOC_TAG_SINCE_LITERAL:
+			case JAVADOC_TAG_THROWS_LITERAL:
+			case JAVADOC_TAG_VERSION_LITERAL:
+			case JAVADOC_TAG_CUSTOM_LITERAL:
 				return true;
 			default:
 				return false;
@@ -702,42 +702,42 @@ paramTag: OPEN PARAM_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
 //////////////////////////  JAVADOC TAGS  ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 nameText: (misc | htmlElement)*;
-javadocTagAuthor: JAVADOC_TAG_AUTHOR (WS | NEWLINE)* nameText;
+javadocTagAuthor: JAVADOC_TAG_AUTHOR_LITERAL (WS | NEWLINE)* nameText;
 
 deprecatedText: (misc | htmlElement)*;
-javadocTagDeprecated: JAVADOC_TAG_DEPRECATED (WS | NEWLINE)* deprecatedText;
+javadocTagDeprecated: JAVADOC_TAG_DEPRECATED_LITERAL (WS | NEWLINE)* deprecatedText;
 
 description: (misc | htmlElement)*;
-javadocTagException: JAVADOC_TAG_EXCEPTION (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description;
+javadocTagException: JAVADOC_TAG_EXCEPTION_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description;
 
-javadocTagParam: JAVADOC_TAG_PARAM (WS | NEWLINE)* PARAMETER_NAME? (WS | NEWLINE)* description;
+javadocTagParam: JAVADOC_TAG_PARAM_LITERAL (WS | NEWLINE)* PARAMETER_NAME? (WS | NEWLINE)* description;
 
-javadocTagReturn: JAVADOC_TAG_RETURN (WS | NEWLINE)* description;
+javadocTagReturn: JAVADOC_TAG_RETURN_LITERAL (WS | NEWLINE)* description;
 
 reference: PACKAGE? (DOT | CLASS)* HASH? MEMBER? parameters?;
 parameters: LEFT_BRACE (ARGUMENT | COMMA | WS)* RIGHT_BRACE;
-javadocTagSee: JAVADOC_TAG_SEE (WS | NEWLINE)*
+javadocTagSee: JAVADOC_TAG_SEE_LITERAL (WS | NEWLINE)*
 				reference (STRING | htmlElement)* (WS | NEWLINE)*
 				description;
 
 fieldDescription: (misc | htmlElement)*;
-javadocTagSerial: JAVADOC_TAG_SERIAL (WS | NEWLINE)* (fieldDescription | (LITERAL_INCLUDE | LITERAL_EXCLUDE)? misc*);
+javadocTagSerial: JAVADOC_TAG_SERIAL_LITERAL (WS | NEWLINE)* (fieldDescription | (LITERAL_INCLUDE | LITERAL_EXCLUDE)? misc*);
 
-javadocTagSerialField: JAVADOC_TAG_SERIAL_FIELD (WS | NEWLINE)* FIELD_NAME? (WS | NEWLINE)* FIELD_TYPE? (WS | NEWLINE)* fieldDescription;
+javadocTagSerialField: JAVADOC_TAG_SERIAL_FIELD_LITERAL (WS | NEWLINE)* FIELD_NAME? (WS | NEWLINE)* FIELD_TYPE? (WS | NEWLINE)* fieldDescription;
 
 dataDescription: (misc | htmlElement)*;
-javadocTagSerialData: JAVADOC_TAG_SERIAL_DATA (WS | NEWLINE)* dataDescription;
+javadocTagSerialData: JAVADOC_TAG_SERIAL_DATA_LITERAL (WS | NEWLINE)* dataDescription;
 
 sinceText: (misc | htmlElement | paragraph)*;
-javadocTagSince: JAVADOC_TAG_SINCE (WS | NEWLINE)* sinceText;
+javadocTagSince: JAVADOC_TAG_SINCE_LITERAL (WS | NEWLINE)* sinceText;
 
-javadocTagThrows: JAVADOC_TAG_THROWS (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description;
+javadocTagThrows: JAVADOC_TAG_THROWS_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description;
 
 versionText: (misc | htmlElement)*;
-javadocTagVersion: JAVADOC_TAG_VERSION (WS | NEWLINE)* versionText;
+javadocTagVersion: JAVADOC_TAG_VERSION_LITERAL (WS | NEWLINE)* versionText;
 
 customArgument: (misc | htmlElement)*;
-javadocTagCustom: JAVADOC_TAG_CUSTOM (WS | NEWLINE)* customArgument;
+javadocTagCustom: JAVADOC_TAG_CUSTOM_LITERAL (WS | NEWLINE)* customArgument;
 
 javadocTagSection:
 	(
@@ -763,7 +763,7 @@ javadocTagSection:
 //////////////////////////////////////////////////////////////////////////////////////
 javadocInlineTagCode:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_CODE
+	JAVADOC_INLINE_TAG_CODE_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	text?
 	JAVADOC_INLINE_TAG_END
@@ -771,21 +771,21 @@ javadocInlineTagCode:
 
 javadocInlineTagDocRoot:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_DOC_ROOT
+	JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	JAVADOC_INLINE_TAG_END
 	;
 
 javadocInlineTagInheritDoc:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_INHERIT_DOC
+	JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	JAVADOC_INLINE_TAG_END
 	;
 
 javadocInlineTagLink:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_LINK
+	JAVADOC_INLINE_TAG_LINK_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	reference
 	(misc | htmlElement)*
@@ -794,7 +794,7 @@ javadocInlineTagLink:
 
 javadocInlineTagLinkplain:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_LINKPLAIN
+	JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	reference
 	(misc | htmlElement)*
@@ -803,7 +803,7 @@ javadocInlineTagLinkplain:
 
 javadocInlineTagLiteral:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_LITERAL
+	JAVADOC_INLINE_TAG_LITERAL_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	text?
 	JAVADOC_INLINE_TAG_END
@@ -811,7 +811,7 @@ javadocInlineTagLiteral:
 
 javadocInlineTagValue:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_VALUE
+	JAVADOC_INLINE_TAG_VALUE_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	reference
 	JAVADOC_INLINE_TAG_END
@@ -819,7 +819,7 @@ javadocInlineTagValue:
 
 javadocInlineTagCustom:
 	JAVADOC_INLINE_TAG_START
-	JAVADOC_INLINE_TAG_CUSTOM
+	JAVADOC_INLINE_TAG_CUSTOM_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)+
 	(misc | htmlElement)*
 	JAVADOC_INLINE_TAG_END

@@ -18,20 +18,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
-import org.antlr.v4.runtime.tree.ParseTree;
-
 import com.puppycrawl.tools.checkstyle.api.AbstractJavadocCheck;
 
 /**
  * Check that simply parses javadoc comment.
  *
  * @author Baratali Izmailov
- *
  */
 public class SimpleJavadocCheck extends AbstractJavadocCheck
 {
+
     @Override
-    public void processJavadocParseTree(ParseTree aJavadoc)
+    public int[] getDefaultJavadocTokens()
     {
+        return new int[] {};
     }
+
 }

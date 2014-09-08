@@ -54,18 +54,18 @@ OPEN: '<' {recognizeXmlTags && (Character.isLetter(_input.LA(1)) || _input.LA(1)
 
 NEWLINE: '\n';
 
-JAVADOC_TAG_AUTHOR : '@author' {isJavadocTagAvailable}?;
-JAVADOC_TAG_DEPRECATED : '@deprecated' {isJavadocTagAvailable}?;
-JAVADOC_TAG_EXCEPTION : '@exception' {isJavadocTagAvailable}? -> pushMode(exception);
-JAVADOC_TAG_PARAM : '@param' {isJavadocTagAvailable}? -> pushMode(param);
-JAVADOC_TAG_RETURN : '@return' {isJavadocTagAvailable}?; 
-JAVADOC_TAG_SEE : '@see' {isJavadocTagAvailable}? -> pushMode(see);
-JAVADOC_TAG_SERIAL : '@serial' {isJavadocTagAvailable}?;
-JAVADOC_TAG_SERIAL_FIELD : '@serialField' {isJavadocTagAvailable}? -> pushMode(serialField);
-JAVADOC_TAG_SERIAL_DATA : '@serialData' {isJavadocTagAvailable}?;
-JAVADOC_TAG_SINCE : '@since' {isJavadocTagAvailable}?;
-JAVADOC_TAG_THROWS : '@throws' {isJavadocTagAvailable}? -> pushMode(exception);
-JAVADOC_TAG_VERSION : '@version' {isJavadocTagAvailable}?;
+JAVADOC_TAG_AUTHOR_LITERAL : '@author' {isJavadocTagAvailable}?;
+JAVADOC_TAG_DEPRECATED_LITERAL : '@deprecated' {isJavadocTagAvailable}?;
+JAVADOC_TAG_EXCEPTION_LITERAL : '@exception' {isJavadocTagAvailable}? -> pushMode(exception);
+JAVADOC_TAG_PARAM_LITERAL : '@param' {isJavadocTagAvailable}? -> pushMode(param);
+JAVADOC_TAG_RETURN_LITERAL : '@return' {isJavadocTagAvailable}?; 
+JAVADOC_TAG_SEE_LITERAL : '@see' {isJavadocTagAvailable}? -> pushMode(see);
+JAVADOC_TAG_SERIAL_LITERAL : '@serial' {isJavadocTagAvailable}?;
+JAVADOC_TAG_SERIAL_FIELD_LITERAL : '@serialField' {isJavadocTagAvailable}? -> pushMode(serialField);
+JAVADOC_TAG_SERIAL_DATA_LITERAL : '@serialData' {isJavadocTagAvailable}?;
+JAVADOC_TAG_SINCE_LITERAL : '@since' {isJavadocTagAvailable}?;
+JAVADOC_TAG_THROWS_LITERAL : '@throws' {isJavadocTagAvailable}? -> pushMode(exception);
+JAVADOC_TAG_VERSION_LITERAL : '@version' {isJavadocTagAvailable}?;
 
 JAVADOC_INLINE_TAG_START: '{' {_input.LA(1) == '@'}? {insideJavadocInlineTag++;} -> pushMode(javadocInlineTag);
 
@@ -73,10 +73,10 @@ JAVADOC_INLINE_TAG_END: '}' {insideJavadocInlineTag>0}?
       {insideJavadocInlineTag--; recognizeXmlTags=true;}
       ;
 
-JAVADOC_TAG_CUSTOM: '@' [a-zA-Z0-9]+ {isJavadocTagAvailable}?;
+JAVADOC_TAG_CUSTOM_LITERAL: '@' [a-zA-Z0-9]+ {isJavadocTagAvailable}?;
 
-LITERAL_INCLUDE: 'include' {previousToPreviousTokenType==JAVADOC_TAG_SERIAL}?;
-LITERAL_EXCLUDE: 'exclude' {previousToPreviousTokenType==JAVADOC_TAG_SERIAL}?;
+LITERAL_INCLUDE: 'include' {previousToPreviousTokenType==JAVADOC_TAG_SERIAL_LITERAL}?;
+LITERAL_EXCLUDE: 'exclude' {previousToPreviousTokenType==JAVADOC_TAG_SERIAL_LITERAL}?;
 
 CHAR        :   . ;
 
@@ -174,14 +174,14 @@ Char5: . -> type(CHAR), mode(DEFAULT_MODE);
 //////////////////////////  JAVADOC INLINE TAG MODES  ////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 mode javadocInlineTag;
-JAVADOC_INLINE_TAG_CODE : '@code' {recognizeXmlTags=false;} -> mode(code);
-JAVADOC_INLINE_TAG_DOC_ROOT : '@docRoot' -> mode(DEFAULT_MODE);
-JAVADOC_INLINE_TAG_INHERIT_DOC : '@inheritDoc' -> mode(DEFAULT_MODE);
-JAVADOC_INLINE_TAG_LINK : '@link' -> pushMode(see);
-JAVADOC_INLINE_TAG_LINKPLAIN : '@linkplain' -> pushMode(see);
-JAVADOC_INLINE_TAG_LITERAL : '@literal' {recognizeXmlTags=false;} -> mode(code);
-JAVADOC_INLINE_TAG_VALUE : '@value' -> pushMode(value);
-JAVADOC_INLINE_TAG_CUSTOM: '@' [a-zA-Z0-9]+ -> mode(DEFAULT_MODE);
+JAVADOC_INLINE_TAG_CODE_LITERAL : '@code' {recognizeXmlTags=false;} -> mode(code);
+JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL : '@docRoot' -> mode(DEFAULT_MODE);
+JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL : '@inheritDoc' -> mode(DEFAULT_MODE);
+JAVADOC_INLINE_TAG_LINK_LITERAL : '@link' -> pushMode(see);
+JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL : '@linkplain' -> pushMode(see);
+JAVADOC_INLINE_TAG_LITERAL_LITERAL : '@literal' {recognizeXmlTags=false;} -> mode(code);
+JAVADOC_INLINE_TAG_VALUE_LITERAL : '@value' -> pushMode(value);
+JAVADOC_INLINE_TAG_CUSTOM_LITERAL: '@' [a-zA-Z0-9]+ -> mode(DEFAULT_MODE);
 Char6: . -> type(CHAR), mode(DEFAULT_MODE);
 
 mode code;
@@ -232,7 +232,7 @@ EQUALS      :   '=' ;
 
 ATTR_VALUE  : '"' ~[<"]* '"'
             | '\'' ~[<']* '\''
-            | DIGIT+
+            | ( '-' | '+' | DIGIT)+
             ;
 
 // with optional end tag
