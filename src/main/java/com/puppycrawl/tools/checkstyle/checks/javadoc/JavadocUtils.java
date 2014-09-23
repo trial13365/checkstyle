@@ -224,4 +224,30 @@ public final class JavadocUtils
         return retVal;
     }
 
+    public static boolean branchContains(JavadocAst aNode, int aType) {
+        JavadocAst curNode = aNode;
+        while (curNode != null) {
+
+            if (aType == curNode.getType()) {
+                return true;
+            }
+
+            JavadocAst toVisit = curNode.getFirstChild();
+            while ((curNode != null) && (toVisit == null)) {
+                toVisit = curNode.getNextSibling();
+                if (toVisit == null) {
+                    curNode = curNode.getParent();
+                }
+            }
+
+            if (curNode == toVisit) {
+                break;
+            }
+
+            curNode = toVisit;
+        }
+
+        return false;
+    }
+
 }
