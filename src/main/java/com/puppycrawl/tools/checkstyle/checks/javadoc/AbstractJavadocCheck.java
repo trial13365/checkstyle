@@ -16,7 +16,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ////////////////////////////////////////////////////////////////////////////////
-package com.puppycrawl.tools.checkstyle.api;
+package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -38,7 +38,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.primitives.Ints;
-import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocUtils;
+import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.DetailNode;
+import com.puppycrawl.tools.checkstyle.api.JavadocAst;
+import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+import com.puppycrawl.tools.checkstyle.checks.MutableDetailNode;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocLexer;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser;
 
@@ -74,7 +80,7 @@ public abstract class AbstractJavadocCheck extends Check
      *
      * @param aRootAst the root of the tree
      */
-    public void beginJavadocTree(JavadocAst aRootAst)
+    public void beginJavadocTree(DetailNode aRootAst)
     {
     }
 
@@ -83,7 +89,7 @@ public abstract class AbstractJavadocCheck extends Check
      *
      * @param aRootAst the root of the tree
      */
-    public void finishJavadocTree(JavadocAst aRootAst)
+    public void finishJavadocTree(DetailNode aRootAst)
     {
     }
 
@@ -91,7 +97,7 @@ public abstract class AbstractJavadocCheck extends Check
      * Called to process a Javadoc token.
      * @param aAst the token to process
      */
-    public void visitJavadocToken(JavadocAst aAst)
+    public void visitJavadocToken(DetailNode aAst)
     {
     }
 
@@ -100,7 +106,7 @@ public abstract class AbstractJavadocCheck extends Check
      *
      * @param aAst the token leaving
      */
-    public void leaveJavadocToken(JavadocAst aAst)
+    public void leaveJavadocToken(DetailNode aAst)
     {
     }
 
@@ -205,6 +211,61 @@ public abstract class AbstractJavadocCheck extends Check
         return nodeAst;
     }
 
+    public MutableDetailNode convert(ParseTree tree) {
+        MutableDetailNode root = create(tree, null, -1);
+
+        int childCount = tree.getChildCount();
+        MutableDetailNode[] children = (MutableDetailNode[]) root.getChildren();
+
+        for (int i = 0; i < childCount; i++) {
+            MutableDetailNode child = create(tree.getChild(i), root, i);
+            children[i] = child;
+        }
+
+        for (int i = 0; i < childCount; i++) {
+            DetailNode parent = children[i];
+            ParseTree subtree = tree.getChild(i);
+
+            int cnt = subtree.getChildCount();
+            MutableDetailNode[] subChildren = (MutableDetailNode[]) parent.getChildren();
+
+            for (int j = 0; j < cnt; j++) {
+                MutableDetailNode child = create(tree.getChild(i), parent, i);
+                subChildren[i] = child;
+            }
+        }
+
+
+        return null;
+    }
+
+    private MutableDetailNode create(ParseTree parseTree, DetailNode parent, int index) {
+        MutableDetailNode node = new JavadocNodeImpl();
+        node.setColumnNumber(getColumn(parseTree));
+        node.setLineNumber(getLine(parseTree));
+        node.setIndex(index);
+        node.setType(getTokenType(parseTree));
+        node.setParent(parent);
+        node.setChildren(new MutableDetailNode[parseTree.getChildCount()]);
+        return node;
+    }
+
+    private int getTokenType(ParseTree aNode) {
+        int tokenType = Integer.MIN_VALUE;
+
+        if (aNode instanceof TerminalNode) {
+            tokenType = ((TerminalNode) aNode).getSymbol().getType();
+        }
+        else {
+            final String className = getNodeClassNameWithoutContext(aNode);
+            final String typeName =
+                    CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, className);
+            tokenType = JavadocTokenTypes.getTokenId(typeName);
+        }
+
+        return tokenType;
+    }
+
     /**
      * Creates JavadocAST node from ParseTree node.
      *
@@ -299,7 +360,7 @@ public abstract class AbstractJavadocCheck extends Check
      *         errors in ANTLRInputStream
      */
     private ParseTree parseJavadoc(String aBlockComment)
-        throws IOException
+            throws IOException
     {
         final Charset utf8Charset = Charset.forName("UTF-8");
         final InputStream in = new ByteArrayInputStream(aBlockComment.getBytes(utf8Charset));
@@ -336,7 +397,7 @@ public abstract class AbstractJavadocCheck extends Check
      *
      * @param aRoot root of JavadocAST tree.
      */
-    private void processTree(JavadocAst aRoot)
+    private void processTree(DetailNode aRoot)
     {
         beginJavadocTree(aRoot);
         walk(aRoot);
@@ -349,7 +410,7 @@ public abstract class AbstractJavadocCheck extends Check
      * @param aRoot
      *        the root of tree for process
      */
-    private void walk(JavadocAst aRoot)
+    private void walk(DetailNode aRoot)
     {
         final int[] defaultTokenTypes = getDefaultJavadocTokens();
 
@@ -357,7 +418,7 @@ public abstract class AbstractJavadocCheck extends Check
             return;
         }
 
-        JavadocAst curNode = aRoot;
+        DetailNode curNode = aRoot;
         while (curNode != null) {
             final boolean waitsFor = Ints.contains(defaultTokenTypes, curNode.getType());
 
