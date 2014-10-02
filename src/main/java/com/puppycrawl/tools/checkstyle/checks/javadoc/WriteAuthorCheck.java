@@ -1,7 +1,6 @@
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
-import com.puppycrawl.tools.checkstyle.api.AbstractJavadocCheck;
-import com.puppycrawl.tools.checkstyle.api.JavadocAST;
+import com.puppycrawl.tools.checkstyle.api.JavadocAst;
 import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 
 public class WriteAuthorCheck extends AbstractJavadocCheck
@@ -14,7 +13,7 @@ public class WriteAuthorCheck extends AbstractJavadocCheck
     }
 
     @Override
-    public void visitJavadocToken(JavadocAST aAst)
+    public void visitJavadocToken(JavadocAst aAst)
     {
         switch (aAst.getType()) {
 
