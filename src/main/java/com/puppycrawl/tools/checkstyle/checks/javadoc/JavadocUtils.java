@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.JavadocAst;
 import com.puppycrawl.tools.checkstyle.api.JavadocTagInfo;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
@@ -248,6 +249,30 @@ public final class JavadocUtils
         }
 
         return false;
+    }
+
+    public static DetailNode getNextSibling(DetailNode node) {
+        DetailNode parent = node.getParent();
+        if (parent != null) {
+            int nextSiblingIndex = node.getIndex() + 1;
+            DetailNode[] children = parent.getChildren();
+            if (nextSiblingIndex <= children.length - 1) {
+                return children[nextSiblingIndex];
+            }
+        }
+        return null;
+    }
+
+    public static DetailNode getPreviousSibling(DetailNode node) {
+        DetailNode parent = node.getParent();
+        if (parent != null) {
+            int previousSiblingIndex = node.getIndex() - 1;
+            DetailNode[] children = parent.getChildren();
+            if (previousSiblingIndex >= 0) {
+                return children[previousSiblingIndex];
+            }
+        }
+        return null;
     }
 
 }
