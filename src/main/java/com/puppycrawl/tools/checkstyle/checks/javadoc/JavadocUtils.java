@@ -213,10 +213,12 @@ public final class JavadocUtils
      *        the token type to match
      * @return the matching token, or null if no match
      */
-    public static JavadocAst findFirstToken(JavadocAst aNode, int aType)
+    public static DetailNode findFirstToken(DetailNode aNode, int aType)
     {
-        JavadocAst retVal = null;
-        for (JavadocAst i = aNode.getFirstChild(); i != null; i = i.getNextSibling()) {
+        DetailNode retVal = null;
+        for (DetailNode i = getFirstChild(aNode);
+            i != null;
+            i = getNextSibling(i)) {
             if (i.getType() == aType) {
                 retVal = i;
                 break;
@@ -225,17 +227,21 @@ public final class JavadocUtils
         return retVal;
     }
 
-    public static boolean branchContains(JavadocAst aNode, int aType) {
-        JavadocAst curNode = aNode;
+    public static DetailNode getFirstChild(DetailNode aNode) {
+        return aNode.getChildren().length > 0 ? aNode.getChildren()[0] : null;
+    }
+
+    public static boolean branchContains(DetailNode aNode, int aType) {
+        DetailNode curNode = aNode;
         while (curNode != null) {
 
             if (aType == curNode.getType()) {
                 return true;
             }
 
-            JavadocAst toVisit = curNode.getFirstChild();
+            DetailNode toVisit = getFirstChild(curNode);
             while ((curNode != null) && (toVisit == null)) {
-                toVisit = curNode.getNextSibling();
+                toVisit = getNextSibling(curNode);
                 if (toVisit == null) {
                     curNode = curNode.getParent();
                 }

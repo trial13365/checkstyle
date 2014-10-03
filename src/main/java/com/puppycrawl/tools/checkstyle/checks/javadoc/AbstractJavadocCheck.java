@@ -37,12 +37,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.primitives.Ints;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-import com.puppycrawl.tools.checkstyle.checks.MutableDetailNode;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocLexer;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser;
 
@@ -155,7 +155,7 @@ public abstract class AbstractJavadocCheck extends Check
 
 //                final JavadocAst tree = convertParseTree2Ast(parseTree, null, null);
 
-//                processTree(tree);
+                processTree(node);
             }
             catch (IOException e) {
                 // Antlr can not initiate its ANTLRInputStream
@@ -211,66 +211,104 @@ public abstract class AbstractJavadocCheck extends Check
 //        return nodeAst;
 //    }
 
-    public MutableDetailNode convert(ParseTree tree) {
-        MutableDetailNode root = create(tree, null, -1);
+    public JavadocNodeImpl convert(ParseTree rootParseTree)
+    {
+        ParseTree currentParseTreeNode = rootParseTree;
+        JavadocNodeImpl rootJavadocNode = create(currentParseTreeNode, null, -1);
 
-        int childCount = tree.getChildCount();
-        MutableDetailNode[] children = (MutableDetailNode[]) root.getChildren();
+        int childCount = currentParseTreeNode.getChildCount();
+        JavadocNodeImpl[] children = (JavadocNodeImpl[]) rootJavadocNode.getChildren();
 
         for (int i = 0; i < childCount; i++) {
-            MutableDetailNode child = create(tree.getChild(i), root, i);
+            JavadocNodeImpl child = create(currentParseTreeNode.getChild(i), rootJavadocNode, i);
             children[i] = child;
         }
 
-        DetailNode currentParent = root;
+        JavadocNodeImpl currentJavadocParent = rootJavadocNode;
+        ParseTree currentParseTreeParent = currentParseTreeNode;
 
-        while (currentParent != null) {
-            children = (MutableDetailNode[]) currentParent.getChildren();
+        while (currentJavadocParent != null) {
+            children = (JavadocNodeImpl[]) currentJavadocParent.getChildren();
             childCount = children.length;
 
             for (int i = 0; i < childCount; i++) {
-                DetailNode currentNode = children[i];
-                ParseTree subtree = tree.getChild(i);
+                JavadocNodeImpl currentJavadocNode = children[i];
+                ParseTree currentParseTreeNodeChild = currentParseTreeParent.getChild(i);
 
-                int cnt = subtree.getChildCount();
-                MutableDetailNode[] subChildren = (MutableDetailNode[]) currentNode.getChildren();
+                JavadocNodeImpl[] subChildren = (JavadocNodeImpl[]) currentJavadocNode
+                        .getChildren();
 
-                for (int j = 0; j < cnt; j++) {
-                    MutableDetailNode child = create(tree.getChild(i), currentNode, i);
-                    subChildren[i] = child;
+                for (int j = 0; j < subChildren.length; j++) {
+                    JavadocNodeImpl child = create(currentParseTreeNodeChild.getChild(j),
+                            currentJavadocNode, j);
+                    subChildren[j] = child;
                 }
-
-                tree = subtree;
             }
 
             if (childCount > 0) {
-                currentParent = children[0];
-            } else {
-                DetailNode nextSibling = JavadocUtils.getNextSibling(currentParent);
-                if (nextSibling == null) {
-                    DetailNode tempParent = currentParent.getParent();
-                    while (nextSibling == null && tempParent != null) {
-                        nextSibling = JavadocUtils.getNextSibling(currentParent);
-                        tempParent = tempParent.getParent();
+                currentJavadocParent = children[0];
+                currentParseTreeParent = currentParseTreeParent.getChild(0);
+            }
+            else {
+                JavadocNodeImpl nextJavadocSibling = (JavadocNodeImpl) JavadocUtils
+                        .getNextSibling(currentJavadocParent);
+                ParseTree nextParseTreeSibling = getNextSibling(currentParseTreeParent);
+
+                if (nextJavadocSibling == null) {
+                    JavadocNodeImpl tempJavadocParent = (JavadocNodeImpl) currentJavadocParent.getParent();
+                    ParseTree tempParseTreeParent = currentParseTreeParent.getParent();
+
+                    while (nextJavadocSibling == null && tempJavadocParent != null) {
+
+                        nextJavadocSibling = (JavadocNodeImpl) JavadocUtils
+                                .getNextSibling(tempJavadocParent);
+
+                        nextParseTreeSibling = getNextSibling(tempParseTreeParent);
+
+                        tempJavadocParent = (JavadocNodeImpl) tempJavadocParent.getParent();
+                        tempParseTreeParent = tempParseTreeParent.getParent();
                     }
                 }
-                currentParent = nextSibling;
+                currentJavadocParent = nextJavadocSibling;
+                currentParseTreeParent = nextParseTreeSibling;
             }
         }
 
-
-        return null;
+        return rootJavadocNode;
     }
 
-    private MutableDetailNode create(ParseTree parseTree, DetailNode parent, int index) {
-        MutableDetailNode node = new JavadocNodeImpl();
+    private JavadocNodeImpl
+    create(ParseTree parseTree, DetailNode parent, int index)
+    {
+        JavadocNodeImpl node = new JavadocNodeImpl();
         node.setColumnNumber(getColumn(parseTree));
-        node.setLineNumber(getLine(parseTree));
+        node.setLineNumber(getLine(parseTree) + mBlockCommentAst.getLineNo());
         node.setIndex(index);
         node.setType(getTokenType(parseTree));
         node.setParent(parent);
-        node.setChildren(new MutableDetailNode[parseTree.getChildCount()]);
+        node.setChildren(new JavadocNodeImpl[parseTree.getChildCount()]);
         return node;
+    }
+
+    private static ParseTree getNextSibling(ParseTree node)
+    {
+        if (node.getParent() == null) {
+            return null;
+        }
+
+        ParseTree parent = node.getParent();
+        int childCount = parent.getChildCount();
+
+        for (int i = 0; i < childCount; i++) {
+            ParseTree currentNode = parent.getChild(i);
+            if (currentNode.equals(node)) {
+                if (i == childCount - 1) {
+                    return null;
+                }
+                return parent.getChild(i + 1);
+            }
+        }
+        return null;
     }
 
     private int getTokenType(ParseTree aNode) {
@@ -423,7 +461,7 @@ public abstract class AbstractJavadocCheck extends Check
     private void processTree(DetailNode aRoot)
     {
         beginJavadocTree(aRoot);
-//        walk(aRoot);
+        walk(aRoot);
         finishJavadocTree(aRoot);
     }
 
@@ -433,36 +471,36 @@ public abstract class AbstractJavadocCheck extends Check
      * @param aRoot
      *        the root of tree for process
      */
-//    private void walk(DetailNode aRoot)
-//    {
-//        final int[] defaultTokenTypes = getDefaultJavadocTokens();
-//
-//        if (defaultTokenTypes == null) {
-//            return;
-//        }
-//
-//        DetailNode curNode = aRoot;
-//        while (curNode != null) {
-//            final boolean waitsFor = Ints.contains(defaultTokenTypes, curNode.getType());
-//
-//            if (waitsFor) {
-//                visitJavadocToken(curNode);
-//            }
-//            JavadocAst toVisit = curNode.getFirstChild();
-//            while ((curNode != null) && (toVisit == null)) {
-//
-//                if (waitsFor) {
-//                    leaveJavadocToken(curNode);
-//                }
-//
-//                toVisit = curNode.getNextSibling();
-//                if (toVisit == null) {
-//                    curNode = curNode.getParent();
-//                }
-//            }
-//            curNode = toVisit;
-//        }
-//    }
+    private void walk(DetailNode aRoot)
+    {
+        final int[] defaultTokenTypes = getDefaultJavadocTokens();
+
+        if (defaultTokenTypes == null) {
+            return;
+        }
+
+        DetailNode curNode = aRoot;
+        while (curNode != null) {
+            final boolean waitsFor = Ints.contains(defaultTokenTypes, curNode.getType());
+
+            if (waitsFor) {
+                visitJavadocToken(curNode);
+            }
+            DetailNode toVisit = JavadocUtils.getFirstChild(curNode);
+            while ((curNode != null) && (toVisit == null)) {
+
+                if (waitsFor) {
+                    leaveJavadocToken(curNode);
+                }
+
+                toVisit = JavadocUtils.getNextSibling(curNode);
+                if (toVisit == null) {
+                    curNode = curNode.getParent();
+                }
+            }
+            curNode = toVisit;
+        }
+    }
 
     /**
      * Custom error listener for JavadocParser that prints user readable errors.
