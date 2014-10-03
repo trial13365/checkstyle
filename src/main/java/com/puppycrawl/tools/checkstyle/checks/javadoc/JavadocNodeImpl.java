@@ -4,7 +4,7 @@ import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.MutableDetailNode;
 
-public class JavadocNodeImpl implements MutableDetailNode
+public class JavadocNodeImpl implements MutableDetailNode, DetailNode
 {
     private int index;
     private int type;
