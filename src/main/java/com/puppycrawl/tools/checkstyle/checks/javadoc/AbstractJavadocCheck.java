@@ -22,8 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BailErrorStrategy;
@@ -508,26 +506,15 @@ public abstract class AbstractJavadocCheck extends Check
     class DescriptiveErrorListener extends BaseErrorListener
     {
         /**
+         * Message key of error message
+         */
+        private static final String JAVADOC_MISSED_HTML_CLOSE = "javadoc.missed.html.close";
+
+        /**
          * Offset is line number of beginning of the Javadoc comment.
          * Log messages should have line number in scope of file, not in scope of Javadoc comment.
          */
         private int mOffset;
-
-        /**
-         * Set of known error messages that could be occurred while parsing Javadoc comment.
-         */
-        private final Set<String> mErrorMessages;
-
-        /**
-         * Adds default error messages.
-         */
-        public DescriptiveErrorListener()
-        {
-            super();
-
-            mErrorMessages = new HashSet<String>();
-            mErrorMessages.add("javadoc.missed.html.close");
-        }
 
         /**
          * Sets offset. Offset is line number of beginning of the Javadoc comment.
@@ -540,19 +527,23 @@ public abstract class AbstractJavadocCheck extends Check
             mOffset = aOffset;
         }
 
+        /**
+         * Logs parser errors in Checkstyle manner.
+         * Parser can generate error messages.
+         */
         @Override
         public void syntaxError(
                 Recognizer<?, ?> aRecognizer, Object aOffendingSymbol,
                 int aLine, int aCharPositionInLine,
                 String aMsg, RecognitionException aEx)
         {
-            // if message is error code from collection of known errors
-            if (mErrorMessages.contains(aMsg)) {
-                log(mOffset + aLine, aMsg);
+            int lineNumber = mOffset + aLine;
+
+            if (JAVADOC_MISSED_HTML_CLOSE.equals(aMsg)) {
+                log(lineNumber, JAVADOC_MISSED_HTML_CLOSE);
             }
-            // else print general error message
             else {
-                log(mOffset + aLine, "javadoc.parse.error", aMsg);
+                log(lineNumber, "javadoc.parse.error", aMsg);
             }
         }
     }
