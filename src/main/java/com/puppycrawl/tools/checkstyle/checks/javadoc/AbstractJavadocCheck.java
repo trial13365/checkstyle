@@ -151,8 +151,6 @@ public abstract class AbstractJavadocCheck extends Check
 
                 DetailNode node = convert(parseTree);
 
-//                final JavadocAst tree = convertParseTree2Ast(parseTree, null, null);
-
                 processTree(node);
             }
             catch (IOException e) {
@@ -173,41 +171,6 @@ public abstract class AbstractJavadocCheck extends Check
     {
         return mBlockCommentAst;
     }
-
-    /**
-     * Converts ParseTree to JavadocAST.
-     * @param aNode
-     *        ParseTree node
-     * @param aParent
-     *        JavadocAST parent
-     * @param aPreviousSibling
-     *        JavadocAST previous sibling
-     * @return tree JavdocAST
-     */
-//    private JavadocAst convertParseTree2Ast(ParseTree aNode, JavadocAst aParent, JavadocAst aPreviousSibling)
-//    {
-//        final JavadocAst nodeAst = createJavadocAstNode(aNode, aParent, aPreviousSibling);
-//
-//        final int childCount = aNode.getChildCount();
-//
-//        if (childCount > 0) {
-//            final ParseTree firstChild = aNode.getChild(0);
-//            final JavadocAst firstChildAst = convertParseTree2Ast(firstChild, nodeAst, null);
-//
-//            nodeAst.setFirstChild(firstChildAst);
-//
-//            JavadocAst previousAst = firstChildAst;
-//            for (int i = 1; i < childCount; i++) {
-//                final ParseTree nextChild = aNode.getChild(i);
-//                final JavadocAst nextChildAst = convertParseTree2Ast(nextChild, nodeAst, previousAst);
-//
-//                previousAst = nextChildAst;
-//            }
-//
-//        }
-//
-//        return nodeAst;
-//    }
 
     public JavadocNodeImpl convert(ParseTree rootParseTree)
     {
@@ -279,6 +242,7 @@ public abstract class AbstractJavadocCheck extends Check
     create(ParseTree parseTree, DetailNode parent, int index)
     {
         JavadocNodeImpl node = new JavadocNodeImpl();
+        node.setText(parseTree.getText());
         node.setColumnNumber(getColumn(parseTree));
         node.setLineNumber(getLine(parseTree) + mBlockCommentAst.getLineNo());
         node.setIndex(index);
@@ -324,46 +288,6 @@ public abstract class AbstractJavadocCheck extends Check
 
         return tokenType;
     }
-
-    /**
-     * Creates JavadocAST node from ParseTree node.
-     *
-     * @param aNode ParseTree node
-     * @param aParentAst parent of created JavadocAST node
-     * @param aPreviousSibling previous sibling to created node
-     * @return JavadocAST node
-     */
-//    private JavadocAst createJavadocAstNode(ParseTree aNode, JavadocAst aParentAst
-//            , JavadocAst aPreviousSibling)
-//    {
-//        final JavadocAst ast = new JavadocAst();
-//        ast.setParent(aParentAst);
-//        ast.setColumnNumber(getColumn(aNode));
-//        ast.setLineNumber(getLine(aNode) + mBlockCommentAst.getLineNo());
-//        ast.setChildCount(aNode.getChildCount());
-//        ast.setText(aNode.getText());
-//
-//        if (aPreviousSibling != null) {
-//            ast.setPreviousSibling(aPreviousSibling);
-//            aPreviousSibling.setNextSibling(ast);
-//        }
-//
-//        int tokenId = -1;
-//
-//        if (aNode instanceof TerminalNode) {
-//            tokenId = ((TerminalNode) aNode).getSymbol().getType();
-//        }
-//        else {
-//            final String className = getNodeClassNameWithoutContext(aNode);
-//            final String typeName =
-//                    CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, className);
-//            tokenId = JavadocTokenTypes.getTokenId(typeName);
-//        }
-//
-//        ast.setType(tokenId);
-//
-//        return ast;
-//    }
 
     /**
      * Gets class name of ParseTree node and removes 'Context' postfix at the end.
@@ -506,7 +430,8 @@ public abstract class AbstractJavadocCheck extends Check
     class DescriptiveErrorListener extends BaseErrorListener
     {
         /**
-         * Message key of error message
+         * Message key of error message. Missed close HTML tag breaks structure of parse tree,
+         * so parser stops parsing and generates such error message.
          */
         private static final String JAVADOC_MISSED_HTML_CLOSE = "javadoc.missed.html.close";
 
@@ -528,8 +453,15 @@ public abstract class AbstractJavadocCheck extends Check
         }
 
         /**
+         * <p>
          * Logs parser errors in Checkstyle manner.
-         * Parser can generate error messages.
+         * Parser can generate error messages. There is special error that parser can generate. It is
+         * missed close HTML tag. Missed close HTML tag breaks structure of parse tree, so parser
+         * stops parsing and generates such error message.
+         * Other error messages are not special and logged simply as "Parse Error...".
+         * </p>
+         *
+         * {@inheritDoc}
          */
         @Override
         public void syntaxError(

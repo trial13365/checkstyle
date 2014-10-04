@@ -8,21 +8,22 @@ public class JavadocNodeImpl implements MutableDetailNode, DetailNode
 {
     private int index;
     private int type;
+    private String text;
     private int lineNumber;
     private int columnNumber;
     private DetailNode[] children;
     private DetailNode parent;
 
     @Override
-    public int getIndex()
-    {
-        return index;
-    }
-
-    @Override
     public int getType()
     {
         return type;
+    }
+
+    @Override
+    public String getText()
+    {
+        return text;
     }
 
     @Override
@@ -50,15 +51,21 @@ public class JavadocNodeImpl implements MutableDetailNode, DetailNode
     }
 
     @Override
-    public void setIndex(int index)
+    public int getIndex()
     {
-        this.index = index;
+        return index;
     }
 
     @Override
     public void setType(int type)
     {
         this.type = type;
+    }
+
+    @Override
+    public void setText(String text)
+    {
+        this.text = text;
     }
 
     @Override
@@ -83,6 +90,12 @@ public class JavadocNodeImpl implements MutableDetailNode, DetailNode
     public void setParent(DetailNode parent)
     {
         this.parent = parent;
+    }
+
+    @Override
+    public void setIndex(int index)
+    {
+        this.index = index;
     }
 
     @Override
