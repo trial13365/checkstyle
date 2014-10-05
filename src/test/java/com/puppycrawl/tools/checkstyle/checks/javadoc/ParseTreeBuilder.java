@@ -1129,8 +1129,6 @@ public class ParseTreeBuilder
         UScNm.addChild(Mwihk);
         CommonToken EBpnW = new CommonToken(JavadocTokenTypes.NEWLINE, "\n");
         UScNm.addChild(EBpnW);
-        CustomArgumentContext aTHZP = new CustomArgumentContext(UScNm, 0);
-        UScNm.addChild(aTHZP);
         lTnip.addChild(UScNm);
         CommonToken xDAQX = new CommonToken(JavadocTokenTypes.LEADING_ASTERISK, " *");
         lTnip.addChild(xDAQX);

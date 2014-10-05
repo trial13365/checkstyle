@@ -276,7 +276,7 @@ public abstract class AbstractJavadocCheck extends Check
     private int getTokenType(ParseTree aNode) {
         int tokenType = Integer.MIN_VALUE;
 
-        if (aNode instanceof TerminalNode) {
+        if (aNode.getChildCount() == 0) {
             tokenType = ((TerminalNode) aNode).getSymbol().getType();
         }
         else {
@@ -432,6 +432,9 @@ public abstract class AbstractJavadocCheck extends Check
         /**
          * Message key of error message. Missed close HTML tag breaks structure of parse tree,
          * so parser stops parsing and generates such error message.
+         * This case is special because parser prints error like
+         * {@code "no viable alternative at input 'b \n *\n'"} and it is not clear that error is
+         * about missed close HTML tag.
          */
         private static final String JAVADOC_MISSED_HTML_CLOSE = "javadoc.missed.html.close";
 
@@ -456,8 +459,9 @@ public abstract class AbstractJavadocCheck extends Check
          * <p>
          * Logs parser errors in Checkstyle manner.
          * Parser can generate error messages. There is special error that parser can generate. It is
-         * missed close HTML tag. Missed close HTML tag breaks structure of parse tree, so parser
-         * stops parsing and generates such error message.
+         * missed close HTML tag. This case is special because parser prints error like
+         * {@code "no viable alternative at input 'b \n *\n'"} and it is not clear that error is
+         * about missed close HTML tag.
          * Other error messages are not special and logged simply as "Parse Error...".
          * </p>
          *

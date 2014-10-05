@@ -28,6 +28,10 @@ import java.util.*;
             }
       }
 
+      public void skipCurrentTokenConsuming() {
+            _input.seek(_input.index() - 1);
+      }
+
 }
 
 LEADING_ASTERISK : ( (' '|'\t') {_tokenStartCharPositionInLine == 0}? ) (' '|'\t')* '*'
@@ -87,7 +91,7 @@ mode param;
 Space0: WS -> type(WS);
 PARAMETER_NAME: [a-zA-Z0-9<>_-]+ -> mode(DEFAULT_MODE);
 Char1: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode see;
 Space1: WS
       {
@@ -119,12 +123,15 @@ End20: JAVADOC_INLINE_TAG_END
       }
       -> type(JAVADOC_INLINE_TAG_END), mode(DEFAULT_MODE)
       ;
+// exit from 'see' mode without consuming current character
 Char2: . 
-      {
-            referenceCatched = false;
-      }
-      -> type(CHAR), mode(DEFAULT_MODE);
+{
+      skipCurrentTokenConsuming();
+      referenceCatched = false;
 
+} -> skip, mode(DEFAULT_MODE);
+
+//////////////////////////////////////////////////////////////////////////////////////
 mode classMemeber;
 MEMBER: [a-zA-Z0-9_-]+ {!insideReferenceArguments}?;
 LEFT_BRACE: '(' {insideReferenceArguments=true;};
@@ -153,17 +160,17 @@ Char20: .
             insideReferenceArguments = false;
       }
       -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode serialField;
 Space2: WS -> type(WS);
 FIELD_NAME: [a-zA-Z0-9_-]+ -> mode(serialFieldFieldType);
 Char3: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode serialFieldFieldType;
 Space3: WS -> type(WS);
 FIELD_TYPE: [a-zA-Z0-9_-]+ -> mode(DEFAULT_MODE);
 Char4: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode exception;
 Space4: WS -> type(WS);
 CLASS_NAME: ([a-zA-Z0-9_-] | '.')+ -> mode(DEFAULT_MODE);
@@ -183,19 +190,19 @@ JAVADOC_INLINE_TAG_LITERAL_LITERAL : '@literal' {recognizeXmlTags=false;} -> mod
 JAVADOC_INLINE_TAG_VALUE_LITERAL : '@value' -> pushMode(value);
 JAVADOC_INLINE_TAG_CUSTOM_LITERAL: '@' [a-zA-Z0-9]+ -> mode(DEFAULT_MODE);
 Char6: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode code;
 Space7: WS -> type(WS), mode(codeText);
 Newline2: NEWLINE -> type(NEWLINE), mode(codeText);
 Char7: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode codeText;
 Text: (
       '{' .*? '}'
       | ~[}]
       )+ -> type(CHAR), mode(DEFAULT_MODE);
 Char8: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode link;
 Space5: ' ' -> type(WS);
 Newline3: NEWLINE -> type(NEWLINE);
@@ -205,7 +212,7 @@ Dot1: DOT -> type(DOT);
 Class1: CLASS -> type(CLASS);
 Hash1: HASH -> type(HASH), mode(classMemeber);
 Char9: . -> type(CHAR), mode(DEFAULT_MODE);
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode value;
 Space6: WS -> type(WS);
 Newline4: NEWLINE -> type(NEWLINE);
@@ -305,7 +312,7 @@ fragment
 FragmentReference: ([a-zA-Z0-9_-] | '.')+
       | ([a-zA-Z0-9_-] | '.')* '#' [a-zA-Z0-9_-]+ ( '(' (([a-zA-Z0-9_-] | '.')+ | ',' | ' ')* ')' )?
       ;
-
+//////////////////////////////////////////////////////////////////////////////////////
 mode htmlComment;
 HTML_COMMENT_END: '-->' -> mode(DEFAULT_MODE);
 LeadingAst: LEADING_ASTERISK -> type(LEADING_ASTERISK);
