@@ -273,7 +273,8 @@ public abstract class AbstractJavadocCheck extends Check
         return null;
     }
 
-    private int getTokenType(ParseTree aNode) {
+    private static int getTokenType(ParseTree aNode)
+    {
         int tokenType = Integer.MIN_VALUE;
 
         if (aNode.getChildCount() == 0) {
@@ -463,7 +464,6 @@ public abstract class AbstractJavadocCheck extends Check
          * {@code "no viable alternative at input 'b \n *\n'"} and it is not clear that error is
          * about missed close HTML tag.
          * Other error messages are not special and logged simply as "Parse Error...".
-         * </p>
          *
          * {@inheritDoc}
          */
