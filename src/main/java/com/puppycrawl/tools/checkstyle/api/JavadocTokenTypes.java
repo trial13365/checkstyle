@@ -220,44 +220,52 @@ public final class JavadocTokenTypes
     public static final int TEXT = JavadocParser.RULE_text + ruleTypesOffset;
     public static final int NAME_TEXT = JavadocParser.RULE_nameText + ruleTypesOffset;
     public static final int REFERENCE = JavadocParser.RULE_reference + ruleTypesOffset;
-    public static final int JAVADOC_TAG_AUTHOR = JavadocParser.RULE_javadocTagAuthor + ruleTypesOffset;
     public static final int DEPRECATED_TEXT = JavadocParser.RULE_deprecatedText + ruleTypesOffset;
-    public static final int JAVADOC_TAG_DEPRECATED = JavadocParser.RULE_javadocTagDeprecated + ruleTypesOffset;
     public static final int DESCRIPTION = JavadocParser.RULE_description + ruleTypesOffset;
+    public static final int FIELD_DESCRIPTION = JavadocParser.RULE_fieldDescription + ruleTypesOffset;
+    public static final int DATA_DESCRIPTION = JavadocParser.RULE_dataDescription + ruleTypesOffset;
+    public static final int SINCE_TEXT = JavadocParser.RULE_sinceText + ruleTypesOffset;
+    public static final int VERSION_TEXT = JavadocParser.RULE_versionText + ruleTypesOffset;
+    public static final int CUSTOM_ARGUMENT = JavadocParser.RULE_customArgument + ruleTypesOffset;
+    public static final int PARAMETERS = JavadocParser.RULE_parameters + ruleTypesOffset;
+    public static final int MISC = JavadocParser.RULE_misc + ruleTypesOffset;
+
+    public static final int ATTRIBUTE_VALUE =
+            JavadocParser.RULE_attributeValue + ruleTypesOffset;
+
+    public static final int JAVADOC_TAG_SECTION = JavadocParser.RULE_javadocTagSection + ruleTypesOffset;
+    public static final int JAVADOC_TAG_AUTHOR = JavadocParser.RULE_javadocTagAuthor + ruleTypesOffset;
+    public static final int JAVADOC_TAG_DEPRECATED = JavadocParser.RULE_javadocTagDeprecated + ruleTypesOffset;
     public static final int JAVADOC_TAG_EXCEPTION = JavadocParser.RULE_javadocTagException + ruleTypesOffset;
     public static final int JAVADOC_TAG_PARAM = JavadocParser.RULE_javadocTagParam + ruleTypesOffset;
     public static final int JAVADOC_TAG_RETURN = JavadocParser.RULE_javadocTagReturn + ruleTypesOffset;
     public static final int JAVADOC_TAG_SEE = JavadocParser.RULE_javadocTagSee + ruleTypesOffset;
-    public static final int FIELD_DESCRIPTION = JavadocParser.RULE_fieldDescription + ruleTypesOffset;
     public static final int JAVADOC_TAG_SERIAL = JavadocParser.RULE_javadocTagSerial + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIALFIELD = JavadocParser.RULE_javadocTagSerialField + ruleTypesOffset;
-    public static final int DATA_DESCRIPTION = JavadocParser.RULE_dataDescription + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIALDATA = JavadocParser.RULE_javadocTagSerialData + ruleTypesOffset;
-    public static final int SINCE_TEXT = JavadocParser.RULE_sinceText + ruleTypesOffset;
+    public static final int JAVADOC_TAG_SERIAL_FIELD = JavadocParser.RULE_javadocTagSerialField + ruleTypesOffset;
+    public static final int JAVADOC_TAG_SERIAL_DATA = JavadocParser.RULE_javadocTagSerialData + ruleTypesOffset;
     public static final int JAVADOC_TAG_SINCE = JavadocParser.RULE_javadocTagSince + ruleTypesOffset;
     public static final int JAVADOC_TAG_THROWS = JavadocParser.RULE_javadocTagThrows + ruleTypesOffset;
-    public static final int VERSION_TEXT = JavadocParser.RULE_versionText + ruleTypesOffset;
     public static final int JAVADOC_TAG_VERSION = JavadocParser.RULE_javadocTagVersion + ruleTypesOffset;
-    public static final int CUSTOM_ARGUMENT = JavadocParser.RULE_customArgument + ruleTypesOffset;
     public static final int JAVADOC_TAG_CUSTOM = JavadocParser.RULE_javadocTagCustom + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_DOCROOT = JavadocParser.RULE_javadocInlineTagDocRoot + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_LINK = JavadocParser.RULE_javadocInlineTagLink + ruleTypesOffset;
-    public static final int PARAMETERS = JavadocParser.RULE_parameters + ruleTypesOffset;
 
-    public static final int JAVADOC_INLINE_TAGINHERITDOC =
+    public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_DOC_ROOT = JavadocParser.RULE_javadocInlineTagDocRoot + ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_LINK = JavadocParser.RULE_javadocInlineTagLink + ruleTypesOffset;
+
+    public static final int JAVADOC_INLINE_TAG_INHERIT_DOC =
             JavadocParser.RULE_javadocInlineTagInheritDoc + ruleTypesOffset;
 
-    public static final int JAVADOC_INLINE_TAGLINK = JavadocParser.RULE_javadocInlineTagLink + ruleTypesOffset;
-
-    public static final int JAVADOC_INLINE_TAGLINKPLAIN =
+    public static final int JAVADOC_INLINE_TAG_LINKPLAIN =
             JavadocParser.RULE_javadocInlineTagLinkplain + ruleTypesOffset;
 
-    public static final int JAVADOC_INLINE_TAGLITERAL = JavadocParser.RULE_javadocInlineTagLiteral + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAGVALUE = JavadocParser.RULE_javadocInlineTagValue + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SECTION = JavadocParser.RULE_javadocTagSection + ruleTypesOffset;
-    public static final int MISC = JavadocParser.RULE_misc + ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_LITERAL =
+            JavadocParser.RULE_javadocInlineTagLiteral + ruleTypesOffset;
+
+    public static final int JAVADOC_INLINE_TAG_CUSTOM =
+            JavadocParser.RULE_javadocInlineTagCustom + ruleTypesOffset;
+
+    public static final int JAVADOC_INLINE_TAG_VALUE = JavadocParser.RULE_javadocInlineTagValue + ruleTypesOffset;
 
     /** maps from a token name to value */
     private static final ImmutableMap<String, Integer> TOKEN_NAME_TO_VALUE;
