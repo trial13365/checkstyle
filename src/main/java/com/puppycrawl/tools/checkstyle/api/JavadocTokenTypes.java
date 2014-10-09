@@ -56,6 +56,9 @@ public final class JavadocTokenTypes
     public static final int RIGHT_BRACE = JavadocParser.RIGHT_BRACE;
     public static final int ARGUMENT = JavadocParser.ARGUMENT;
 
+    public static final int CLASS_NAME = JavadocParser.CLASS_NAME;
+    public static final int PARAMETER_NAME = JavadocParser.PARAMETER_NAME;
+
     public static final int FIELD_NAME = JavadocParser.FIELD_NAME;
     public static final int FIELD_TYPE = JavadocParser.FIELD_TYPE;
 
@@ -100,37 +103,35 @@ public final class JavadocTokenTypes
     public static final int EQUALS = JavadocParser.EQUALS;
     public static final int STRING = JavadocParser.STRING;
 
-    public static final int COL_NAME = JavadocParser.COL_NAME;
-    public static final int DT_NAME = JavadocParser.DT_NAME;
-    public static final int TD_NAME = JavadocParser.TD_NAME;
-    public static final int BODY_NAME = JavadocParser.BODY_NAME;
-    public static final int TBODY_NAME = JavadocParser.TBODY_NAME;
-    public static final int META_NAME = JavadocParser.META_NAME;
-    public static final int BASEFRONT_NAME = JavadocParser.BASEFRONT_NAME;
-    public static final int ISINDEX_NAME = JavadocParser.ISINDEX_NAME;
-    public static final int BR_NAME = JavadocParser.BR_NAME;
-    public static final int OPTION_NAME = JavadocParser.OPTION_NAME;
-    public static final int AREA_NAME = JavadocParser.AREA_NAME;
-    public static final int BASE_NAME = JavadocParser.BASE_NAME;
-    public static final int HR_NAME = JavadocParser.HR_NAME;
-    public static final int PARAM_NAME = JavadocParser.PARAM_NAME;
-    public static final int TH_NAME = JavadocParser.TH_NAME;
-    public static final int FRAME_NAME = JavadocParser.FRAME_NAME;
-    public static final int LINK_NAME = JavadocParser.LINK_NAME;
-    public static final int HEAD_NAME = JavadocParser.HEAD_NAME;
-    public static final int LI_NAME = JavadocParser.LI_NAME;
-    public static final int CLASS_NAME = JavadocParser.CLASS_NAME;
-    public static final int THEAD_NAME = JavadocParser.THEAD_NAME;
-    public static final int INPUT_NAME = JavadocParser.INPUT_NAME;
-    public static final int PARAMETER_NAME = JavadocParser.PARAMETER_NAME;
-    public static final int COLGROUP_NAME = JavadocParser.COLGROUP_NAME;
-    public static final int P_NAME = JavadocParser.P_NAME;
-    public static final int DD_NAME = JavadocParser.DD_NAME;
-    public static final int TR_NAME = JavadocParser.TR_NAME;
-    public static final int IMG_NAME = JavadocParser.IMG_NAME;
-    public static final int TFOOT_NAME = JavadocParser.TFOOT_NAME;
-    public static final int HTML_NAME = JavadocParser.HTML_NAME;
-    public static final int NAME = JavadocParser.NAME;
+    public static final int COL_HTML_TAG_NAME = JavadocParser.COL_HTML_TAG_NAME;
+    public static final int DT_HTML_TAG_NAME = JavadocParser.DT_HTML_TAG_NAME;
+    public static final int TD_HTML_TAG_NAME = JavadocParser.TD_HTML_TAG_NAME;
+    public static final int BODY_HTML_TAG_NAME = JavadocParser.BODY_HTML_TAG_NAME;
+    public static final int TBODY_HTML_TAG_NAME = JavadocParser.TBODY_HTML_TAG_NAME;
+    public static final int META_HTML_TAG_NAME = JavadocParser.META_HTML_TAG_NAME;
+    public static final int BASEFRONT_HTML_TAG_NAME = JavadocParser.BASEFRONT_HTML_TAG_NAME;
+    public static final int ISINDEX_HTML_TAG_NAME = JavadocParser.ISINDEX_HTML_TAG_NAME;
+    public static final int BR_HTML_TAG_NAME = JavadocParser.BR_HTML_TAG_NAME;
+    public static final int OPTION_HTML_TAG_NAME = JavadocParser.OPTION_HTML_TAG_NAME;
+    public static final int AREA_HTML_TAG_NAME = JavadocParser.AREA_HTML_TAG_NAME;
+    public static final int BASE_HTML_TAG_NAME = JavadocParser.BASE_HTML_TAG_NAME;
+    public static final int HR_HTML_TAG_NAME = JavadocParser.HR_HTML_TAG_NAME;
+    public static final int PARAM_HTML_TAG_NAME = JavadocParser.PARAM_HTML_TAG_NAME;
+    public static final int TH_HTML_TAG_NAME = JavadocParser.TH_HTML_TAG_NAME;
+    public static final int FRAME_HTML_TAG_NAME = JavadocParser.FRAME_HTML_TAG_NAME;
+    public static final int LINK_HTML_TAG_NAME = JavadocParser.LINK_HTML_TAG_NAME;
+    public static final int HEAD_HTML_TAG_NAME = JavadocParser.HEAD_HTML_TAG_NAME;
+    public static final int LI_HTML_TAG_NAME = JavadocParser.LI_HTML_TAG_NAME;
+    public static final int THEAD_HTML_TAG_NAME = JavadocParser.THEAD_HTML_TAG_NAME;
+    public static final int INPUT_HTML_TAG_NAME = JavadocParser.INPUT_HTML_TAG_NAME;
+    public static final int COLGROUP_HTML_TAG_NAME = JavadocParser.COLGROUP_HTML_TAG_NAME;
+    public static final int P_HTML_TAG_NAME = JavadocParser.P_HTML_TAG_NAME;
+    public static final int DD_HTML_TAG_NAME = JavadocParser.DD_HTML_TAG_NAME;
+    public static final int TR_HTML_TAG_NAME = JavadocParser.TR_HTML_TAG_NAME;
+    public static final int IMG_HTML_TAG_NAME = JavadocParser.IMG_HTML_TAG_NAME;
+    public static final int TFOOT_HTML_TAG_NAME = JavadocParser.TFOOT_HTML_TAG_NAME;
+    public static final int HTML_HTML_TAG_NAME = JavadocParser.HTML_HTML_TAG_NAME;
+    public static final int HTML_TAG_IDENT = JavadocParser.HTML_TAG_IDENT;
 
     public static final int NEWLINE = JavadocParser.NEWLINE;
     public static final int CHAR = JavadocParser.CHAR;

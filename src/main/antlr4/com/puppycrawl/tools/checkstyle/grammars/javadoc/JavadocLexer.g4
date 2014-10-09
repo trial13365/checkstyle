@@ -125,11 +125,11 @@ End20: JAVADOC_INLINE_TAG_END
       ;
 // exit from 'see' mode without consuming current character
 Char2: . 
-{
-      skipCurrentTokenConsuming();
-      referenceCatched = false;
+      {
+            skipCurrentTokenConsuming();
+            referenceCatched = false;
 
-} -> skip, mode(DEFAULT_MODE);
+      } -> skip, mode(DEFAULT_MODE);
 
 //////////////////////////////////////////////////////////////////////////////////////
 mode classMemeber;
@@ -156,10 +156,10 @@ End2: JAVADOC_INLINE_TAG_END
       ;
 Char20: . 
       {
+            skipCurrentTokenConsuming();
             referenceCatched = false;
             insideReferenceArguments = false;
-      }
-      -> type(CHAR), mode(DEFAULT_MODE);
+      } -> skip, mode(DEFAULT_MODE);
 //////////////////////////////////////////////////////////////////////////////////////
 mode serialField;
 Space2: WS -> type(WS);
@@ -169,12 +169,19 @@ Char3: . -> type(CHAR), mode(DEFAULT_MODE);
 mode serialFieldFieldType;
 Space3: WS -> type(WS);
 FIELD_TYPE: [a-zA-Z0-9_-]+ -> mode(DEFAULT_MODE);
-Char4: . -> type(CHAR), mode(DEFAULT_MODE);
+Char4: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
 //////////////////////////////////////////////////////////////////////////////////////
 mode exception;
 Space4: WS -> type(WS);
 CLASS_NAME: ([a-zA-Z0-9_-] | '.')+ -> mode(DEFAULT_MODE);
-Char5: . -> type(CHAR), mode(DEFAULT_MODE);
+Char5: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -194,14 +201,22 @@ Char6: . -> type(CHAR), mode(DEFAULT_MODE);
 mode code;
 Space7: WS -> type(WS), mode(codeText);
 Newline2: NEWLINE -> type(NEWLINE), mode(codeText);
-Char7: . -> type(CHAR), mode(DEFAULT_MODE);
+Char7: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
+
 //////////////////////////////////////////////////////////////////////////////////////
 mode codeText;
 Text: (
       '{' .*? '}'
       | ~[}]
       )+ -> type(CHAR), mode(DEFAULT_MODE);
-Char8: . -> type(CHAR), mode(DEFAULT_MODE);
+Char8: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
+
 //////////////////////////////////////////////////////////////////////////////////////
 mode link;
 Space5: ' ' -> type(WS);
@@ -211,7 +226,11 @@ Package1: PACKAGE -> type(PACKAGE);
 Dot1: DOT -> type(DOT);
 Class1: CLASS -> type(CLASS);
 Hash1: HASH -> type(HASH), mode(classMemeber);
-Char9: . -> type(CHAR), mode(DEFAULT_MODE);
+Char9: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
+
 //////////////////////////////////////////////////////////////////////////////////////
 mode value;
 Space6: WS -> type(WS);
@@ -224,7 +243,11 @@ End1: JAVADOC_INLINE_TAG_END
       {insideJavadocInlineTag--; recognizeXmlTags=true;}
       -> type(JAVADOC_INLINE_TAG_END), mode(DEFAULT_MODE)
       ;
-Char10: . -> type(CHAR), mode(DEFAULT_MODE);
+Char10: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -243,46 +266,50 @@ ATTR_VALUE  : '"' ~[<"]* '"'
             ;
 
 // with optional end tag
-P_NAME: 'P' | 'p';
-LI_NAME: 'li' | 'LI';
-TR_NAME: 'tr' | 'TR';
-TD_NAME: 'td' | 'TD';
-TH_NAME: 'th' | 'TH';
-BODY_NAME: 'body' | 'BODY';
-COLGROUP_NAME: 'colgroup' | 'COLGROUP';
-DD_NAME: 'dd' | 'DD';
-DT_NAME: 'dt' | 'DT';
-HEAD_NAME: 'head' | 'HEAD';
-HTML_NAME: 'html' | 'HTML';
-OPTION_NAME: 'option' | 'OPTION';
-TBODY_NAME: 'tbody' | 'TBODY';
-TFOOT_NAME: 'tfoot' | 'TFOOT';
-THEAD_NAME: 'thead' | 'THEAD';
+P_HTML_TAG_NAME: 'P' | 'p';
+LI_HTML_TAG_NAME: 'li' | 'LI';
+TR_HTML_TAG_NAME: 'tr' | 'TR';
+TD_HTML_TAG_NAME: 'td' | 'TD';
+TH_HTML_TAG_NAME: 'th' | 'TH';
+BODY_HTML_TAG_NAME: 'body' | 'BODY';
+COLGROUP_HTML_TAG_NAME: 'colgroup' | 'COLGROUP';
+DD_HTML_TAG_NAME: 'dd' | 'DD';
+DT_HTML_TAG_NAME: 'dt' | 'DT';
+HEAD_HTML_TAG_NAME: 'head' | 'HEAD';
+HTML_HTML_TAG_NAME: 'html' | 'HTML';
+OPTION_HTML_TAG_NAME: 'option' | 'OPTION';
+TBODY_HTML_TAG_NAME: 'tbody' | 'TBODY';
+TFOOT_HTML_TAG_NAME: 'tfoot' | 'TFOOT';
+THEAD_HTML_TAG_NAME: 'thead' | 'THEAD';
 
 // singleton tags
-AREA_NAME: 'area' | 'AREA';
-BASE_NAME: 'base' | 'BASE';
-BASEFRONT_NAME: 'basefront' | 'BASEFRONT';
-BR_NAME: 'br' | 'BR';
-COL_NAME: 'col' | 'COL';
-FRAME_NAME: 'frame' | 'FRAME';
-HR_NAME: 'hr' | 'HR';
-IMG_NAME: 'img' | 'IMG';
-INPUT_NAME: 'input' | 'INPUT';
-ISINDEX_NAME: 'isindex' | 'ISINDEX';
-LINK_NAME: 'link' | 'LINK';
-META_NAME: 'meta' | 'META';
-PARAM_NAME: 'param' | 'PARAM';
+AREA_HTML_TAG_NAME: 'area' | 'AREA';
+BASE_HTML_TAG_NAME: 'base' | 'BASE';
+BASEFRONT_HTML_TAG_NAME: 'basefront' | 'BASEFRONT';
+BR_HTML_TAG_NAME: 'br' | 'BR';
+COL_HTML_TAG_NAME: 'col' | 'COL';
+FRAME_HTML_TAG_NAME: 'frame' | 'FRAME';
+HR_HTML_TAG_NAME: 'hr' | 'HR';
+IMG_HTML_TAG_NAME: 'img' | 'IMG';
+INPUT_HTML_TAG_NAME: 'input' | 'INPUT';
+ISINDEX_HTML_TAG_NAME: 'isindex' | 'ISINDEX';
+LINK_HTML_TAG_NAME: 'link' | 'LINK';
+META_HTML_TAG_NAME: 'meta' | 'META';
+PARAM_HTML_TAG_NAME: 'param' | 'PARAM';
 
-// other tags
-NAME        :   NAME_START_CHAR NAME_CHAR*;
+// other tag names and attribute names
+HTML_TAG_IDENT        :   NAME_START_CHAR NAME_CHAR*;
 
 LeadingLEADING_ASTERISK1: LEADING_ASTERISK -> type(LEADING_ASTERISK);
 Newline1: NEWLINE -> type(NEWLINE);
 
 S           :   [ \t\r\n]               -> skip ;
 
-Char11: . -> type(CHAR), mode(DEFAULT_MODE);
+Char11: .
+      {
+            skipCurrentTokenConsuming();
+      } -> skip, mode(DEFAULT_MODE);
+
 
 fragment
 HEXDIGIT    :   [a-fA-F0-9] ;

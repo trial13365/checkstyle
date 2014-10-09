@@ -68,10 +68,10 @@ htmlElement: htmlTag
             | tfootTagOpen
             ;
 
-htmlElementOpen:  OPEN NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-htmlElementClose: OPEN SLASH NAME CLOSE;
-attribute:    NAME (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEADING_ASTERISK)* attributeValue ;
-attributeValue: (ATTR_VALUE | text | NAME);
+htmlElementOpen:  OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+htmlElementClose: OPEN SLASH HTML_TAG_IDENT CLOSE;
+attribute:    HTML_TAG_IDENT (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEADING_ASTERISK)* attributeValue ;
+attributeValue: (ATTR_VALUE | text | HTML_TAG_IDENT);
 
 htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose
             | htmlElementOpen (htmlElement | misc)* {notifyErrorListeners("javadoc.missed.html.close");}
@@ -80,8 +80,8 @@ htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose
 //////////////////////////////////////////////////////////////////////////////////////
 ////////////////////  HTML TAGS WITH OPTIONAL END TAG ////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-pTagOpen: OPEN P_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-pTagClose: OPEN SLASH P_NAME CLOSE;
+pTagOpen: OPEN P_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+pTagClose: OPEN SLASH P_HTML_TAG_NAME CLOSE;
 paragraph: pTagOpen
 		(htmlTag
 		| singletonTag
@@ -117,8 +117,8 @@ paragraph: pTagOpen
 		pTagClose
 		;
 
-liTagOpen: OPEN LI_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-liTagClose: OPEN SLASH LI_NAME CLOSE;
+liTagOpen: OPEN LI_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+liTagClose: OPEN SLASH LI_HTML_TAG_NAME CLOSE;
 li: liTagOpen
 	(htmlTag
 		| singletonTag
@@ -154,8 +154,8 @@ li: liTagOpen
 	liTagClose
 	;
 
-trTagOpen: OPEN TR_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-trTagClose: OPEN SLASH TR_NAME CLOSE;
+trTagOpen: OPEN TR_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+trTagClose: OPEN SLASH TR_HTML_TAG_NAME CLOSE;
 tr: trTagOpen
 	(htmlTag
 		| singletonTag
@@ -191,8 +191,8 @@ tr: trTagOpen
 	trTagClose
 	;
 
-tdTagOpen: OPEN TD_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-tdTagClose: OPEN SLASH TD_NAME CLOSE;
+tdTagOpen: OPEN TD_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+tdTagClose: OPEN SLASH TD_HTML_TAG_NAME CLOSE;
 td: tdTagOpen
 	(htmlTag
 		| singletonTag
@@ -228,8 +228,8 @@ td: tdTagOpen
 	tdTagClose
 	;
 
-thTagOpen: OPEN TH_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-thTagClose: OPEN SLASH TH_NAME CLOSE;
+thTagOpen: OPEN TH_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+thTagClose: OPEN SLASH TH_HTML_TAG_NAME CLOSE;
 th: thTagOpen
 	(htmlTag
 		| singletonTag
@@ -265,8 +265,8 @@ th: thTagOpen
 	thTagClose
 	;
 
-bodyTagOpen: OPEN BODY_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-bodyTagClose: OPEN SLASH BODY_NAME CLOSE;
+bodyTagOpen: OPEN BODY_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+bodyTagClose: OPEN SLASH BODY_HTML_TAG_NAME CLOSE;
 body: bodyTagOpen
 	(htmlTag
 		| singletonTag
@@ -302,8 +302,8 @@ body: bodyTagOpen
 	bodyTagClose
 	;
 
-colgroupTagOpen: OPEN COLGROUP_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-colgroupTagClose: OPEN SLASH COLGROUP_NAME CLOSE;
+colgroupTagOpen: OPEN COLGROUP_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+colgroupTagClose: OPEN SLASH COLGROUP_HTML_TAG_NAME CLOSE;
 colgroup: colgroupTagOpen
 	(htmlTag
 		| singletonTag
@@ -339,8 +339,8 @@ colgroup: colgroupTagOpen
 	colgroupTagClose
 	;
 
-ddTagOpen: OPEN DD_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-ddTagClose: OPEN SLASH DD_NAME CLOSE;
+ddTagOpen: OPEN DD_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+ddTagClose: OPEN SLASH DD_HTML_TAG_NAME CLOSE;
 dd: ddTagOpen
 	(htmlTag
 		| singletonTag
@@ -376,8 +376,8 @@ dd: ddTagOpen
 	ddTagClose
 	;
 
-dtTagOpen: OPEN DT_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-dtTagClose: OPEN SLASH DT_NAME CLOSE;
+dtTagOpen: OPEN DT_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+dtTagClose: OPEN SLASH DT_HTML_TAG_NAME CLOSE;
 dt: dtTagOpen
 	(htmlTag
 		| singletonTag
@@ -413,8 +413,8 @@ dt: dtTagOpen
 	dtTagClose
 	;
 
-headTagOpen: OPEN HEAD_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-headTagClose: OPEN SLASH HEAD_NAME CLOSE;
+headTagOpen: OPEN HEAD_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+headTagClose: OPEN SLASH HEAD_HTML_TAG_NAME CLOSE;
 head: headTagOpen
 	(htmlTag
 		| singletonTag
@@ -450,8 +450,8 @@ head: headTagOpen
 	headTagClose
 	;
 
-htmlTagOpen: OPEN HTML_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-htmlTagClose: OPEN SLASH HTML_NAME CLOSE;
+htmlTagOpen: OPEN HTML_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+htmlTagClose: OPEN SLASH HTML_HTML_TAG_NAME CLOSE;
 html: htmlTagOpen
 	(htmlTag
 		| singletonTag
@@ -487,8 +487,8 @@ html: htmlTagOpen
 	htmlTagClose
 	;
 
-optionTagOpen: OPEN OPTION_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-optionTagClose: OPEN SLASH OPTION_NAME CLOSE;
+optionTagOpen: OPEN OPTION_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+optionTagClose: OPEN SLASH OPTION_HTML_TAG_NAME CLOSE;
 option: optionTagOpen
 	(htmlTag
 		| singletonTag
@@ -524,8 +524,8 @@ option: optionTagOpen
 	optionTagClose
 	;
 
-tbodyTagOpen: OPEN TBODY_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-tbodyTagClose: OPEN SLASH TBODY_NAME CLOSE;
+tbodyTagOpen: OPEN TBODY_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+tbodyTagClose: OPEN SLASH TBODY_HTML_TAG_NAME CLOSE;
 tbody: tbodyTagOpen
 	(htmlTag
 		| singletonTag
@@ -561,8 +561,8 @@ tbody: tbodyTagOpen
 	tbodyTagClose
 	;
 
-tfootTagOpen: OPEN TFOOT_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-tfootTagClose: OPEN SLASH TFOOT_NAME CLOSE;
+tfootTagOpen: OPEN TFOOT_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+tfootTagClose: OPEN SLASH TFOOT_HTML_TAG_NAME CLOSE;
 tfoot: tfootTagOpen
 	(htmlTag
 		| singletonTag
@@ -598,8 +598,8 @@ tfoot: tfootTagOpen
 	tfootTagClose
 	;
 
-theadTagOpen: OPEN THEAD_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
-theadTagClose: OPEN SLASH THEAD_NAME CLOSE;
+theadTagOpen: OPEN THEAD_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
+theadTagClose: OPEN SLASH THEAD_HTML_TAG_NAME CLOSE;
 thead: theadTagOpen
 	(htmlTag
 		| singletonTag
@@ -654,46 +654,46 @@ singletonTag: customSingletonTag
 			| paramTag
 			;
 
-customSingletonTag: OPEN NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE;
+customSingletonTag: OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE;
 
-areaTag: OPEN AREA_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN AREA_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+areaTag: OPEN AREA_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN AREA_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-baseTag: OPEN BASE_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN BASE_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+baseTag: OPEN BASE_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN BASE_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-basefrontTag: OPEN BASEFRONT_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN BASEFRONT_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+basefrontTag: OPEN BASEFRONT_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN BASEFRONT_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-brTag: OPEN BR_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN BR_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+brTag: OPEN BR_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN BR_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-colTag: OPEN COL_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN COL_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+colTag: OPEN COL_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN COL_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-frameTag: OPEN FRAME_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN FRAME_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+frameTag: OPEN FRAME_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN FRAME_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-hrTag: OPEN HR_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN HR_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+hrTag: OPEN HR_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN HR_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-imgTag: OPEN IMG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN IMG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+imgTag: OPEN IMG_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN IMG_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-inputTag: OPEN INPUT_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN INPUT_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+inputTag: OPEN INPUT_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN INPUT_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-isindexTag: OPEN ISINDEX_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN ISINDEX_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+isindexTag: OPEN ISINDEX_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN ISINDEX_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-linkTag: OPEN LINK_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN LINK_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+linkTag: OPEN LINK_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN LINK_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-metaTag: OPEN META_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN META_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+metaTag: OPEN META_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN META_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
-paramTag: OPEN PARAM_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
-	| OPEN PARAM_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
+paramTag: OPEN PARAM_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
+	| OPEN PARAM_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
 
 

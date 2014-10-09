@@ -120,7 +120,7 @@ public class ParseTreeBuilder
         CommonToken open = new CommonToken(JavadocTokenTypes.OPEN, "<");
         CommonToken slash = new CommonToken(JavadocTokenTypes.SLASH, "/");
         CommonToken close = new CommonToken(JavadocTokenTypes.CLOSE, ">");
-        CommonToken g = new CommonToken(JavadocTokenTypes.NAME, "g");
+        CommonToken g = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "g");
         CommonToken EOF = new CommonToken(Token.EOF, "<EOF>");
 
         tree.addChild(htmlElement);
@@ -243,10 +243,10 @@ public class ParseTreeBuilder
         HtmlElementOpenContext MlTDQ = new HtmlElementOpenContext(BZsMx, 0);
         CommonToken dmFaF = new CommonToken(JavadocTokenTypes.OPEN, "<");
         MlTDQ.addChild(dmFaF);
-        CommonToken nEViJ = new CommonToken(JavadocTokenTypes.NAME, "a");
+        CommonToken nEViJ = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "a");
         MlTDQ.addChild(nEViJ);
         AttributeContext PcAIY = new AttributeContext(MlTDQ, 0);
-        CommonToken LGyST = new CommonToken(JavadocTokenTypes.NAME, "href");
+        CommonToken LGyST = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "href");
         PcAIY.addChild(LGyST);
         CommonToken NJYZF = new CommonToken(JavadocTokenTypes.EQUALS, "=");
         PcAIY.addChild(NJYZF);
@@ -301,7 +301,7 @@ public class ParseTreeBuilder
         liELl.addChild(Nvhwy);
         CommonToken gffBw = new CommonToken(JavadocTokenTypes.SLASH, "/");
         liELl.addChild(gffBw);
-        CommonToken DbAiT = new CommonToken(JavadocTokenTypes.NAME, "a");
+        CommonToken DbAiT = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "a");
         liELl.addChild(DbAiT);
         CommonToken QrMwd = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         liELl.addChild(QrMwd);
@@ -334,7 +334,7 @@ public class ParseTreeBuilder
         PTagOpenContext aexZg = new PTagOpenContext(kKDDb, 0);
         CommonToken JiNSg = new CommonToken(JavadocTokenTypes.OPEN, "<");
         aexZg.addChild(JiNSg);
-        CommonToken eleRb = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken eleRb = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         aexZg.addChild(eleRb);
         CommonToken baEKi = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         aexZg.addChild(baEKi);
@@ -353,7 +353,7 @@ public class ParseTreeBuilder
         HtmlElementOpenContext TIqBr = new HtmlElementOpenContext(UlpXW, 0);
         CommonToken DxwET = new CommonToken(JavadocTokenTypes.OPEN, "<");
         TIqBr.addChild(DxwET);
-        CommonToken KmFOJ = new CommonToken(JavadocTokenTypes.NAME, "b");
+        CommonToken KmFOJ = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "b");
         TIqBr.addChild(KmFOJ);
         CommonToken dsEMe = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         TIqBr.addChild(dsEMe);
@@ -389,7 +389,7 @@ public class ParseTreeBuilder
         BDIWK.addChild(BNUij);
         CommonToken kpPtm = new CommonToken(JavadocTokenTypes.SLASH, "/");
         BDIWK.addChild(kpPtm);
-        CommonToken KkGYx = new CommonToken(JavadocTokenTypes.NAME, "b");
+        CommonToken KkGYx = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "b");
         BDIWK.addChild(KkGYx);
         CommonToken LEKhx = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         BDIWK.addChild(LEKhx);
@@ -405,7 +405,7 @@ public class ParseTreeBuilder
         HtmlElementOpenContext GRADu = new HtmlElementOpenContext(rzXVB, 0);
         CommonToken ueUeF = new CommonToken(JavadocTokenTypes.OPEN, "<");
         GRADu.addChild(ueUeF);
-        CommonToken QCPgE = new CommonToken(JavadocTokenTypes.NAME, "i");
+        CommonToken QCPgE = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "i");
         GRADu.addChild(QCPgE);
         CommonToken UEggV = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         GRADu.addChild(UEggV);
@@ -423,7 +423,7 @@ public class ParseTreeBuilder
         FUgDP.addChild(SsUdv);
         CommonToken KGzmY = new CommonToken(JavadocTokenTypes.SLASH, "/");
         FUgDP.addChild(KGzmY);
-        CommonToken HHNyS = new CommonToken(JavadocTokenTypes.NAME, "i");
+        CommonToken HHNyS = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "i");
         FUgDP.addChild(HHNyS);
         CommonToken XWwBf = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         FUgDP.addChild(XWwBf);
@@ -466,7 +466,7 @@ public class ParseTreeBuilder
         dbccG.addChild(YcqDQ);
         CommonToken rQqGa = new CommonToken(JavadocTokenTypes.SLASH, "/");
         dbccG.addChild(rQqGa);
-        CommonToken hNVEu = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken hNVEu = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         dbccG.addChild(hNVEu);
         CommonToken sAqyu = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         dbccG.addChild(sAqyu);
@@ -556,7 +556,7 @@ public class ParseTreeBuilder
         HtmlElementOpenContext UmQaQ = new HtmlElementOpenContext(ovMiL, 0);
         CommonToken BcykF = new CommonToken(JavadocTokenTypes.OPEN, "<");
         UmQaQ.addChild(BcykF);
-        CommonToken OqwKl = new CommonToken(JavadocTokenTypes.NAME, "pre");
+        CommonToken OqwKl = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "pre");
         UmQaQ.addChild(OqwKl);
         CommonToken mGeuH = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         UmQaQ.addChild(mGeuH);
@@ -612,7 +612,7 @@ public class ParseTreeBuilder
         GMVWN.addChild(RbUzS);
         CommonToken eeeRI = new CommonToken(JavadocTokenTypes.SLASH, "/");
         GMVWN.addChild(eeeRI);
-        CommonToken dhXkB = new CommonToken(JavadocTokenTypes.NAME, "pre");
+        CommonToken dhXkB = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "pre");
         GMVWN.addChild(dhXkB);
         CommonToken xMnzS = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         GMVWN.addChild(xMnzS);
@@ -1641,7 +1641,7 @@ public class ParseTreeBuilder
         PTagOpenContext RQiOR = new PTagOpenContext(XdDOH, 0);
         CommonToken pUygj = new CommonToken(JavadocTokenTypes.OPEN, "<");
         RQiOR.addChild(pUygj);
-        CommonToken LeSeW = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken LeSeW = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         RQiOR.addChild(LeSeW);
         CommonToken uoOXo = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         RQiOR.addChild(uoOXo);
@@ -1690,7 +1690,7 @@ public class ParseTreeBuilder
         PTagOpenContext cUoGr = new PTagOpenContext(IopmU, 0);
         CommonToken zmtCh = new CommonToken(JavadocTokenTypes.OPEN, "<");
         cUoGr.addChild(zmtCh);
-        CommonToken gjriR = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken gjriR = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         cUoGr.addChild(gjriR);
         CommonToken bdNOW = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         cUoGr.addChild(bdNOW);
@@ -1740,7 +1740,7 @@ public class ParseTreeBuilder
         tZNCo.addChild(Jpguw);
         CommonToken VmyiD = new CommonToken(JavadocTokenTypes.SLASH, "/");
         tZNCo.addChild(VmyiD);
-        CommonToken ERlNd = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken ERlNd = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         tZNCo.addChild(ERlNd);
         CommonToken aojqg = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         tZNCo.addChild(aojqg);
@@ -1760,7 +1760,7 @@ public class ParseTreeBuilder
         PTagOpenContext MnUsh = new PTagOpenContext(Zltrj, 0);
         CommonToken xMCoN = new CommonToken(JavadocTokenTypes.OPEN, "<");
         MnUsh.addChild(xMCoN);
-        CommonToken TvmIO = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken TvmIO = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         MnUsh.addChild(TvmIO);
         CommonToken uwYum = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         MnUsh.addChild(uwYum);
@@ -1775,7 +1775,7 @@ public class ParseTreeBuilder
         HtmlElementOpenContext oMMtm = new HtmlElementOpenContext(gImCu, 0);
         CommonToken UtddP = new CommonToken(JavadocTokenTypes.OPEN, "<");
         oMMtm.addChild(UtddP);
-        CommonToken LQpUQ = new CommonToken(JavadocTokenTypes.NAME, "ul");
+        CommonToken LQpUQ = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "ul");
         oMMtm.addChild(LQpUQ);
         CommonToken hlyDV = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         oMMtm.addChild(hlyDV);
@@ -1792,7 +1792,7 @@ public class ParseTreeBuilder
         LiTagOpenContext PFUih = new LiTagOpenContext(MRrJN, 0);
         CommonToken RobIx = new CommonToken(JavadocTokenTypes.OPEN, "<");
         PFUih.addChild(RobIx);
-        CommonToken sOnct = new CommonToken(JavadocTokenTypes.LI_NAME, "li");
+        CommonToken sOnct = new CommonToken(JavadocTokenTypes.LI_HTML_TAG_NAME, "li");
         PFUih.addChild(sOnct);
         CommonToken uUQfg = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         PFUih.addChild(uUQfg);
@@ -1825,7 +1825,7 @@ public class ParseTreeBuilder
         LiTagOpenContext ppCmn = new LiTagOpenContext(NUJRL, 0);
         CommonToken uXBBi = new CommonToken(JavadocTokenTypes.OPEN, "<");
         ppCmn.addChild(uXBBi);
-        CommonToken hIHUA = new CommonToken(JavadocTokenTypes.LI_NAME, "li");
+        CommonToken hIHUA = new CommonToken(JavadocTokenTypes.LI_HTML_TAG_NAME, "li");
         ppCmn.addChild(hIHUA);
         CommonToken xNnMJ = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         ppCmn.addChild(xNnMJ);
@@ -1851,7 +1851,7 @@ public class ParseTreeBuilder
         RDspV.addChild(IOBku);
         CommonToken Snvyx = new CommonToken(JavadocTokenTypes.SLASH, "/");
         RDspV.addChild(Snvyx);
-        CommonToken qsvYO = new CommonToken(JavadocTokenTypes.LI_NAME, "li");
+        CommonToken qsvYO = new CommonToken(JavadocTokenTypes.LI_HTML_TAG_NAME, "li");
         RDspV.addChild(qsvYO);
         CommonToken VkiiE = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         RDspV.addChild(VkiiE);
@@ -1867,7 +1867,7 @@ public class ParseTreeBuilder
         TDvye.addChild(fphrD);
         CommonToken LtNmk = new CommonToken(JavadocTokenTypes.SLASH, "/");
         TDvye.addChild(LtNmk);
-        CommonToken SyNDA = new CommonToken(JavadocTokenTypes.NAME, "ul");
+        CommonToken SyNDA = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "ul");
         TDvye.addChild(SyNDA);
         CommonToken XIjhz = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         TDvye.addChild(XIjhz);
@@ -1886,10 +1886,10 @@ public class ParseTreeBuilder
         PTagOpenContext IyLyn = new PTagOpenContext(Jxhwd, 0);
         CommonToken pIYXi = new CommonToken(JavadocTokenTypes.OPEN, "<");
         IyLyn.addChild(pIYXi);
-        CommonToken SPJsI = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken SPJsI = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         IyLyn.addChild(SPJsI);
         AttributeContext JASvl = new AttributeContext(IyLyn, 0);
-        CommonToken dEkJc = new CommonToken(JavadocTokenTypes.NAME, "style");
+        CommonToken dEkJc = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "style");
         JASvl.addChild(dEkJc);
         CommonToken PKbLx = new CommonToken(JavadocTokenTypes.EQUALS, "=");
         JASvl.addChild(PKbLx);
@@ -2413,7 +2413,7 @@ public class ParseTreeBuilder
         PTagOpenContext ZUfVc = new PTagOpenContext(JoYXW, 0);
         CommonToken QvPXn = new CommonToken(JavadocTokenTypes.OPEN, "<");
         ZUfVc.addChild(QvPXn);
-        CommonToken XbaFj = new CommonToken(JavadocTokenTypes.P_NAME, "P");
+        CommonToken XbaFj = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "P");
         ZUfVc.addChild(XbaFj);
         CommonToken IzrRZ = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         ZUfVc.addChild(IzrRZ);
@@ -2426,7 +2426,7 @@ public class ParseTreeBuilder
         BrTagContext JDXWP = new BrTagContext(GPNeb, 0);
         CommonToken qjxny = new CommonToken(JavadocTokenTypes.OPEN, "<");
         JDXWP.addChild(qjxny);
-        CommonToken XiIgz = new CommonToken(JavadocTokenTypes.BR_NAME, "br");
+        CommonToken XiIgz = new CommonToken(JavadocTokenTypes.BR_HTML_TAG_NAME, "br");
         JDXWP.addChild(XiIgz);
         CommonToken QvHxE = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         JDXWP.addChild(QvHxE);
@@ -2440,7 +2440,7 @@ public class ParseTreeBuilder
         BrTagContext IvQgI = new BrTagContext(ZRhzI, 0);
         CommonToken REgMB = new CommonToken(JavadocTokenTypes.OPEN, "<");
         IvQgI.addChild(REgMB);
-        CommonToken rmdoR = new CommonToken(JavadocTokenTypes.BR_NAME, "br");
+        CommonToken rmdoR = new CommonToken(JavadocTokenTypes.BR_HTML_TAG_NAME, "br");
         IvQgI.addChild(rmdoR);
         CommonToken GaRLd = new CommonToken(JavadocTokenTypes.SLASH_CLOSE, "/>");
         IvQgI.addChild(GaRLd);
@@ -2454,7 +2454,7 @@ public class ParseTreeBuilder
         BrTagContext kIRfA = new BrTagContext(iYDzD, 0);
         CommonToken wjfGO = new CommonToken(JavadocTokenTypes.OPEN, "<");
         kIRfA.addChild(wjfGO);
-        CommonToken oObXM = new CommonToken(JavadocTokenTypes.BR_NAME, "BR");
+        CommonToken oObXM = new CommonToken(JavadocTokenTypes.BR_HTML_TAG_NAME, "BR");
         kIRfA.addChild(oObXM);
         CommonToken fDWsO = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         kIRfA.addChild(fDWsO);
@@ -2468,7 +2468,7 @@ public class ParseTreeBuilder
         BrTagContext LDjoc = new BrTagContext(iebap, 0);
         CommonToken FXLrd = new CommonToken(JavadocTokenTypes.OPEN, "<");
         LDjoc.addChild(FXLrd);
-        CommonToken hCaUh = new CommonToken(JavadocTokenTypes.BR_NAME, "BR");
+        CommonToken hCaUh = new CommonToken(JavadocTokenTypes.BR_HTML_TAG_NAME, "BR");
         LDjoc.addChild(hCaUh);
         CommonToken anbHt = new CommonToken(JavadocTokenTypes.SLASH_CLOSE, "/>");
         LDjoc.addChild(anbHt);
@@ -2482,7 +2482,7 @@ public class ParseTreeBuilder
         HtmlElementOpenContext BlnUp = new HtmlElementOpenContext(isnod, 0);
         CommonToken bLUkL = new CommonToken(JavadocTokenTypes.OPEN, "<");
         BlnUp.addChild(bLUkL);
-        CommonToken RrsNb = new CommonToken(JavadocTokenTypes.NAME, "TABLE");
+        CommonToken RrsNb = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "TABLE");
         BlnUp.addChild(RrsNb);
         CommonToken SEeia = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         BlnUp.addChild(SEeia);
@@ -2500,7 +2500,7 @@ public class ParseTreeBuilder
         TrTagOpenContext ugVZb = new TrTagOpenContext(pSYes, 0);
         CommonToken kmQkE = new CommonToken(JavadocTokenTypes.OPEN, "<");
         ugVZb.addChild(kmQkE);
-        CommonToken UpjOr = new CommonToken(JavadocTokenTypes.TR_NAME, "tr");
+        CommonToken UpjOr = new CommonToken(JavadocTokenTypes.TR_HTML_TAG_NAME, "tr");
         ugVZb.addChild(UpjOr);
         CommonToken fRLyq = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         ugVZb.addChild(fRLyq);
@@ -2510,7 +2510,7 @@ public class ParseTreeBuilder
         lGiVR.addChild(xbYsX);
         CommonToken ZUfss = new CommonToken(JavadocTokenTypes.SLASH, "/");
         lGiVR.addChild(ZUfss);
-        CommonToken otJdK = new CommonToken(JavadocTokenTypes.TR_NAME, "TR");
+        CommonToken otJdK = new CommonToken(JavadocTokenTypes.TR_HTML_TAG_NAME, "TR");
         lGiVR.addChild(otJdK);
         CommonToken MTWaC = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         lGiVR.addChild(MTWaC);
@@ -2530,7 +2530,7 @@ public class ParseTreeBuilder
         TrTagOpenContext SYuPI = new TrTagOpenContext(gajvl, 0);
         CommonToken wTZeF = new CommonToken(JavadocTokenTypes.OPEN, "<");
         SYuPI.addChild(wTZeF);
-        CommonToken tzmIP = new CommonToken(JavadocTokenTypes.TR_NAME, "TR");
+        CommonToken tzmIP = new CommonToken(JavadocTokenTypes.TR_HTML_TAG_NAME, "TR");
         SYuPI.addChild(tzmIP);
         CommonToken VuBwn = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         SYuPI.addChild(VuBwn);
@@ -2540,7 +2540,7 @@ public class ParseTreeBuilder
         sGKSW.addChild(CwMfP);
         CommonToken wYCSF = new CommonToken(JavadocTokenTypes.SLASH, "/");
         sGKSW.addChild(wYCSF);
-        CommonToken eWMOx = new CommonToken(JavadocTokenTypes.TR_NAME, "tr");
+        CommonToken eWMOx = new CommonToken(JavadocTokenTypes.TR_HTML_TAG_NAME, "tr");
         sGKSW.addChild(eWMOx);
         CommonToken wlCwr = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         sGKSW.addChild(wlCwr);
@@ -2556,7 +2556,7 @@ public class ParseTreeBuilder
         YuWFE.addChild(jczel);
         CommonToken KARmB = new CommonToken(JavadocTokenTypes.SLASH, "/");
         YuWFE.addChild(KARmB);
-        CommonToken BWepi = new CommonToken(JavadocTokenTypes.NAME, "table");
+        CommonToken BWepi = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "table");
         YuWFE.addChild(BWepi);
         CommonToken YSCdk = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         YuWFE.addChild(YSCdk);
@@ -2571,7 +2571,7 @@ public class ParseTreeBuilder
         OXGCe.addChild(yDCNs);
         CommonToken eYukb = new CommonToken(JavadocTokenTypes.SLASH, "/");
         OXGCe.addChild(eYukb);
-        CommonToken iUAYx = new CommonToken(JavadocTokenTypes.P_NAME, "p");
+        CommonToken iUAYx = new CommonToken(JavadocTokenTypes.P_HTML_TAG_NAME, "p");
         OXGCe.addChild(iUAYx);
         CommonToken JYYAX = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         OXGCe.addChild(JYYAX);
@@ -2665,7 +2665,7 @@ public class ParseTreeBuilder
         HtmlElementOpenContext gHEbY = new HtmlElementOpenContext(xYODP, 0);
         CommonToken yezUJ = new CommonToken(JavadocTokenTypes.OPEN, "<");
         gHEbY.addChild(yezUJ);
-        CommonToken ftKIB = new CommonToken(JavadocTokenTypes.NAME, "b");
+        CommonToken ftKIB = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "b");
         gHEbY.addChild(ftKIB);
         CommonToken yWRtJ = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         gHEbY.addChild(yWRtJ);
@@ -2691,7 +2691,7 @@ public class ParseTreeBuilder
         TSrvd.addChild(PxnIY);
         CommonToken uYFxa = new CommonToken(JavadocTokenTypes.SLASH, "/");
         TSrvd.addChild(uYFxa);
-        CommonToken pOxKo = new CommonToken(JavadocTokenTypes.NAME, "b");
+        CommonToken pOxKo = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "b");
         TSrvd.addChild(pOxKo);
         CommonToken nPNwj = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         TSrvd.addChild(nPNwj);
@@ -2711,10 +2711,10 @@ public class ParseTreeBuilder
         HtmlElementOpenContext LLgva = new HtmlElementOpenContext(OeikU, 0);
         CommonToken AiMPG = new CommonToken(JavadocTokenTypes.OPEN, "<");
         LLgva.addChild(AiMPG);
-        CommonToken oRwGo = new CommonToken(JavadocTokenTypes.NAME, "font");
+        CommonToken oRwGo = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "font");
         LLgva.addChild(oRwGo);
         AttributeContext vqNiP = new AttributeContext(LLgva, 0);
-        CommonToken TRyFC = new CommonToken(JavadocTokenTypes.NAME, "size");
+        CommonToken TRyFC = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "size");
         vqNiP.addChild(TRyFC);
         CommonToken YKDEY = new CommonToken(JavadocTokenTypes.EQUALS, "=");
         vqNiP.addChild(YKDEY);
@@ -2739,7 +2739,7 @@ public class ParseTreeBuilder
         lunau.addChild(eomNL);
         CommonToken OwxpH = new CommonToken(JavadocTokenTypes.SLASH, "/");
         lunau.addChild(OwxpH);
-        CommonToken RPYqg = new CommonToken(JavadocTokenTypes.NAME, "font");
+        CommonToken RPYqg = new CommonToken(JavadocTokenTypes.HTML_TAG_IDENT, "font");
         lunau.addChild(RPYqg);
         CommonToken ReXWD = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         lunau.addChild(ReXWD);
