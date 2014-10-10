@@ -63,7 +63,7 @@ JAVADOC_TAG_DEPRECATED_LITERAL : '@deprecated' {isJavadocTagAvailable}?;
 JAVADOC_TAG_EXCEPTION_LITERAL : '@exception' {isJavadocTagAvailable}? -> pushMode(exception);
 JAVADOC_TAG_PARAM_LITERAL : '@param' {isJavadocTagAvailable}? -> pushMode(param);
 JAVADOC_TAG_RETURN_LITERAL : '@return' {isJavadocTagAvailable}?; 
-JAVADOC_TAG_SEE_LITERAL : '@see' {isJavadocTagAvailable}? -> pushMode(see);
+JAVADOC_TAG_SEE_LITERAL : '@see' {isJavadocTagAvailable}? -> pushMode(seeLink);
 JAVADOC_TAG_SERIAL_LITERAL : '@serial' {isJavadocTagAvailable}?;
 JAVADOC_TAG_SERIAL_FIELD_LITERAL : '@serialField' {isJavadocTagAvailable}? -> pushMode(serialField);
 JAVADOC_TAG_SERIAL_DATA_LITERAL : '@serialData' {isJavadocTagAvailable}?;
@@ -93,11 +93,9 @@ PARAMETER_NAME: [a-zA-Z0-9<>_-]+ -> mode(DEFAULT_MODE);
 Char1: . 
       {
             skipCurrentTokenConsuming();
-            referenceCatched = false;
-
       } -> skip, mode(DEFAULT_MODE);
 //////////////////////////////////////////////////////////////////////////////////////
-mode see;
+mode seeLink;
 Space1: WS
       {
             if (referenceCatched) {
@@ -114,8 +112,9 @@ Newline5: NEWLINE
             }
       }
       -> type(NEWLINE);
+Leading_asterisk3: LEADING_ASTERISK -> type(LEADING_ASTERISK);
 XmlTagOpen1: '<' -> type(OPEN), pushMode(xmlTagDefinition);
-STRING: '"' .*? '"' {referenceCatched = true;} -> mode(DEFAULT_MODE);
+STRING: '"' .*? '"' {referenceCatched = false;} -> mode(DEFAULT_MODE);
 PACKAGE: [a-z] ([a-z_-] | '.')+ [a-z_-] {referenceCatched = true;};
 DOT: '.';
 HASH: '#' {referenceCatched = true;} -> mode(classMemeber);
@@ -128,12 +127,11 @@ End20: JAVADOC_INLINE_TAG_END
       }
       -> type(JAVADOC_INLINE_TAG_END), mode(DEFAULT_MODE)
       ;
-// exit from 'see' mode without consuming current character
+// exit from 'seeLink' mode without consuming current character
 Char2: . 
       {
             skipCurrentTokenConsuming();
             referenceCatched = false;
-
       } -> skip, mode(DEFAULT_MODE);
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -143,11 +141,28 @@ LEFT_BRACE: '(' {insideReferenceArguments=true;};
 RIGHT_BRACE: ')' {insideReferenceArguments=false;};
 ARGUMENT: ([a-zA-Z0-9_-] | '.' | '[' | ']')+ {insideReferenceArguments}?;
 COMMA: ',' {insideReferenceArguments}?;
+Leading_asterisk6: LEADING_ASTERISK
+      {
+            if (!insideReferenceArguments) {
+                  _mode = DEFAULT_MODE;
+                  insideReferenceArguments = false;
+                  referenceCatched = false;
+            }
+      } -> type(LEADING_ASTERISK);
+Newline7: NEWLINE
+      {
+            if (!insideReferenceArguments) {
+                  _mode = DEFAULT_MODE;
+                  insideReferenceArguments = false;
+                  referenceCatched = false;
+            }
+      } -> type(NEWLINE);
 Space20: WS
       {
             if (!insideReferenceArguments) {
                   _mode = DEFAULT_MODE;
                   insideReferenceArguments = false;
+                  referenceCatched = false;
             }
       }  -> type(WS);
 End2: JAVADOC_INLINE_TAG_END
@@ -201,8 +216,8 @@ mode javadocInlineTag;
 JAVADOC_INLINE_TAG_CODE_LITERAL : '@code' {recognizeXmlTags=false;} -> mode(code);
 JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL : '@docRoot' -> mode(DEFAULT_MODE);
 JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL : '@inheritDoc' -> mode(DEFAULT_MODE);
-JAVADOC_INLINE_TAG_LINK_LITERAL : '@link' -> pushMode(see);
-JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL : '@linkplain' -> pushMode(see);
+JAVADOC_INLINE_TAG_LINK_LITERAL : '@link' -> pushMode(seeLink);
+JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL : '@linkplain' -> pushMode(seeLink);
 JAVADOC_INLINE_TAG_LITERAL_LITERAL : '@literal' {recognizeXmlTags=false;} -> mode(code);
 JAVADOC_INLINE_TAG_VALUE_LITERAL : '@value' -> pushMode(value);
 JAVADOC_INLINE_TAG_CUSTOM_LITERAL: '@' [a-zA-Z0-9]+ -> mode(DEFAULT_MODE);
@@ -211,6 +226,7 @@ Char6: . -> type(CHAR), mode(DEFAULT_MODE);
 mode code;
 Space7: WS -> type(WS), mode(codeText);
 Newline2: NEWLINE -> type(NEWLINE), mode(codeText);
+Leading_asterisk4: LEADING_ASTERISK -> type(LEADING_ASTERISK);
 Char7: .
       {
             skipCurrentTokenConsuming();
@@ -218,25 +234,10 @@ Char7: .
 
 //////////////////////////////////////////////////////////////////////////////////////
 mode codeText;
-Text: (
-      '{' .*? '}'
-      | ~[}]
-      )+ -> type(CHAR), mode(DEFAULT_MODE);
+Leading_asterisk5: LEADING_ASTERISK -> type(LEADING_ASTERISK);
+Skobki: '{' (~[}] | Skobki)* '}' -> type(CHAR);
+Text: ~[}] -> type(CHAR);
 Char8: .
-      {
-            skipCurrentTokenConsuming();
-      } -> skip, mode(DEFAULT_MODE);
-
-//////////////////////////////////////////////////////////////////////////////////////
-mode link;
-Space5: ' ' -> type(WS);
-Newline3: NEWLINE -> type(NEWLINE);
-LeadingLEADING_ASTERISK2: LEADING_ASTERISK -> type(LEADING_ASTERISK);
-Package1: PACKAGE -> type(PACKAGE);
-Dot1: DOT -> type(DOT);
-Class1: CLASS -> type(CLASS);
-Hash1: HASH -> type(HASH), mode(classMemeber);
-Char9: .
       {
             skipCurrentTokenConsuming();
       } -> skip, mode(DEFAULT_MODE);

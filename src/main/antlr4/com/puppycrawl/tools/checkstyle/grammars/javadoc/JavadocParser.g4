@@ -721,7 +721,7 @@ reference:
             | HASH? MEMBER parameters?
       )
       ;
-parameters: LEFT_BRACE (ARGUMENT | COMMA | WS)* RIGHT_BRACE;
+parameters: LEFT_BRACE (ARGUMENT | COMMA | WS | NEWLINE | LEADING_ASTERISK)* RIGHT_BRACE;
 javadocTagSee: JAVADOC_TAG_SEE_LITERAL (WS | NEWLINE)*
 				reference? (STRING | htmlElement)* (WS | NEWLINE)*
 				description?;
@@ -770,8 +770,7 @@ javadocTagSection:
 javadocInlineTagCode:
 	JAVADOC_INLINE_TAG_START
 	JAVADOC_INLINE_TAG_CODE_LITERAL
-	(WS | NEWLINE | LEADING_ASTERISK)*
-	text?
+	(WS | NEWLINE | LEADING_ASTERISK | text)*
 	JAVADOC_INLINE_TAG_END
 	;
 

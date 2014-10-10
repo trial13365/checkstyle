@@ -39,7 +39,7 @@ public final class ExpectedParseTreeGenerator
     public static void main(String[] args)
         throws Exception
     {
-        final String inputName = "Input6";
+        final String inputName = "javadocTags/AllJavadocInlineTags";
 
         String filename = mFolder + inputName + "." + mExtension;
         JavadocParseTreeTest test = new JavadocParseTreeTest();
