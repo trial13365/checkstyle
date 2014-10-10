@@ -90,7 +90,12 @@ CHAR        :   . ;
 mode param;
 Space0: WS -> type(WS);
 PARAMETER_NAME: [a-zA-Z0-9<>_-]+ -> mode(DEFAULT_MODE);
-Char1: . -> type(CHAR), mode(DEFAULT_MODE);
+Char1: . 
+      {
+            skipCurrentTokenConsuming();
+            referenceCatched = false;
+
+      } -> skip, mode(DEFAULT_MODE);
 //////////////////////////////////////////////////////////////////////////////////////
 mode see;
 Space1: WS
@@ -164,7 +169,12 @@ Char20: .
 mode serialField;
 Space2: WS -> type(WS);
 FIELD_NAME: [a-zA-Z0-9_-]+ -> mode(serialFieldFieldType);
-Char3: . -> type(CHAR), mode(DEFAULT_MODE);
+Char3: . 
+      {
+            skipCurrentTokenConsuming();
+            referenceCatched = false;
+
+      } -> skip, mode(DEFAULT_MODE);
 //////////////////////////////////////////////////////////////////////////////////////
 mode serialFieldFieldType;
 Space3: WS -> type(WS);
