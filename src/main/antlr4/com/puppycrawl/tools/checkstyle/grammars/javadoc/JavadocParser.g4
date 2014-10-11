@@ -51,6 +51,7 @@ htmlElement: htmlTag
             | tbody
             | thead
             | tfoot
+
             | pTagOpen
             | liTagOpen
             | trTagOpen
@@ -66,6 +67,22 @@ htmlElement: htmlTag
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
+
+            | pTagClose
+            | liTagClose
+            | trTagClose
+            | tdTagClose
+            | thTagClose
+            | bodyTagClose
+            | colgroupTagClose
+            | ddTagClose
+            | dtTagClose
+            | headTagClose
+            | htmlTagClose
+            | optionTagClose
+            | tbodyTagClose
+            | theadTagClose
+            | tfootTagClose
             ;
 
 htmlElementOpen:  OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
