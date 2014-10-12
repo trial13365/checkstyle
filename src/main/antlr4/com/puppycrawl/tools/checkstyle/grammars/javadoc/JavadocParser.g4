@@ -91,7 +91,7 @@ attribute:    HTML_TAG_IDENT (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEA
 attributeValue: (ATTR_VALUE | text | HTML_TAG_IDENT);
 
 htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose
-            | htmlElementOpen (htmlElement | misc)* {notifyErrorListeners("javadoc.missed.html.close");}
+            | htmlElementOpen (htmlElement | misc)* {notifyErrorListeners($htmlElementOpen.start, "javadoc.missed.html.close", null);}
             ;
 
 //////////////////////////////////////////////////////////////////////////////////////
