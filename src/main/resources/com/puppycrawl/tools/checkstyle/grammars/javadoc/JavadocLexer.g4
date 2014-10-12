@@ -351,6 +351,8 @@ FragmentReference: ([a-zA-Z0-9_-] | '.')+
       ;
 //////////////////////////////////////////////////////////////////////////////////////
 mode htmlAttr;
+Leading_asterisk7: LEADING_ASTERISK -> type(LEADING_ASTERISK);
+
 ATTR_VALUE  : '"' ~[<"]* '"'        {attributeCatched=true;}
             | '\'' ~[<']* '\''      {attributeCatched=true;}
             | ( '-' | '+' | DIGIT)+ {attributeCatched=true;}
@@ -361,7 +363,7 @@ Char12: . {attributeCatched}?
             skipCurrentTokenConsuming();
             attributeCatched = false;
       } -> skip, mode(xmlTagDefinition);
-
+Char13: . -> skip;
 //////////////////////////////////////////////////////////////////////////////////////
 mode htmlComment;
 HTML_COMMENT_END: '-->' -> mode(DEFAULT_MODE);
