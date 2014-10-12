@@ -13,6 +13,8 @@ import java.util.*;
 
       boolean insideReferenceArguments = false;
 
+      boolean attributeCatched = false;
+
       int previousTokenType = 0;
       int previousToPreviousTokenType = 0;
 
@@ -269,12 +271,7 @@ mode xmlTagDefinition;
 CLOSE       :   '>'                     -> mode(DEFAULT_MODE) ;
 SLASH_CLOSE :   '/>'                    -> mode(DEFAULT_MODE) ;
 SLASH       :   '/' ;
-EQUALS      :   '=' ;
-
-ATTR_VALUE  : '"' ~[<"]* '"'
-            | '\'' ~[<']* '\''
-            | ( '-' | '+' | DIGIT)+
-            ;
+EQUALS      :   '=' -> mode(htmlAttr);
 
 // with optional end tag
 P_HTML_TAG_NAME: 'P' | 'p';
@@ -350,6 +347,19 @@ fragment
 FragmentReference: ([a-zA-Z0-9_-] | '.')+
       | ([a-zA-Z0-9_-] | '.')* '#' [a-zA-Z0-9_-]+ ( '(' (([a-zA-Z0-9_-] | '.')+ | ',' | ' ')* ')' )?
       ;
+//////////////////////////////////////////////////////////////////////////////////////
+mode htmlAttr;
+ATTR_VALUE  : '"' ~[<"]* '"'        {attributeCatched=true;}
+            | '\'' ~[<']* '\''      {attributeCatched=true;}
+            | ( '-' | '+' | DIGIT)+ {attributeCatched=true;}
+            | ~[> \t\n]+            {attributeCatched=true;}
+            ;
+Char12: . {attributeCatched}?
+      {
+            skipCurrentTokenConsuming();
+            attributeCatched = false;
+      } -> skip, mode(xmlTagDefinition);
+
 //////////////////////////////////////////////////////////////////////////////////////
 mode htmlComment;
 HTML_COMMENT_END: '-->' -> mode(DEFAULT_MODE);
