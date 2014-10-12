@@ -317,6 +317,8 @@
           <version>4.3</version>
 		  <configuration>
 		      <visitor>true</visitor>
+		      <sourceDirectory>${basedir}/src/main/resources/com/puppycrawl/tools/checkstyle/grammars/javadoc</sourceDirectory>
+		      <outputDirectory>${project.build.directory}/generated-sources/antlr/com/puppycrawl/tools/checkstyle/grammars/javadoc</outputDirectory>
 		  </configuration>
           <executions>
               <execution>
@@ -340,7 +342,7 @@
             <configuration>
               <sources>
                 <source>${project.build.directory}/generated-sources/antlr/</source>
-                <source>${project.build.directory}/generated-sources/antlr4/</source>
+                <source>${project.build.directory}/generated-sources/antlr/javadoc</source>
               </sources>
             </configuration>
           </execution>

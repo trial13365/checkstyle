@@ -1,6 +1,8 @@
 lexer grammar JavadocLexer;
 
 @lexer::header {
+package com.puppycrawl.tools.checkstyle.grammars.javadoc;
+
 import java.util.*;
 }
 
