@@ -284,7 +284,7 @@ public abstract class AbstractJavadocCheck extends Check
             final String className = getNodeClassNameWithoutContext(aNode);
             final String typeName =
                     CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, className);
-            tokenType = JavadocTokenTypes.getTokenId(typeName);
+            tokenType = JavadocUtils.getTokenId(typeName);
         }
 
         return tokenType;

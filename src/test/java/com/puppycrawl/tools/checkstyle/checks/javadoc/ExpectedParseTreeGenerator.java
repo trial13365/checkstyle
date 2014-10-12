@@ -25,8 +25,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 
-import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
-
 public final class ExpectedParseTreeGenerator
 {
     private static String mFolder = "src/test/resources/com/puppycrawl/tools/checkstyle/grammars/javadoc/";
@@ -66,7 +64,7 @@ public final class ExpectedParseTreeGenerator
                 tokenType = "EOF";
             }
             else {
-                tokenType = JavadocTokenTypes.getTokenName(type);
+                tokenType = JavadocUtils.getTokenName(type);
             }
             String text = terminal.getText();
             if ("\n".equals(text)) {

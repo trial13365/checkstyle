@@ -1,7 +1,6 @@
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
-import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.MutableDetailNode;
 
 public class JavadocNodeImpl implements MutableDetailNode, DetailNode
@@ -101,7 +100,7 @@ public class JavadocNodeImpl implements MutableDetailNode, DetailNode
     @Override
     public String toString()
     {
-        return JavadocTokenTypes.getTokenName(getType())
+        return JavadocUtils.getTokenName(getType())
                 + "[" + getLineNumber() + "x" + getColumnNumber() + "]";
     }
 

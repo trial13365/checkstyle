@@ -18,14 +18,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.api;
 
-import java.lang.reflect.Field;
-
-import com.google.common.collect.ImmutableMap;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser;
 
 public final class JavadocTokenTypes
 {
-    private static final int ruleTypesOffset = 10000;
+    private static final int _ruleTypesOffset = 10000;
 
     // Terminal types
 
@@ -142,217 +139,134 @@ public final class JavadocTokenTypes
 
     // Rule types (non-terminal)
 
-    public static final int JAVADOC = JavadocParser.RULE_javadoc + ruleTypesOffset;
+    public static final int JAVADOC = JavadocParser.RULE_javadoc + _ruleTypesOffset;
 
-    public static final int HTML_ELEMENT = JavadocParser.RULE_htmlElement + ruleTypesOffset;
-    public static final int HTML_ELEMENT_OPEN = JavadocParser.RULE_htmlElementOpen + ruleTypesOffset + ruleTypesOffset;
-    public static final int HTML_ELEMENT_CLOSE = JavadocParser.RULE_htmlElementClose + ruleTypesOffset;
-    public static final int ATTRIBUTE = JavadocParser.RULE_attribute + ruleTypesOffset + ruleTypesOffset;
+    public static final int HTML_ELEMENT = JavadocParser.RULE_htmlElement + _ruleTypesOffset;
+    public static final int HTML_ELEMENT_OPEN = JavadocParser.RULE_htmlElementOpen + _ruleTypesOffset + _ruleTypesOffset;
+    public static final int HTML_ELEMENT_CLOSE = JavadocParser.RULE_htmlElementClose + _ruleTypesOffset;
+    public static final int ATTRIBUTE = JavadocParser.RULE_attribute + _ruleTypesOffset + _ruleTypesOffset;
 
-    public static final int HTML_COMMENT = JavadocParser.RULE_htmlComment + ruleTypesOffset + ruleTypesOffset;
+    public static final int HTML_COMMENT = JavadocParser.RULE_htmlComment + _ruleTypesOffset + _ruleTypesOffset;
 
-    public static final int HTML_TAG = JavadocParser.RULE_htmlTag + ruleTypesOffset;
+    public static final int HTML_TAG = JavadocParser.RULE_htmlTag + _ruleTypesOffset;
 
-    public static final int P_TAG_OPEN = JavadocParser.RULE_pTagOpen + ruleTypesOffset;
-    public static final int P_TAG_CLOSE = JavadocParser.RULE_pTagClose + ruleTypesOffset;
-    public static final int PARAGRAPH = JavadocParser.RULE_paragraph + ruleTypesOffset;
+    public static final int P_TAG_OPEN = JavadocParser.RULE_pTagOpen + _ruleTypesOffset;
+    public static final int P_TAG_CLOSE = JavadocParser.RULE_pTagClose + _ruleTypesOffset;
+    public static final int PARAGRAPH = JavadocParser.RULE_paragraph + _ruleTypesOffset;
 
-    public static final int LI_TAG_OPEN = JavadocParser.RULE_liTagOpen + ruleTypesOffset;
-    public static final int LI_TAG_CLOSE = JavadocParser.RULE_liTagClose + ruleTypesOffset;
-    public static final int LI = JavadocParser.RULE_li + ruleTypesOffset;
+    public static final int LI_TAG_OPEN = JavadocParser.RULE_liTagOpen + _ruleTypesOffset;
+    public static final int LI_TAG_CLOSE = JavadocParser.RULE_liTagClose + _ruleTypesOffset;
+    public static final int LI = JavadocParser.RULE_li + _ruleTypesOffset;
 
-    public static final int TR_TAG_OPEN = JavadocParser.RULE_trTagOpen + ruleTypesOffset;
-    public static final int TR_TAG_CLOSE = JavadocParser.RULE_trTagClose + ruleTypesOffset;
-    public static final int TR = JavadocParser.RULE_tr + ruleTypesOffset;
+    public static final int TR_TAG_OPEN = JavadocParser.RULE_trTagOpen + _ruleTypesOffset;
+    public static final int TR_TAG_CLOSE = JavadocParser.RULE_trTagClose + _ruleTypesOffset;
+    public static final int TR = JavadocParser.RULE_tr + _ruleTypesOffset;
 
-    public static final int TD_TAG_OPEN = JavadocParser.RULE_tdTagOpen + ruleTypesOffset;
-    public static final int TD_TAG_CLOSE = JavadocParser.RULE_tdTagClose + ruleTypesOffset;
-    public static final int TD = JavadocParser.RULE_td + ruleTypesOffset;
+    public static final int TD_TAG_OPEN = JavadocParser.RULE_tdTagOpen + _ruleTypesOffset;
+    public static final int TD_TAG_CLOSE = JavadocParser.RULE_tdTagClose + _ruleTypesOffset;
+    public static final int TD = JavadocParser.RULE_td + _ruleTypesOffset;
 
-    public static final int TH_TAG_OPEN = JavadocParser.RULE_thTagOpen + ruleTypesOffset;
-    public static final int TH_TAG_CLOSE = JavadocParser.RULE_thTagClose + ruleTypesOffset;
-    public static final int TH = JavadocParser.RULE_th + ruleTypesOffset;
+    public static final int TH_TAG_OPEN = JavadocParser.RULE_thTagOpen + _ruleTypesOffset;
+    public static final int TH_TAG_CLOSE = JavadocParser.RULE_thTagClose + _ruleTypesOffset;
+    public static final int TH = JavadocParser.RULE_th + _ruleTypesOffset;
 
-    public static final int BODY_TAG_OPEN = JavadocParser.RULE_bodyTagOpen + ruleTypesOffset;
-    public static final int BODY_TAG_CLOSE = JavadocParser.RULE_bodyTagClose + ruleTypesOffset;
-    public static final int BODY = JavadocParser.RULE_body + ruleTypesOffset;
-    public static final int COLGROUP_TAG_OPEN = JavadocParser.RULE_colgroupTagOpen + ruleTypesOffset;
-    public static final int COLGROUP_TAG_CLOSE = JavadocParser.RULE_colgroupTagClose + ruleTypesOffset;
-    public static final int COLGROUP = JavadocParser.RULE_colgroup + ruleTypesOffset;
-    public static final int DD_TAG_OPEN = JavadocParser.RULE_ddTagOpen + ruleTypesOffset;
-    public static final int DD_TAG_CLOSE = JavadocParser.RULE_ddTagClose + ruleTypesOffset;
-    public static final int DD = JavadocParser.RULE_dd + ruleTypesOffset;
-    public static final int DT_TAG_OPEN = JavadocParser.RULE_dtTagOpen + ruleTypesOffset;
-    public static final int DT_TAG_CLOSE = JavadocParser.RULE_dtTagClose + ruleTypesOffset;
-    public static final int DT = JavadocParser.RULE_dt + ruleTypesOffset;
-    public static final int HEAD_TAG_OPEN = JavadocParser.RULE_headTagOpen + ruleTypesOffset;
-    public static final int HEAD_TAG_CLOSE = JavadocParser.RULE_headTagClose + ruleTypesOffset;
-    public static final int HEAD = JavadocParser.RULE_head + ruleTypesOffset;
-    public static final int HTML_TAG_OPEN = JavadocParser.RULE_htmlTagOpen + ruleTypesOffset;
-    public static final int HTML_TAG_CLOSE = JavadocParser.RULE_htmlTagClose + ruleTypesOffset;
-    public static final int HTML = JavadocParser.RULE_html + ruleTypesOffset;
-    public static final int OPTION_TAG_OPEN = JavadocParser.RULE_optionTagOpen + ruleTypesOffset;
-    public static final int OPTION_TAG_CLOSE = JavadocParser.RULE_optionTagClose + ruleTypesOffset;
-    public static final int OPTION = JavadocParser.RULE_option + ruleTypesOffset;
-    public static final int TBODY_TAG_OPEN = JavadocParser.RULE_tbodyTagOpen + ruleTypesOffset;
-    public static final int TBODY_TAG_CLOSE = JavadocParser.RULE_tbodyTagClose + ruleTypesOffset;
-    public static final int TBODY = JavadocParser.RULE_tbody + ruleTypesOffset;
-    public static final int TFOOT_TAG_OPEN = JavadocParser.RULE_tfootTagOpen + ruleTypesOffset;
-    public static final int TFOOT_TAG_CLOSE = JavadocParser.RULE_tfootTagClose + ruleTypesOffset;
-    public static final int TFOOT = JavadocParser.RULE_tfoot + ruleTypesOffset;
-    public static final int THEAD_TAG_OPEN = JavadocParser.RULE_theadTagOpen + ruleTypesOffset;
-    public static final int THEAD_TAG_CLOSE = JavadocParser.RULE_theadTagClose + ruleTypesOffset;
-    public static final int THEAD = JavadocParser.RULE_thead + ruleTypesOffset;
-    public static final int SINGLETON_TAG = JavadocParser.RULE_singletonTag + ruleTypesOffset;
-    public static final int CUSTOM_SINGLETON_TAG = JavadocParser.RULE_customSingletonTag + ruleTypesOffset;
-    public static final int AREA_TAG = JavadocParser.RULE_areaTag + ruleTypesOffset;
-    public static final int BASE_TAG = JavadocParser.RULE_baseTag + ruleTypesOffset;
-    public static final int BASEFRONT_TAG = JavadocParser.RULE_basefrontTag + ruleTypesOffset;
-    public static final int BR_TAG = JavadocParser.RULE_brTag + ruleTypesOffset;
-    public static final int COL_TAG = JavadocParser.RULE_colTag + ruleTypesOffset;
-    public static final int FRAME_TAG = JavadocParser.RULE_frameTag + ruleTypesOffset;
-    public static final int HR_TAG = JavadocParser.RULE_hrTag + ruleTypesOffset;
-    public static final int IMG_TAG = JavadocParser.RULE_imgTag + ruleTypesOffset;
-    public static final int INPUT_TAG = JavadocParser.RULE_inputTag + ruleTypesOffset;
-    public static final int ISINDEX_TAG = JavadocParser.RULE_isindexTag + ruleTypesOffset;
-    public static final int LINK_TAG = JavadocParser.RULE_linkTag + ruleTypesOffset;
-    public static final int META_TAG = JavadocParser.RULE_metaTag + ruleTypesOffset;
-    public static final int PARAM_TAG = JavadocParser.RULE_paramTag + ruleTypesOffset;
-    public static final int TEXT = JavadocParser.RULE_text + ruleTypesOffset;
-    public static final int NAME_TEXT = JavadocParser.RULE_nameText + ruleTypesOffset;
-    public static final int REFERENCE = JavadocParser.RULE_reference + ruleTypesOffset;
-    public static final int DEPRECATED_TEXT = JavadocParser.RULE_deprecatedText + ruleTypesOffset;
-    public static final int DESCRIPTION = JavadocParser.RULE_description + ruleTypesOffset;
-    public static final int FIELD_DESCRIPTION = JavadocParser.RULE_fieldDescription + ruleTypesOffset;
-    public static final int DATA_DESCRIPTION = JavadocParser.RULE_dataDescription + ruleTypesOffset;
-    public static final int SINCE_TEXT = JavadocParser.RULE_sinceText + ruleTypesOffset;
-    public static final int VERSION_TEXT = JavadocParser.RULE_versionText + ruleTypesOffset;
-    public static final int CUSTOM_ARGUMENT = JavadocParser.RULE_customArgument + ruleTypesOffset;
-    public static final int PARAMETERS = JavadocParser.RULE_parameters + ruleTypesOffset;
-    public static final int MISC = JavadocParser.RULE_misc + ruleTypesOffset;
+    public static final int BODY_TAG_OPEN = JavadocParser.RULE_bodyTagOpen + _ruleTypesOffset;
+    public static final int BODY_TAG_CLOSE = JavadocParser.RULE_bodyTagClose + _ruleTypesOffset;
+    public static final int BODY = JavadocParser.RULE_body + _ruleTypesOffset;
+    public static final int COLGROUP_TAG_OPEN = JavadocParser.RULE_colgroupTagOpen + _ruleTypesOffset;
+    public static final int COLGROUP_TAG_CLOSE = JavadocParser.RULE_colgroupTagClose + _ruleTypesOffset;
+    public static final int COLGROUP = JavadocParser.RULE_colgroup + _ruleTypesOffset;
+    public static final int DD_TAG_OPEN = JavadocParser.RULE_ddTagOpen + _ruleTypesOffset;
+    public static final int DD_TAG_CLOSE = JavadocParser.RULE_ddTagClose + _ruleTypesOffset;
+    public static final int DD = JavadocParser.RULE_dd + _ruleTypesOffset;
+    public static final int DT_TAG_OPEN = JavadocParser.RULE_dtTagOpen + _ruleTypesOffset;
+    public static final int DT_TAG_CLOSE = JavadocParser.RULE_dtTagClose + _ruleTypesOffset;
+    public static final int DT = JavadocParser.RULE_dt + _ruleTypesOffset;
+    public static final int HEAD_TAG_OPEN = JavadocParser.RULE_headTagOpen + _ruleTypesOffset;
+    public static final int HEAD_TAG_CLOSE = JavadocParser.RULE_headTagClose + _ruleTypesOffset;
+    public static final int HEAD = JavadocParser.RULE_head + _ruleTypesOffset;
+    public static final int HTML_TAG_OPEN = JavadocParser.RULE_htmlTagOpen + _ruleTypesOffset;
+    public static final int HTML_TAG_CLOSE = JavadocParser.RULE_htmlTagClose + _ruleTypesOffset;
+    public static final int HTML = JavadocParser.RULE_html + _ruleTypesOffset;
+    public static final int OPTION_TAG_OPEN = JavadocParser.RULE_optionTagOpen + _ruleTypesOffset;
+    public static final int OPTION_TAG_CLOSE = JavadocParser.RULE_optionTagClose + _ruleTypesOffset;
+    public static final int OPTION = JavadocParser.RULE_option + _ruleTypesOffset;
+    public static final int TBODY_TAG_OPEN = JavadocParser.RULE_tbodyTagOpen + _ruleTypesOffset;
+    public static final int TBODY_TAG_CLOSE = JavadocParser.RULE_tbodyTagClose + _ruleTypesOffset;
+    public static final int TBODY = JavadocParser.RULE_tbody + _ruleTypesOffset;
+    public static final int TFOOT_TAG_OPEN = JavadocParser.RULE_tfootTagOpen + _ruleTypesOffset;
+    public static final int TFOOT_TAG_CLOSE = JavadocParser.RULE_tfootTagClose + _ruleTypesOffset;
+    public static final int TFOOT = JavadocParser.RULE_tfoot + _ruleTypesOffset;
+    public static final int THEAD_TAG_OPEN = JavadocParser.RULE_theadTagOpen + _ruleTypesOffset;
+    public static final int THEAD_TAG_CLOSE = JavadocParser.RULE_theadTagClose + _ruleTypesOffset;
+    public static final int THEAD = JavadocParser.RULE_thead + _ruleTypesOffset;
+    public static final int SINGLETON_TAG = JavadocParser.RULE_singletonTag + _ruleTypesOffset;
+    public static final int CUSTOM_SINGLETON_TAG = JavadocParser.RULE_customSingletonTag + _ruleTypesOffset;
+    public static final int AREA_TAG = JavadocParser.RULE_areaTag + _ruleTypesOffset;
+    public static final int BASE_TAG = JavadocParser.RULE_baseTag + _ruleTypesOffset;
+    public static final int BASEFRONT_TAG = JavadocParser.RULE_basefrontTag + _ruleTypesOffset;
+    public static final int BR_TAG = JavadocParser.RULE_brTag + _ruleTypesOffset;
+    public static final int COL_TAG = JavadocParser.RULE_colTag + _ruleTypesOffset;
+    public static final int FRAME_TAG = JavadocParser.RULE_frameTag + _ruleTypesOffset;
+    public static final int HR_TAG = JavadocParser.RULE_hrTag + _ruleTypesOffset;
+    public static final int IMG_TAG = JavadocParser.RULE_imgTag + _ruleTypesOffset;
+    public static final int INPUT_TAG = JavadocParser.RULE_inputTag + _ruleTypesOffset;
+    public static final int ISINDEX_TAG = JavadocParser.RULE_isindexTag + _ruleTypesOffset;
+    public static final int LINK_TAG = JavadocParser.RULE_linkTag + _ruleTypesOffset;
+    public static final int META_TAG = JavadocParser.RULE_metaTag + _ruleTypesOffset;
+    public static final int PARAM_TAG = JavadocParser.RULE_paramTag + _ruleTypesOffset;
+    public static final int TEXT = JavadocParser.RULE_text + _ruleTypesOffset;
+    public static final int NAME_TEXT = JavadocParser.RULE_nameText + _ruleTypesOffset;
+    public static final int REFERENCE = JavadocParser.RULE_reference + _ruleTypesOffset;
+    public static final int DEPRECATED_TEXT = JavadocParser.RULE_deprecatedText + _ruleTypesOffset;
+    public static final int DESCRIPTION = JavadocParser.RULE_description + _ruleTypesOffset;
+    public static final int FIELD_DESCRIPTION = JavadocParser.RULE_fieldDescription + _ruleTypesOffset;
+    public static final int DATA_DESCRIPTION = JavadocParser.RULE_dataDescription + _ruleTypesOffset;
+    public static final int SINCE_TEXT = JavadocParser.RULE_sinceText + _ruleTypesOffset;
+    public static final int VERSION_TEXT = JavadocParser.RULE_versionText + _ruleTypesOffset;
+    public static final int CUSTOM_ARGUMENT = JavadocParser.RULE_customArgument + _ruleTypesOffset;
+    public static final int PARAMETERS = JavadocParser.RULE_parameters + _ruleTypesOffset;
+    public static final int MISC = JavadocParser.RULE_misc + _ruleTypesOffset;
 
     public static final int ATTRIBUTE_VALUE =
-            JavadocParser.RULE_attributeValue + ruleTypesOffset;
+            JavadocParser.RULE_attributeValue + _ruleTypesOffset;
 
-    public static final int JAVADOC_TAG_SECTION = JavadocParser.RULE_javadocTagSection + ruleTypesOffset;
-    public static final int JAVADOC_TAG_AUTHOR = JavadocParser.RULE_javadocTagAuthor + ruleTypesOffset;
-    public static final int JAVADOC_TAG_DEPRECATED = JavadocParser.RULE_javadocTagDeprecated + ruleTypesOffset;
-    public static final int JAVADOC_TAG_EXCEPTION = JavadocParser.RULE_javadocTagException + ruleTypesOffset;
-    public static final int JAVADOC_TAG_PARAM = JavadocParser.RULE_javadocTagParam + ruleTypesOffset;
-    public static final int JAVADOC_TAG_RETURN = JavadocParser.RULE_javadocTagReturn + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SEE = JavadocParser.RULE_javadocTagSee + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIAL = JavadocParser.RULE_javadocTagSerial + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIAL_FIELD = JavadocParser.RULE_javadocTagSerialField + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIAL_DATA = JavadocParser.RULE_javadocTagSerialData + ruleTypesOffset;
-    public static final int JAVADOC_TAG_SINCE = JavadocParser.RULE_javadocTagSince + ruleTypesOffset;
-    public static final int JAVADOC_TAG_THROWS = JavadocParser.RULE_javadocTagThrows + ruleTypesOffset;
-    public static final int JAVADOC_TAG_VERSION = JavadocParser.RULE_javadocTagVersion + ruleTypesOffset;
-    public static final int JAVADOC_TAG_CUSTOM = JavadocParser.RULE_javadocTagCustom + ruleTypesOffset;
+    public static final int JAVADOC_TAG_SECTION = JavadocParser.RULE_javadocTagSection + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_AUTHOR = JavadocParser.RULE_javadocTagAuthor + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_DEPRECATED = JavadocParser.RULE_javadocTagDeprecated + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_EXCEPTION = JavadocParser.RULE_javadocTagException + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_PARAM = JavadocParser.RULE_javadocTagParam + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_RETURN = JavadocParser.RULE_javadocTagReturn + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_SEE = JavadocParser.RULE_javadocTagSee + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_SERIAL = JavadocParser.RULE_javadocTagSerial + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_SERIAL_FIELD = JavadocParser.RULE_javadocTagSerialField + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_SERIAL_DATA = JavadocParser.RULE_javadocTagSerialData + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_SINCE = JavadocParser.RULE_javadocTagSince + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_THROWS = JavadocParser.RULE_javadocTagThrows + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_VERSION = JavadocParser.RULE_javadocTagVersion + _ruleTypesOffset;
+    public static final int JAVADOC_TAG_CUSTOM = JavadocParser.RULE_javadocTagCustom + _ruleTypesOffset;
 
-    public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_DOC_ROOT = JavadocParser.RULE_javadocInlineTagDocRoot + ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_LINK = JavadocParser.RULE_javadocInlineTagLink + ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_DOC_ROOT = JavadocParser.RULE_javadocInlineTagDocRoot + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_LINK = JavadocParser.RULE_javadocInlineTagLink + _ruleTypesOffset;
 
     public static final int JAVADOC_INLINE_TAG_INHERIT_DOC =
-            JavadocParser.RULE_javadocInlineTagInheritDoc + ruleTypesOffset;
+            JavadocParser.RULE_javadocInlineTagInheritDoc + _ruleTypesOffset;
 
     public static final int JAVADOC_INLINE_TAG_LINKPLAIN =
-            JavadocParser.RULE_javadocInlineTagLinkplain + ruleTypesOffset;
+            JavadocParser.RULE_javadocInlineTagLinkplain + _ruleTypesOffset;
 
     public static final int JAVADOC_INLINE_TAG_LITERAL =
-            JavadocParser.RULE_javadocInlineTagLiteral + ruleTypesOffset;
+            JavadocParser.RULE_javadocInlineTagLiteral + _ruleTypesOffset;
 
     public static final int JAVADOC_INLINE_TAG_CUSTOM =
-            JavadocParser.RULE_javadocInlineTagCustom + ruleTypesOffset;
+            JavadocParser.RULE_javadocInlineTagCustom + _ruleTypesOffset;
 
-    public static final int JAVADOC_INLINE_TAG_VALUE = JavadocParser.RULE_javadocInlineTagValue + ruleTypesOffset;
-
-    /** maps from a token name to value */
-    private static final ImmutableMap<String, Integer> TOKEN_NAME_TO_VALUE;
-    /** maps from a token value to name */
-    private static final String[] TOKEN_VALUE_TO_NAME;
+    public static final int JAVADOC_INLINE_TAG_VALUE = JavadocParser.RULE_javadocInlineTagValue + _ruleTypesOffset;
 
     private JavadocTokenTypes()
     {
     }
 
-    // initialise the constants
-    static {
-        final ImmutableMap.Builder<String, Integer> builder =
-                ImmutableMap.builder();
-        final Field[] fields = JavadocTokenTypes.class.getDeclaredFields();
-        String[] tempTokenValueToName = new String[0];
-        for (final Field f : fields) {
-            // Only process the int declarations.
-            if (f.getType() != Integer.TYPE) {
-                continue;
-            }
-
-            final String name = f.getName();
-            try {
-                final int tokenValue = f.getInt(name);
-                builder.put(name, tokenValue);
-                if (tokenValue > tempTokenValueToName.length - 1) {
-                    final String[] temp = new String[tokenValue + 1];
-                    System.arraycopy(tempTokenValueToName, 0,
-                            temp, 0, tempTokenValueToName.length);
-                    tempTokenValueToName = temp;
-                }
-                if (tokenValue == -1) {
-                    tempTokenValueToName[0] = name;
-                }
-                else {
-                    tempTokenValueToName[tokenValue] = name;
-                }
-            }
-            catch (final IllegalArgumentException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
-            catch (final IllegalAccessException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
-        }
-
-        TOKEN_NAME_TO_VALUE = builder.build();
-        TOKEN_VALUE_TO_NAME = tempTokenValueToName;
-    }
-
-    /**
-     * Returns the name of a token for a given ID.
-     * @param aID
-     *        the ID of the token name to get
-     * @return a token name
-     */
-    public static String getTokenName(int aID)
-    {
-        if (aID == EOF) {
-            return "EOF";
-        }
-        if (aID > TOKEN_VALUE_TO_NAME.length - 1) {
-            throw new IllegalArgumentException("given id " + aID);
-        }
-        final String name = TOKEN_VALUE_TO_NAME[aID];
-        if (name == null) {
-            throw new IllegalArgumentException("given id " + aID);
-        }
-        return name;
-    }
-
-    /**
-     * Returns the ID of a token for a given name.
-     * @param aName
-     *        the name of the token ID to get
-     * @return a token ID
-     */
-    public static int getTokenId(String aName)
-    {
-        final Integer id = TOKEN_NAME_TO_VALUE.get(aName);
-        if (id == null) {
-            throw new IllegalArgumentException("given name " + aName);
-        }
-        return id.intValue();
-    }
 }

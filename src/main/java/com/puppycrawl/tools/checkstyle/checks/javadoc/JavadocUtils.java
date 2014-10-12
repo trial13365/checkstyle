@@ -18,15 +18,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.JavadocAst;
 import com.puppycrawl.tools.checkstyle.api.JavadocTagInfo;
+import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.api.Utils;
 
@@ -36,6 +39,56 @@ import com.puppycrawl.tools.checkstyle.api.Utils;
  */
 public final class JavadocUtils
 {
+    /** maps from a token name to value */
+    private static final ImmutableMap<String, Integer> TOKEN_NAME_TO_VALUE;
+    /** maps from a token value to name */
+    private static final String[] TOKEN_VALUE_TO_NAME;
+
+    // Using reflection gets all token names and values from JavadocTokenTypes class
+    // and saves to TOKEN_NAME_TO_VALUE and TOKEN_VALUE_TO_NAME collections.
+    static {
+        final ImmutableMap.Builder<String, Integer> builder = ImmutableMap.builder();
+
+        final Field[] fields = JavadocTokenTypes.class.getDeclaredFields();
+
+        String[] tempTokenValueToName = new String[0];
+
+        for (final Field f : fields) {
+            // Only process the int declarations.
+            if (f.getType() != Integer.TYPE) {
+                continue;
+            }
+
+            final String name = f.getName();
+
+            if (name.startsWith("_")) {
+                continue;
+            }
+
+            try {
+                final int tokenValue = f.getInt(name);
+                builder.put(name, tokenValue);
+                if (tokenValue > tempTokenValueToName.length - 1) {
+                    final String[] temp = new String[tokenValue + 1];
+                    System.arraycopy(tempTokenValueToName, 0, temp, 0, tempTokenValueToName.length);
+                    tempTokenValueToName = temp;
+                }
+                if (tokenValue == -1) {
+                    tempTokenValueToName[0] = name;
+                }
+                else {
+                    tempTokenValueToName[tokenValue] = name;
+                }
+            }
+            catch (Exception e) {
+                throw new IllegalStateException("Failed to instantiate collection of Javadoc tokens", e);
+            }
+        }
+
+        TOKEN_NAME_TO_VALUE = builder.build();
+        TOKEN_VALUE_TO_NAME = tempTokenValueToName;
+    }
+
     ///CLOVER:OFF
     /** prevent instantiation */
     private JavadocUtils()
@@ -279,6 +332,42 @@ public final class JavadocUtils
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the name of a token for a given ID.
+     * @param aID
+     *        the ID of the token name to get
+     * @return a token name
+     */
+    public static String getTokenName(int aID)
+    {
+        if (aID == JavadocTokenTypes.EOF) {
+            return "EOF";
+        }
+        if (aID > TOKEN_VALUE_TO_NAME.length - 1) {
+            throw new IllegalArgumentException("Unknown javadoc token id. Given id: " + aID);
+        }
+        final String name = TOKEN_VALUE_TO_NAME[aID];
+        if (name == null) {
+            throw new IllegalArgumentException("Unknown javadoc token id. Given id: " + aID);
+        }
+        return name;
+    }
+
+    /**
+     * Returns the ID of a token for a given name.
+     * @param aName
+     *        the name of the token ID to get
+     * @return a token ID
+     */
+    public static int getTokenId(String aName)
+    {
+        final Integer id = TOKEN_NAME_TO_VALUE.get(aName);
+        if (id == null) {
+            throw new IllegalArgumentException("Unknown javadoc token name. Given name " + aName);
+        }
+        return id.intValue();
     }
 
 }

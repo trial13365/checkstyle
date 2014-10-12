@@ -18,6 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.api;
 
+import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocUtils;
+
 
 /**
  * Class that represents abstract syntax tree (AST) of parsed Javadoc comment.
@@ -165,7 +167,7 @@ public final class JavadocAst
     @Override
     public String toString()
     {
-        return JavadocTokenTypes.getTokenName(getType())
+        return JavadocUtils.getTokenName(getType())
                 + "[" + getLineNumber() + "x" + getColumnNumber() + "]";
     }
 
