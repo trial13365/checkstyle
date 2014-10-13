@@ -30,6 +30,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -438,6 +439,7 @@ public abstract class AbstractJavadocCheck extends Check
          * about missed close HTML tag.
          */
         private static final String JAVADOC_MISSED_HTML_CLOSE = "javadoc.missed.html.close";
+        private static final String JAVADOC_WRONG_SINGLETON_TAG = "javadoc.wrong.singleton.html.tag";
 
         /**
          * Offset is line number of beginning of the Javadoc comment.
@@ -474,9 +476,15 @@ public abstract class AbstractJavadocCheck extends Check
                 String aMsg, RecognitionException aEx)
         {
             int lineNumber = mOffset + aLine;
+            Token token = (Token) aOffendingSymbol;
 
             if (JAVADOC_MISSED_HTML_CLOSE.equals(aMsg)) {
-                log(lineNumber, JAVADOC_MISSED_HTML_CLOSE);
+                log(lineNumber, JAVADOC_MISSED_HTML_CLOSE, token.getText());
+                throw new ParseCancellationException();
+            }
+            else if (JAVADOC_WRONG_SINGLETON_TAG.equals(aMsg)) {
+                log(lineNumber, JAVADOC_WRONG_SINGLETON_TAG, token.getText());
+                throw new ParseCancellationException();
             }
             else {
                 log(lineNumber, "javadoc.parse.error", aMsg);

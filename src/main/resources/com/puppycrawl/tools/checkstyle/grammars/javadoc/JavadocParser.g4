@@ -34,6 +34,13 @@ package com.puppycrawl.tools.checkstyle.grammars.javadoc;
 				return false;
 		}
 	}
+
+      boolean isSameTagNames(ParserRuleContext htmlTagOpen, ParserRuleContext htmlTagClose) {
+            String openTag = htmlTagOpen.getToken(HTML_TAG_IDENT, 0).getText().toLowerCase();
+            String closeTag = htmlTagClose.getToken(HTML_TAG_IDENT, 0).getText().toLowerCase();
+            System.out.println(openTag + " - " + closeTag);
+            return openTag.equals(closeTag);
+      }
 }
 
 javadoc:   (htmlElement | misc)* javadocTagSection? EOF;
@@ -94,8 +101,9 @@ htmlElementClose: OPEN SLASH HTML_TAG_IDENT CLOSE;
 attribute:    HTML_TAG_IDENT (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEADING_ASTERISK)* attributeValue ;
 attributeValue: (ATTR_VALUE | text | HTML_TAG_IDENT);
 
-htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose
-            | htmlElementOpen (htmlElement | misc)* {notifyErrorListeners($htmlElementOpen.start, "javadoc.missed.html.close", null);}
+htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose //{isSameTagNames($htmlElementOpen.ctx, $htmlElementClose.ctx)}?
+            | htmlElementOpen (htmlElement | misc)*
+            {notifyErrorListeners($htmlElementOpen.ctx.getToken(HTML_TAG_IDENT, 0).getSymbol(), "javadoc.missed.html.close", null);}
             ;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -673,6 +681,8 @@ singletonTag: customSingletonTag
 			| linkTag
 			| metaTag
 			| paramTag
+
+                  | wrongSinletonTag
 			;
 
 customSingletonTag: OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE;
@@ -717,6 +727,23 @@ paramTag: OPEN PARAM_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLA
 	| OPEN PARAM_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
 	;
 
+wrongSinletonTag: OPEN SLASH singletonTagName CLOSE {notifyErrorListeners($singletonTagName.start, "javadoc.wrong.singleton.html.tag", null);}
+                  ;
+singletonTagName: (AREA_HTML_TAG_NAME
+                  | BASE_HTML_TAG_NAME
+                  | BASEFRONT_HTML_TAG_NAME
+                  | BR_HTML_TAG_NAME
+                  | COL_HTML_TAG_NAME
+                  | FRAME_HTML_TAG_NAME
+                  | HR_HTML_TAG_NAME
+                  | IMG_HTML_TAG_NAME
+                  | INPUT_HTML_TAG_NAME
+                  | ISINDEX_HTML_TAG_NAME
+                  | LINK_HTML_TAG_NAME
+                  | META_HTML_TAG_NAME
+                  | PARAM_HTML_TAG_NAME
+                  )
+                  ;
 
 
 //////////////////////////////////////////////////////////////////////////////////////

@@ -356,8 +356,11 @@ Leading_asterisk7: LEADING_ASTERISK -> type(LEADING_ASTERISK);
 ATTR_VALUE  : '"' ~[<"]* '"'        {attributeCatched=true;}
             | '\'' ~[<']* '\''      {attributeCatched=true;}
             | ( '-' | '+' | DIGIT)+ {attributeCatched=true;}
-            | ~[> \t\n]+            {attributeCatched=true;}
+            | (~[> \t\n] | SlashInAttr)+            {attributeCatched=true;}
             ;
+
+fragment SlashInAttr: '/' {_input.LA(1) != '>'}?;
+
 Char12: . {attributeCatched}?
       {
             skipCurrentTokenConsuming();
