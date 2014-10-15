@@ -27,7 +27,7 @@ public class WriteAuthorCheck extends AbstractJavadocCheck
             break;
 
         case JavadocTokenTypes.JAVADOC_TAG_AUTHOR:
-            DetailNode nameText = JavadocUtils.findFirstToken(aAst, JavadocTokenTypes.NAME_TEXT);
+            DetailNode nameText = JavadocUtils.findFirstToken(aAst, JavadocTokenTypes.DESCRIPTION);
             if (nameText == null
                     || nameText.getText() == null
                     || nameText.getText().isEmpty())

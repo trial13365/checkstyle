@@ -749,13 +749,11 @@ singletonTagName: (AREA_HTML_TAG_NAME
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////  JAVADOC TAGS  ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-nameText: (misc | htmlElement)+;
-javadocTagAuthor: JAVADOC_TAG_AUTHOR_LITERAL (WS | NEWLINE)* nameText?;
-
-deprecatedText: (misc | htmlElement)+;
-javadocTagDeprecated: JAVADOC_TAG_DEPRECATED_LITERAL (WS | NEWLINE)* deprecatedText?;
-
 description: (misc | htmlElement)+;
+javadocTagAuthor: JAVADOC_TAG_AUTHOR_LITERAL (WS | NEWLINE)* description?;
+
+javadocTagDeprecated: JAVADOC_TAG_DEPRECATED_LITERAL (WS | NEWLINE)* description?;
+
 javadocTagException: JAVADOC_TAG_EXCEPTION_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description?;
 
 javadocTagParam: JAVADOC_TAG_PARAM_LITERAL (WS | NEWLINE)* PARAMETER_NAME? (WS | NEWLINE)* description?;
@@ -770,28 +768,21 @@ reference:
       )
       ;
 parameters: LEFT_BRACE (ARGUMENT | COMMA | WS | NEWLINE | LEADING_ASTERISK)* RIGHT_BRACE;
-javadocTagSee: JAVADOC_TAG_SEE_LITERAL (WS | NEWLINE)*
-				reference? (STRING | htmlElement)* (WS | NEWLINE)*
-				description?;
+javadocTagSee: JAVADOC_TAG_SEE_LITERAL (WS | NEWLINE)* reference? (STRING | htmlElement)* (WS | NEWLINE)* description?;
 
-fieldDescription: (misc | htmlElement)+;
-javadocTagSerial: JAVADOC_TAG_SERIAL_LITERAL (WS | NEWLINE)* (fieldDescription | (LITERAL_INCLUDE | LITERAL_EXCLUDE) misc*)?;
+javadocTagSerial: JAVADOC_TAG_SERIAL_LITERAL (WS | NEWLINE)* (LITERAL_INCLUDE | LITERAL_EXCLUDE)? description?;
 
-javadocTagSerialField: JAVADOC_TAG_SERIAL_FIELD_LITERAL (WS | NEWLINE)* FIELD_NAME? (WS | NEWLINE)* FIELD_TYPE? (WS | NEWLINE)* fieldDescription?;
+javadocTagSerialField: JAVADOC_TAG_SERIAL_FIELD_LITERAL (WS | NEWLINE)* FIELD_NAME? (WS | NEWLINE)* FIELD_TYPE? (WS | NEWLINE)* description?;
 
-dataDescription: (misc | htmlElement)+;
-javadocTagSerialData: JAVADOC_TAG_SERIAL_DATA_LITERAL (WS | NEWLINE)* dataDescription?;
+javadocTagSerialData: JAVADOC_TAG_SERIAL_DATA_LITERAL (WS | NEWLINE)* description?;
 
-sinceText: (misc | htmlElement | paragraph)+;
-javadocTagSince: JAVADOC_TAG_SINCE_LITERAL (WS | NEWLINE)* sinceText?;
+javadocTagSince: JAVADOC_TAG_SINCE_LITERAL (WS | NEWLINE)* description?;
 
 javadocTagThrows: JAVADOC_TAG_THROWS_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description?;
 
-versionText: (misc | htmlElement)+;
-javadocTagVersion: JAVADOC_TAG_VERSION_LITERAL (WS | NEWLINE)* versionText?;
+javadocTagVersion: JAVADOC_TAG_VERSION_LITERAL (WS | NEWLINE)* description?;
 
-customArgument: (misc | htmlElement)+;
-javadocTagCustom: JAVADOC_TAG_CUSTOM_LITERAL (WS | NEWLINE)* customArgument?;
+javadocTagCustom: JAVADOC_TAG_CUSTOM_LITERAL (WS | NEWLINE)* description?;
 
 javadocTagSection:
 	(

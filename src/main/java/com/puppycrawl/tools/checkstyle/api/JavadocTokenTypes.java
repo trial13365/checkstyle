@@ -216,15 +216,8 @@ public final class JavadocTokenTypes
     public static final int META_TAG = JavadocParser.RULE_metaTag + _ruleTypesOffset;
     public static final int PARAM_TAG = JavadocParser.RULE_paramTag + _ruleTypesOffset;
     public static final int TEXT = JavadocParser.RULE_text + _ruleTypesOffset;
-    public static final int NAME_TEXT = JavadocParser.RULE_nameText + _ruleTypesOffset;
     public static final int REFERENCE = JavadocParser.RULE_reference + _ruleTypesOffset;
-    public static final int DEPRECATED_TEXT = JavadocParser.RULE_deprecatedText + _ruleTypesOffset;
     public static final int DESCRIPTION = JavadocParser.RULE_description + _ruleTypesOffset;
-    public static final int FIELD_DESCRIPTION = JavadocParser.RULE_fieldDescription + _ruleTypesOffset;
-    public static final int DATA_DESCRIPTION = JavadocParser.RULE_dataDescription + _ruleTypesOffset;
-    public static final int SINCE_TEXT = JavadocParser.RULE_sinceText + _ruleTypesOffset;
-    public static final int VERSION_TEXT = JavadocParser.RULE_versionText + _ruleTypesOffset;
-    public static final int CUSTOM_ARGUMENT = JavadocParser.RULE_customArgument + _ruleTypesOffset;
     public static final int PARAMETERS = JavadocParser.RULE_parameters + _ruleTypesOffset;
     public static final int MISC = JavadocParser.RULE_misc + _ruleTypesOffset;
 
