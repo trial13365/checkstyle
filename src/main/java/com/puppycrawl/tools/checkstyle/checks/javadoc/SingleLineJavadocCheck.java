@@ -33,7 +33,7 @@ public class SingleLineJavadocCheck extends AbstractJavadocCheck
     private boolean hasJavadocTags(DetailNode aJavadocAst)
     {
         DetailNode javadocTagSection =
-                JavadocUtils.findFirstToken(aJavadocAst, JavadocTokenTypes.JAVADOC_TAG_SECTION);
+                JavadocUtils.findFirstToken(aJavadocAst, JavadocTokenTypes.JAVADOC_TAG);
         return javadocTagSection != null;
     }
 

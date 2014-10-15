@@ -43,7 +43,7 @@ package com.puppycrawl.tools.checkstyle.grammars.javadoc;
       }
 }
 
-javadoc:   (htmlElement | misc)* javadocTagSection? EOF;
+javadoc:   (htmlElement | misc)* (LEADING_ASTERISK? WS* javadocTag)* EOF;
 
 htmlElement: htmlTag
 		| singletonTag
@@ -750,15 +750,6 @@ singletonTagName: (AREA_HTML_TAG_NAME
 //////////////////////////  JAVADOC TAGS  ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 description: (misc | htmlElement)+;
-javadocTagAuthor: JAVADOC_TAG_AUTHOR_LITERAL (WS | NEWLINE)* description?;
-
-javadocTagDeprecated: JAVADOC_TAG_DEPRECATED_LITERAL (WS | NEWLINE)* description?;
-
-javadocTagException: JAVADOC_TAG_EXCEPTION_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description?;
-
-javadocTagParam: JAVADOC_TAG_PARAM_LITERAL (WS | NEWLINE)* PARAMETER_NAME? (WS | NEWLINE)* description?;
-
-javadocTagReturn: JAVADOC_TAG_RETURN_LITERAL (WS | NEWLINE)* description?;
 
 reference:
       (
@@ -768,40 +759,32 @@ reference:
       )
       ;
 parameters: LEFT_BRACE (ARGUMENT | COMMA | WS | NEWLINE | LEADING_ASTERISK)* RIGHT_BRACE;
-javadocTagSee: JAVADOC_TAG_SEE_LITERAL (WS | NEWLINE)* reference? (STRING | htmlElement)* (WS | NEWLINE)* description?;
 
-javadocTagSerial: JAVADOC_TAG_SERIAL_LITERAL (WS | NEWLINE)* (LITERAL_INCLUDE | LITERAL_EXCLUDE)? description?;
+javadocTag: JAVADOC_TAG_AUTHOR_LITERAL (WS | NEWLINE)* description?
 
-javadocTagSerialField: JAVADOC_TAG_SERIAL_FIELD_LITERAL (WS | NEWLINE)* FIELD_NAME? (WS | NEWLINE)* FIELD_TYPE? (WS | NEWLINE)* description?;
+	| JAVADOC_TAG_DEPRECATED_LITERAL (WS | NEWLINE)* description?
 
-javadocTagSerialData: JAVADOC_TAG_SERIAL_DATA_LITERAL (WS | NEWLINE)* description?;
+  	| JAVADOC_TAG_EXCEPTION_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description?
 
-javadocTagSince: JAVADOC_TAG_SINCE_LITERAL (WS | NEWLINE)* description?;
+  	| JAVADOC_TAG_PARAM_LITERAL (WS | NEWLINE)* PARAMETER_NAME? (WS | NEWLINE)* description?
 
-javadocTagThrows: JAVADOC_TAG_THROWS_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description?;
+  	| JAVADOC_TAG_RETURN_LITERAL (WS | NEWLINE)* description?
 
-javadocTagVersion: JAVADOC_TAG_VERSION_LITERAL (WS | NEWLINE)* description?;
+  	| JAVADOC_TAG_SEE_LITERAL (WS | NEWLINE)* reference? (STRING | htmlElement)* (WS | NEWLINE)* description?
 
-javadocTagCustom: JAVADOC_TAG_CUSTOM_LITERAL (WS | NEWLINE)* description?;
+  	| JAVADOC_TAG_SERIAL_LITERAL (WS | NEWLINE)* (LITERAL_INCLUDE | LITERAL_EXCLUDE)? description?
 
-javadocTagSection:
-	(
-		LEADING_ASTERISK? WS? 
-		( javadocTagAuthor
-		| javadocTagDeprecated
-	  	| javadocTagException
-	  	| javadocTagParam
-	  	| javadocTagReturn
-	  	| javadocTagSee
-	  	| javadocTagSerial
-	  	| javadocTagSerialData
-	  	| javadocTagSerialField
-	  	| javadocTagSince
-	  	| javadocTagThrows
-	  	| javadocTagVersion
-	  	| javadocTagCustom
-	  	)
-	)+
+  	| JAVADOC_TAG_SERIAL_DATA_LITERAL (WS | NEWLINE)* description?
+
+  	| JAVADOC_TAG_SERIAL_FIELD_LITERAL (WS | NEWLINE)* FIELD_NAME? (WS | NEWLINE)* FIELD_TYPE? (WS | NEWLINE)* description?
+
+  	| JAVADOC_TAG_SINCE_LITERAL (WS | NEWLINE)* description?
+
+  	| JAVADOC_TAG_THROWS_LITERAL (WS | NEWLINE)* CLASS_NAME? (WS | NEWLINE)* description?
+
+  	| JAVADOC_TAG_VERSION_LITERAL (WS | NEWLINE)* description?
+
+  	| JAVADOC_TAG_CUSTOM_LITERAL (WS | NEWLINE)* description?
 	;
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////  JAVADOC INLINE TAGS  /////////////////////////////////////

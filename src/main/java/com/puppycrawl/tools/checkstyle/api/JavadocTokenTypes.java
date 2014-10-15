@@ -224,20 +224,7 @@ public final class JavadocTokenTypes
     public static final int ATTRIBUTE_VALUE =
             JavadocParser.RULE_attributeValue + _ruleTypesOffset;
 
-    public static final int JAVADOC_TAG_SECTION = JavadocParser.RULE_javadocTagSection + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_AUTHOR = JavadocParser.RULE_javadocTagAuthor + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_DEPRECATED = JavadocParser.RULE_javadocTagDeprecated + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_EXCEPTION = JavadocParser.RULE_javadocTagException + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_PARAM = JavadocParser.RULE_javadocTagParam + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_RETURN = JavadocParser.RULE_javadocTagReturn + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_SEE = JavadocParser.RULE_javadocTagSee + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIAL = JavadocParser.RULE_javadocTagSerial + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIAL_FIELD = JavadocParser.RULE_javadocTagSerialField + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_SERIAL_DATA = JavadocParser.RULE_javadocTagSerialData + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_SINCE = JavadocParser.RULE_javadocTagSince + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_THROWS = JavadocParser.RULE_javadocTagThrows + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_VERSION = JavadocParser.RULE_javadocTagVersion + _ruleTypesOffset;
-    public static final int JAVADOC_TAG_CUSTOM = JavadocParser.RULE_javadocTagCustom + _ruleTypesOffset;
+    public static final int JAVADOC_TAG = JavadocParser.RULE_javadocTag + _ruleTypesOffset;
 
     public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + _ruleTypesOffset;
     public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + _ruleTypesOffset;
