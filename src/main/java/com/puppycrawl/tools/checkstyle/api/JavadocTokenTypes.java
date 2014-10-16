@@ -24,7 +24,14 @@ public final class JavadocTokenTypes
 {
     private static final int _ruleTypesOffset = 10000;
 
-    // Terminal types
+    // root node
+    public static final int JAVADOC = JavadocParser.RULE_javadoc + _ruleTypesOffset;
+
+    public static final int LEADING_ASTERISK = JavadocParser.LEADING_ASTERISK;
+
+    // two types of javadoc tags
+    public static final int JAVADOC_TAG = JavadocParser.RULE_javadocTag + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + _ruleTypesOffset;
 
     public static final int JAVADOC_TAG_RETURN_LITERAL = JavadocParser.JAVADOC_TAG_RETURN_LITERAL;
     public static final int JAVADOC_TAG_DEPRECATED_LITERAL = JavadocParser.JAVADOC_TAG_DEPRECATED_LITERAL;
@@ -40,65 +47,59 @@ public final class JavadocTokenTypes
     public static final int JAVADOC_TAG_THROWS_LITERAL = JavadocParser.JAVADOC_TAG_THROWS_LITERAL;
     public static final int JAVADOC_TAG_AUTHOR_LITERAL = JavadocParser.JAVADOC_TAG_AUTHOR_LITERAL;
 
-    public static final int LITERAL_EXCLUDE = JavadocParser.LITERAL_EXCLUDE;
-    public static final int LITERAL_INCLUDE = JavadocParser.LITERAL_INCLUDE;
 
+    public static final int JAVADOC_INLINE_TAG_START = JavadocParser.JAVADOC_INLINE_TAG_START; // '{'
+    public static final int JAVADOC_INLINE_TAG_END = JavadocParser.JAVADOC_INLINE_TAG_END; // '}'
+
+    public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_DOC_ROOT = JavadocParser.RULE_javadocInlineTagDocRoot + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_LINK = JavadocParser.RULE_javadocInlineTagLink + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_INHERIT_DOC = JavadocParser.RULE_javadocInlineTagInheritDoc + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_LINKPLAIN = JavadocParser.RULE_javadocInlineTagLinkplain + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_LITERAL = JavadocParser.RULE_javadocInlineTagLiteral + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_CUSTOM = JavadocParser.RULE_javadocInlineTagCustom + _ruleTypesOffset;
+    public static final int JAVADOC_INLINE_TAG_VALUE = JavadocParser.RULE_javadocInlineTagValue + _ruleTypesOffset;
+
+    public static final int JAVADOC_INLINE_TAG_CODE_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_CODE_LITERAL;
+    public static final int JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL;
+    public static final int JAVADOC_INLINE_TAG_LINK_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_LINK_LITERAL;
+    public static final int JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL;
+    public static final int JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL;
+    public static final int JAVADOC_INLINE_TAG_LITERAL_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_LITERAL_LITERAL; // @literal
+    public static final int JAVADOC_INLINE_TAG_VALUE_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_VALUE_LITERAL;
+    public static final int JAVADOC_INLINE_TAG_CUSTOM_LITERAL = JavadocParser.JAVADOC_INLINE_TAG_CUSTOM_LITERAL;
+
+    // @see and {@link} reference components
     public static final int PACKAGE = JavadocParser.PACKAGE;
     public static final int CLASS = JavadocParser.CLASS;
-    public static final int HASH = JavadocParser.HASH;
-    public static final int MEMBER = JavadocParser.MEMBER;
-    public static final int COMMA = JavadocParser.COMMA;
     public static final int DOT = JavadocParser.DOT;
+    public static final int HASH = JavadocParser.HASH; // #
+    public static final int MEMBER = JavadocParser.MEMBER;
     public static final int LEFT_BRACE = JavadocParser.LEFT_BRACE;
     public static final int RIGHT_BRACE = JavadocParser.RIGHT_BRACE;
     public static final int ARGUMENT = JavadocParser.ARGUMENT;
+    public static final int COMMA = JavadocParser.COMMA;
+    public static final int STRING = JavadocParser.STRING; // "text"
 
+    // First argument of @exception: @exception class-name description
     public static final int CLASS_NAME = JavadocParser.CLASS_NAME;
+
+    // First argument of @param: @param parameter-name description
     public static final int PARAMETER_NAME = JavadocParser.PARAMETER_NAME;
 
+    // @serial and @serialField arguments
+    public static final int LITERAL_EXCLUDE = JavadocParser.LITERAL_EXCLUDE;
+    public static final int LITERAL_INCLUDE = JavadocParser.LITERAL_INCLUDE;
     public static final int FIELD_NAME = JavadocParser.FIELD_NAME;
     public static final int FIELD_TYPE = JavadocParser.FIELD_TYPE;
 
-    public static final int JAVADOC_INLINE_TAG_END =
-            JavadocParser.JAVADOC_INLINE_TAG_END;
-
-    public static final int JAVADOC_INLINE_TAG_START =
-            JavadocParser.JAVADOC_INLINE_TAG_START;
-
-    public static final int JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_CUSTOM_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_CUSTOM_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_VALUE_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_VALUE_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_CODE_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_CODE_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_INHERIT_DOC_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_LINK_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_LINK_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_DOC_ROOT_LITERAL;
-
-    public static final int JAVADOC_INLINE_TAG_LITERAL_LITERAL =
-            JavadocParser.JAVADOC_INLINE_TAG_LITERAL_LITERAL;
-
-    public static final int OPEN = JavadocParser.OPEN;
-    public static final int SLASH = JavadocParser.SLASH;
-    public static final int CLOSE = JavadocParser.CLOSE;
-    public static final int SLASH_CLOSE = JavadocParser.SLASH_CLOSE;
-    public static final int ATTR_VALUE = JavadocParser.ATTR_VALUE;
-    public static final int CDATA = JavadocParser.CDATA;
-    public static final int HTML_COMMENT_START = JavadocParser.HTML_COMMENT_START;
-    public static final int HTML_COMMENT_END = JavadocParser.HTML_COMMENT_END;
-    public static final int EQUALS = JavadocParser.EQUALS;
-    public static final int STRING = JavadocParser.STRING;
+    // HTML tag components
+    public static final int OPEN = JavadocParser.OPEN; // '<'
+    public static final int SLASH = JavadocParser.SLASH; // '/'
+    public static final int CLOSE = JavadocParser.CLOSE; // '>'
+    public static final int SLASH_CLOSE = JavadocParser.SLASH_CLOSE; // '/>'
+    public static final int EQUALS = JavadocParser.EQUALS; // '='
+    public static final int ATTR_VALUE = JavadocParser.ATTR_VALUE; // attribute value
 
     public static final int COL_HTML_TAG_NAME = JavadocParser.COL_HTML_TAG_NAME;
     public static final int DT_HTML_TAG_NAME = JavadocParser.DT_HTML_TAG_NAME;
@@ -130,16 +131,9 @@ public final class JavadocTokenTypes
     public static final int HTML_HTML_TAG_NAME = JavadocParser.HTML_HTML_TAG_NAME;
     public static final int HTML_TAG_IDENT = JavadocParser.HTML_TAG_IDENT;
 
-    public static final int NEWLINE = JavadocParser.NEWLINE;
-    public static final int CHAR = JavadocParser.CHAR;
-    public static final int WS = JavadocParser.WS;
-    public static final int LEADING_ASTERISK = JavadocParser.LEADING_ASTERISK;
-
-    public static final int EOF = JavadocParser.EOF;
-
-    // Rule types (non-terminal)
-
-    public static final int JAVADOC = JavadocParser.RULE_javadoc + _ruleTypesOffset;
+    public static final int NEWLINE = JavadocParser.NEWLINE; // \n
+    public static final int CHAR = JavadocParser.CHAR; // any symbol
+    public static final int WS = JavadocParser.WS; // whitespace, \t
 
     public static final int HTML_ELEMENT = JavadocParser.RULE_htmlElement + _ruleTypesOffset;
     public static final int HTML_ELEMENT_OPEN = JavadocParser.RULE_htmlElementOpen + _ruleTypesOffset + _ruleTypesOffset;
@@ -224,26 +218,13 @@ public final class JavadocTokenTypes
     public static final int ATTRIBUTE_VALUE =
             JavadocParser.RULE_attributeValue + _ruleTypesOffset;
 
-    public static final int JAVADOC_TAG = JavadocParser.RULE_javadocTag + _ruleTypesOffset;
+    // HTML comments
+    public static final int HTML_COMMENT_START = JavadocParser.HTML_COMMENT_START; // <!---
+    public static final int HTML_COMMENT_END = JavadocParser.HTML_COMMENT_END; // -->
 
-    public static final int JAVADOC_INLINE_TAG = JavadocParser.RULE_javadocInlineTag + _ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_CODE = JavadocParser.RULE_javadocInlineTagCode + _ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_DOC_ROOT = JavadocParser.RULE_javadocInlineTagDocRoot + _ruleTypesOffset;
-    public static final int JAVADOC_INLINE_TAG_LINK = JavadocParser.RULE_javadocInlineTagLink + _ruleTypesOffset;
+    public static final int CDATA = JavadocParser.CDATA; // '<![CDATA[...]]>'
 
-    public static final int JAVADOC_INLINE_TAG_INHERIT_DOC =
-            JavadocParser.RULE_javadocInlineTagInheritDoc + _ruleTypesOffset;
-
-    public static final int JAVADOC_INLINE_TAG_LINKPLAIN =
-            JavadocParser.RULE_javadocInlineTagLinkplain + _ruleTypesOffset;
-
-    public static final int JAVADOC_INLINE_TAG_LITERAL =
-            JavadocParser.RULE_javadocInlineTagLiteral + _ruleTypesOffset;
-
-    public static final int JAVADOC_INLINE_TAG_CUSTOM =
-            JavadocParser.RULE_javadocInlineTagCustom + _ruleTypesOffset;
-
-    public static final int JAVADOC_INLINE_TAG_VALUE = JavadocParser.RULE_javadocInlineTagValue + _ruleTypesOffset;
+    public static final int EOF = JavadocParser.EOF;
 
     private JavadocTokenTypes()
     {
