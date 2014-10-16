@@ -15,6 +15,7 @@ import java.util.*;
 
       boolean insideReferenceArguments = false;
 
+      boolean htmlTagNameCatched = false;
       boolean attributeCatched = false;
 
       int previousTokenType = 0;
@@ -270,45 +271,45 @@ Char10: .
 //////////////////////////////////////////////////////////////////////////////////////
 mode xmlTagDefinition;
 
-CLOSE       :   '>'                     -> mode(DEFAULT_MODE) ;
-SLASH_CLOSE :   '/>'                    -> mode(DEFAULT_MODE) ;
+CLOSE       :   '>' {htmlTagNameCatched = false;} -> mode(DEFAULT_MODE) ;
+SLASH_CLOSE :   '/>' {htmlTagNameCatched = false;} -> mode(DEFAULT_MODE) ;
 SLASH       :   '/' ;
 EQUALS      :   '=' -> mode(htmlAttr);
 
 // with optional end tag
-P_HTML_TAG_NAME: 'P' | 'p';
-LI_HTML_TAG_NAME: 'li' | 'LI';
-TR_HTML_TAG_NAME: 'tr' | 'TR';
-TD_HTML_TAG_NAME: 'td' | 'TD';
-TH_HTML_TAG_NAME: 'th' | 'TH';
-BODY_HTML_TAG_NAME: 'body' | 'BODY';
-COLGROUP_HTML_TAG_NAME: 'colgroup' | 'COLGROUP';
-DD_HTML_TAG_NAME: 'dd' | 'DD';
-DT_HTML_TAG_NAME: 'dt' | 'DT';
-HEAD_HTML_TAG_NAME: 'head' | 'HEAD';
-HTML_HTML_TAG_NAME: 'html' | 'HTML';
-OPTION_HTML_TAG_NAME: 'option' | 'OPTION';
-TBODY_HTML_TAG_NAME: 'tbody' | 'TBODY';
-TFOOT_HTML_TAG_NAME: 'tfoot' | 'TFOOT';
-THEAD_HTML_TAG_NAME: 'thead' | 'THEAD';
+P_HTML_TAG_NAME: ('P' | 'p') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+LI_HTML_TAG_NAME: ('li' | 'LI') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+TR_HTML_TAG_NAME: ('tr' | 'TR') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+TD_HTML_TAG_NAME: ('td' | 'TD') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+TH_HTML_TAG_NAME: ('th' | 'TH') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+BODY_HTML_TAG_NAME: ('body' | 'BODY') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+COLGROUP_HTML_TAG_NAME: ('colgroup' | 'COLGROUP') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+DD_HTML_TAG_NAME: ('dd' | 'DD') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+DT_HTML_TAG_NAME: ('dt' | 'DT') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+HEAD_HTML_TAG_NAME: ('head' | 'HEAD') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+HTML_HTML_TAG_NAME: ('html' | 'HTML') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+OPTION_HTML_TAG_NAME: ('option' | 'OPTION') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+TBODY_HTML_TAG_NAME: ('tbody' | 'TBODY') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+TFOOT_HTML_TAG_NAME: ('tfoot' | 'TFOOT') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+THEAD_HTML_TAG_NAME: ('thead' | 'THEAD') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
 
 // singleton tags
-AREA_HTML_TAG_NAME: 'area' | 'AREA';
-BASE_HTML_TAG_NAME: 'base' | 'BASE';
-BASEFRONT_HTML_TAG_NAME: 'basefront' | 'BASEFRONT';
-BR_HTML_TAG_NAME: 'br' | 'BR';
-COL_HTML_TAG_NAME: 'col' | 'COL';
-FRAME_HTML_TAG_NAME: 'frame' | 'FRAME';
-HR_HTML_TAG_NAME: 'hr' | 'HR';
-IMG_HTML_TAG_NAME: 'img' | 'IMG';
-INPUT_HTML_TAG_NAME: 'input' | 'INPUT';
-ISINDEX_HTML_TAG_NAME: 'isindex' | 'ISINDEX';
-LINK_HTML_TAG_NAME: 'link' | 'LINK';
-META_HTML_TAG_NAME: 'meta' | 'META';
-PARAM_HTML_TAG_NAME: 'param' | 'PARAM';
+AREA_HTML_TAG_NAME: ('area' | 'AREA') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+BASE_HTML_TAG_NAME: ('base' | 'BASE') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+BASEFRONT_HTML_TAG_NAME: ('basefront' | 'BASEFRONT') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+BR_HTML_TAG_NAME: ('br' | 'BR') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+COL_HTML_TAG_NAME: ('col' | 'COL') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+FRAME_HTML_TAG_NAME: ('frame' | 'FRAME') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+HR_HTML_TAG_NAME: ('hr' | 'HR') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+IMG_HTML_TAG_NAME: ('img' | 'IMG') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+INPUT_HTML_TAG_NAME: ('input' | 'INPUT') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+ISINDEX_HTML_TAG_NAME: ('isindex' | 'ISINDEX') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+LINK_HTML_TAG_NAME: ('link' | 'LINK') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+META_HTML_TAG_NAME: ('meta' | 'META') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
+PARAM_HTML_TAG_NAME: ('param' | 'PARAM') {!htmlTagNameCatched}? {htmlTagNameCatched=true;};
 
 // other tag names and attribute names
-HTML_TAG_IDENT        :   NAME_START_CHAR NAME_CHAR*;
+HTML_TAG_IDENT: NAME_START_CHAR NAME_CHAR* {htmlTagNameCatched=true;};
 
 LeadingLEADING_ASTERISK1: LEADING_ASTERISK -> type(LEADING_ASTERISK);
 Newline1: NEWLINE -> type(NEWLINE);
@@ -318,6 +319,7 @@ S           :   [ \t\r\n]               -> skip ;
 Char11: .
       {
             skipCurrentTokenConsuming();
+            htmlTagNameCatched = false;
       } -> skip, mode(DEFAULT_MODE);
 
 
@@ -356,7 +358,7 @@ Leading_asterisk7: LEADING_ASTERISK -> type(LEADING_ASTERISK);
 ATTR_VALUE  : '"' ~[<"]* '"'        {attributeCatched=true;}
             | '\'' ~[<']* '\''      {attributeCatched=true;}
             | ( '-' | '+' | DIGIT)+ {attributeCatched=true;}
-            | (~[> \t\n] | SlashInAttr)+            {attributeCatched=true;}
+            | (~[> \t\n/] | SlashInAttr)+            {attributeCatched=true;}
             ;
 
 fragment SlashInAttr: '/' {_input.LA(1) != '>'}?;

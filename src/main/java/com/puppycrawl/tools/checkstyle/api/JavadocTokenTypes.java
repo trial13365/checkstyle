@@ -200,8 +200,8 @@ public final class JavadocTokenTypes
     public static final int THEAD_TAG_OPEN = JavadocParser.RULE_theadTagOpen + _ruleTypesOffset;
     public static final int THEAD_TAG_CLOSE = JavadocParser.RULE_theadTagClose + _ruleTypesOffset;
     public static final int THEAD = JavadocParser.RULE_thead + _ruleTypesOffset;
+    public static final int SINGLETON_ELEMENT = JavadocParser.RULE_singletonElement + _ruleTypesOffset;
     public static final int SINGLETON_TAG = JavadocParser.RULE_singletonTag + _ruleTypesOffset;
-    public static final int CUSTOM_SINGLETON_TAG = JavadocParser.RULE_customSingletonTag + _ruleTypesOffset;
     public static final int AREA_TAG = JavadocParser.RULE_areaTag + _ruleTypesOffset;
     public static final int BASE_TAG = JavadocParser.RULE_baseTag + _ruleTypesOffset;
     public static final int BASEFRONT_TAG = JavadocParser.RULE_basefrontTag + _ruleTypesOffset;

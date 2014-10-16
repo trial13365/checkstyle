@@ -46,7 +46,7 @@ package com.puppycrawl.tools.checkstyle.grammars.javadoc;
 javadoc:   (htmlElement | misc)* (LEADING_ASTERISK? WS* javadocTag)* EOF;
 
 htmlElement: htmlTag
-		| singletonTag
+		| singletonElement
 		| paragraph
 		| li
             | tr
@@ -667,7 +667,7 @@ thead: theadTagOpen
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////  SINLETON HTML TAGS  //////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-singletonTag: customSingletonTag
+singletonElement: singletonTag
 			| areaTag
 			| baseTag
 			| basefrontTag
@@ -685,7 +685,26 @@ singletonTag: customSingletonTag
                   | wrongSinletonTag
 			;
 
-customSingletonTag: OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE;
+singletonTag: OPEN
+                  (
+                  HTML_TAG_IDENT
+                  | P_HTML_TAG_NAME
+                  | LI_HTML_TAG_NAME
+                  | TR_HTML_TAG_NAME
+                  | TD_HTML_TAG_NAME 
+                  | TH_HTML_TAG_NAME 
+                  | BODY_HTML_TAG_NAME
+                  | COLGROUP_HTML_TAG_NAME
+                  | DD_HTML_TAG_NAME
+                  | DT_HTML_TAG_NAME 
+                  | HEAD_HTML_TAG_NAME
+                  | HTML_HTML_TAG_NAME
+                  | OPTION_HTML_TAG_NAME
+                  | TBODY_HTML_TAG_NAME
+                  | TFOOT_HTML_TAG_NAME
+                  | THEAD_HTML_TAG_NAME
+                  )
+                  (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE;
 
 areaTag: OPEN AREA_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* SLASH_CLOSE
 	| OPEN AREA_HTML_TAG_NAME (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE
