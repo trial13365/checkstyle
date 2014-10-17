@@ -28,7 +28,29 @@ import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 public final class ExpectedParseTreeGenerator
 {
     private static String mFolder = "src/test/resources/com/puppycrawl/tools/checkstyle/grammars/javadoc/";
-    private static String mExtension = "txt";
+    private static String[] inputNames = {
+        "/htmlTags/OneSimpleHtmlTag.txt",
+        "/javadocTags/TextBeforeJavadocTags.txt",
+        "/javadocTags/CustomJavadocTags.txt",
+        "/javadocTags/JavadocTagDescriptionWithInlineTags.txt",
+        "/LeadingAsterisks.txt",
+        "/javadocTags/AuthorWithMailto.txt",
+        "/htmlTags/HtmlTagsInParagraph.txt",
+        "/javadocTags/LinkInlineTags.txt",
+        "/javadocTags/SeeReferenceWithFewNestedClasses.txt",
+        "/javadocTags/ParamWithGeneric.txt",
+        "/javadocTags/Serial.txt",
+        "/javadocTags/Since.txt",
+        "/htmlTags/UnclosedAndClosedParagraphs.txt",
+        "/htmlTags/ListWithUnclosedItemInUnclosedParagraph.txt",
+        "/htmlTags/UnclosedParagraphFollowedByJavadocTag.txt",
+        "/javadocTags/AllJavadocInlineTags.txt",
+        "/javadocTags/DocRootInheritDoc.txt",
+        "/javadocTags/FewWhiteSpacesAsSeparator.txt",
+        "/htmlTags/MixedCaseOfHtmlTags.txt",
+        "/htmlTags/Comments.txt",
+        "/htmlTags/NegativeNumberInAttribute.txt",
+    };
 
     private ExpectedParseTreeGenerator()
     {
@@ -37,17 +59,17 @@ public final class ExpectedParseTreeGenerator
     public static void main(String[] args)
         throws Exception
     {
-        final String inputName = "javadocTags/AllJavadocInlineTags";
+        for (String inputName: inputNames) {
+            String filename = mFolder + inputName;
+            JavadocParseTreeTest test = new JavadocParseTreeTest();
+            ParseTree generatedTree = test.parseJavadoc(JavadocParseTreeTest
+                    .getFileContent(new File(filename)));
 
-        String filename = mFolder + inputName + "." + mExtension;
-        JavadocParseTreeTest test = new JavadocParseTreeTest();
-        ParseTree generatedTree = test.parseJavadoc(JavadocParseTreeTest
-                .getFileContent(new File(filename)));
-
-        System.out.println("public static ParseTree tree_" + inputName
-                + "()\n{");
-        String id = walk(generatedTree, "null");
-        System.out.println("    return " + id + ";\n}");
+            System.out.println("public static ParseTree tree_" + inputName
+                    + "()\n{");
+            String id = walk(generatedTree, "null");
+            System.out.println("    return " + id + ";\n}");
+        }
     }
 
     public static String walk(ParseTree t, String parentObjectName)

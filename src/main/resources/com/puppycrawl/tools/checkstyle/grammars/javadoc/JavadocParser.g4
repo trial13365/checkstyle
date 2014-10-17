@@ -43,7 +43,17 @@ package com.puppycrawl.tools.checkstyle.grammars.javadoc;
       }
 }
 
-javadoc:   (htmlElement | misc)* (LEADING_ASTERISK? WS* javadocTag)* EOF;
+javadoc: (
+            htmlElement
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag
+         )*
+         (LEADING_ASTERISK? WS* javadocTag)*
+         EOF;
 
 htmlElement: htmlTag
 		| singletonElement
@@ -100,8 +110,21 @@ htmlElementOpen:  OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* 
 htmlElementClose: OPEN SLASH HTML_TAG_IDENT CLOSE;
 attribute:    HTML_TAG_IDENT (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEADING_ASTERISK)* (ATTR_VALUE | text | HTML_TAG_IDENT);
 
-htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose //{isSameTagNames($htmlElementOpen.ctx, $htmlElementClose.ctx)}?
-            | htmlElementOpen (htmlElement | misc)*
+htmlTag: htmlElementOpen (htmlElement
+                              | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+                              | htmlComment
+                              | CDATA
+                              | NEWLINE
+                              | text
+                              | javadocInlineTag)* htmlElementClose //{isSameTagNames($htmlElementOpen.ctx, $htmlElementClose.ctx)}?
+
+            | htmlElementOpen (htmlElement
+                              | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+                              | htmlComment
+                              | CDATA
+                              | NEWLINE
+                              | text
+                              | javadocInlineTag)*
             {notifyErrorListeners($htmlElementOpen.ctx.getToken(HTML_TAG_IDENT, 0).getSymbol(), "javadoc.missed.html.close", null);}
             ;
 
@@ -141,7 +164,12 @@ paragraph: pTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 		pTagClose
 		;
 
@@ -178,7 +206,12 @@ li: liTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-		| misc)*
+		| ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	liTagClose
 	;
 
@@ -215,7 +248,12 @@ tr: trTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	trTagClose
 	;
 
@@ -252,7 +290,12 @@ td: tdTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	tdTagClose
 	;
 
@@ -289,7 +332,12 @@ th: thTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	thTagClose
 	;
 
@@ -326,7 +374,12 @@ body: bodyTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	bodyTagClose
 	;
 
@@ -363,7 +416,12 @@ colgroup: colgroupTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	colgroupTagClose
 	;
 
@@ -400,7 +458,12 @@ dd: ddTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	ddTagClose
 	;
 
@@ -437,7 +500,12 @@ dt: dtTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	dtTagClose
 	;
 
@@ -474,7 +542,12 @@ head: headTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	headTagClose
 	;
 
@@ -511,7 +584,12 @@ html: htmlTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	htmlTagClose
 	;
 
@@ -548,7 +626,12 @@ option: optionTagOpen
             | tbodyTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	optionTagClose
 	;
 
@@ -585,7 +668,12 @@ tbody: tbodyTagOpen
             | optionTagOpen
             | theadTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	tbodyTagClose
 	;
 
@@ -622,7 +710,12 @@ tfoot: tfootTagOpen
             | optionTagOpen
             | tbodyTagOpen
             | theadTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	tfootTagClose
 	;
 
@@ -659,7 +752,12 @@ thead: theadTagOpen
             | optionTagOpen
             | tbodyTagOpen
             | tfootTagOpen
-            | misc)*
+            | ({!isNextJavadocTag()}? LEADING_ASTERISK)
+            | htmlComment
+            | CDATA
+            | NEWLINE
+            | text
+            | javadocInlineTag)*
 	theadTagClose
 	;
 
@@ -767,7 +865,15 @@ singletonTagName: (AREA_HTML_TAG_NAME
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////  JAVADOC TAGS  ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-description: (misc | htmlElement)+;
+description: (
+                  ({!isNextJavadocTag()}? LEADING_ASTERISK)
+                  | htmlComment
+                  | CDATA
+                  | NEWLINE
+                  | text
+                  | javadocInlineTag
+                  | htmlElement
+            )+;
 
 reference:
       (
@@ -833,7 +939,7 @@ javadocInlineTagLink:
 	JAVADOC_INLINE_TAG_LINK_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	reference
-	(misc | htmlElement)*
+      description?
 	JAVADOC_INLINE_TAG_END
 	;
 
@@ -842,7 +948,7 @@ javadocInlineTagLinkplain:
 	JAVADOC_INLINE_TAG_LINKPLAIN_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)*
 	reference
-	(misc | htmlElement)*
+      description?
 	JAVADOC_INLINE_TAG_END
 	;
 
@@ -866,7 +972,7 @@ javadocInlineTagCustom:
 	JAVADOC_INLINE_TAG_START
 	JAVADOC_INLINE_TAG_CUSTOM_LITERAL
 	(WS | NEWLINE | LEADING_ASTERISK)+
-	(misc | htmlElement)*
+      description?
 	JAVADOC_INLINE_TAG_END
 	;
 
