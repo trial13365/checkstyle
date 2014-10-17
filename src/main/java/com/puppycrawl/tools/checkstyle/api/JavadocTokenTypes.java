@@ -263,8 +263,6 @@ public final class JavadocTokenTypes
     public static final int WS = JavadocParser.WS; // whitespace, \t
     public static final int TEXT = JavadocParser.RULE_text + _ruleTypesOffset; // CHAR and WS sequence
 
-    public static final int MISC = JavadocParser.RULE_misc + _ruleTypesOffset; // can be: LEADING_ASTERISK, NEWLINE, HTML_COMMENT, CDATA, TEXT, JAVADOC_INLINE_TAG
-
     public static final int EOF = JavadocParser.EOF; // end of file
 
 

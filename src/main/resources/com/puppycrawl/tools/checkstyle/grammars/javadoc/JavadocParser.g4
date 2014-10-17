@@ -989,15 +989,3 @@ javadocInlineTag: javadocInlineTagCode
 htmlComment: HTML_COMMENT_START (text | NEWLINE | LEADING_ASTERISK)* HTML_COMMENT_END;
 
 text : (CHAR | WS)+ ;
-misc :
-	(
-		({!isNextJavadocTag()}? LEADING_ASTERISK)
-		| htmlComment
-		| CDATA
-		| NEWLINE
-		| text
-		| javadocInlineTag
-	)+
-	;
-
-
