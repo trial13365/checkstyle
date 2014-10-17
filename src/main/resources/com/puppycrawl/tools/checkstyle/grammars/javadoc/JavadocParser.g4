@@ -98,8 +98,7 @@ htmlElement: htmlTag
 
 htmlElementOpen:  OPEN HTML_TAG_IDENT (attribute | NEWLINE | LEADING_ASTERISK)* CLOSE;
 htmlElementClose: OPEN SLASH HTML_TAG_IDENT CLOSE;
-attribute:    HTML_TAG_IDENT (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEADING_ASTERISK)* attributeValue ;
-attributeValue: (ATTR_VALUE | text | HTML_TAG_IDENT);
+attribute:    HTML_TAG_IDENT (NEWLINE | LEADING_ASTERISK)* EQUALS (NEWLINE | LEADING_ASTERISK)* (ATTR_VALUE | text | HTML_TAG_IDENT);
 
 htmlTag: htmlElementOpen (htmlElement | misc)* htmlElementClose //{isSameTagNames($htmlElementOpen.ctx, $htmlElementClose.ctx)}?
             | htmlElementOpen (htmlElement | misc)*

@@ -24,7 +24,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser.AttributeContext;
-import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser.AttributeValueContext;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser.BrTagContext;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser.DescriptionContext;
 import com.puppycrawl.tools.checkstyle.grammars.javadoc.JavadocParser.HtmlCommentContext;
@@ -233,10 +232,8 @@ public class ParseTreeBuilder
         VNxQW.addChild(KMpDJ);
         CommonToken NLMiP = new CommonToken(JavadocTokenTypes.EQUALS, "=");
         VNxQW.addChild(NLMiP);
-        AttributeValueContext VFOpB = new AttributeValueContext(VNxQW, 0);
         CommonToken tnYIb = new CommonToken(JavadocTokenTypes.ATTR_VALUE, "\"mailto:barataliba@gmail.com\"");
-        VFOpB.addChild(tnYIb);
-        VNxQW.addChild(VFOpB);
+        VNxQW.addChild(tnYIb);
         uNZwP.addChild(VNxQW);
         CommonToken mGyin = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         uNZwP.addChild(mGyin);
@@ -1883,10 +1880,8 @@ public class ParseTreeBuilder
         oGUvR.addChild(qPlYn);
         CommonToken vbkJL = new CommonToken(JavadocTokenTypes.EQUALS, "=");
         oGUvR.addChild(vbkJL);
-        AttributeValueContext vHTGH = new AttributeValueContext(oGUvR, 0);
         CommonToken dUHLz = new CommonToken(JavadocTokenTypes.ATTR_VALUE, "\"color: red;\"");
-        vHTGH.addChild(dUHLz);
-        oGUvR.addChild(vHTGH);
+        oGUvR.addChild(dUHLz);
         sufIY.addChild(oGUvR);
         CommonToken JrugG = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         sufIY.addChild(JrugG);
@@ -2740,10 +2735,8 @@ public class ParseTreeBuilder
         vqNiP.addChild(TRyFC);
         CommonToken YKDEY = new CommonToken(JavadocTokenTypes.EQUALS, "=");
         vqNiP.addChild(YKDEY);
-        AttributeValueContext NsYzy = new AttributeValueContext(vqNiP, 0);
         CommonToken vtmEl = new CommonToken(JavadocTokenTypes.ATTR_VALUE, "-2");
-        NsYzy.addChild(vtmEl);
-        vqNiP.addChild(NsYzy);
+        vqNiP.addChild(vtmEl);
         LLgva.addChild(vqNiP);
         CommonToken usxvr = new CommonToken(JavadocTokenTypes.CLOSE, ">");
         LLgva.addChild(usxvr);
