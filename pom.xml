@@ -416,7 +416,7 @@
                 <ant antfile="ant-phase-compile.xml" />
               </target>
             </configuration>
-          </execution>
+          </execution><!--
           <execution>
             <id>ant-phase-verify</id>
             <phase>verify</phase>
@@ -431,7 +431,7 @@
                 <ant antfile="ant-phase-verify.xml" />
               </target>
             </configuration>
-          </execution>
+          </execution>-->
         </executions>
         <dependencies>
           <dependency>
