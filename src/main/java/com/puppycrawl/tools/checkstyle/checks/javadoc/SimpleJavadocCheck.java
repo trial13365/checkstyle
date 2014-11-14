@@ -18,6 +18,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
+import com.puppycrawl.tools.checkstyle.TreeBuilder;
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 
 
@@ -38,7 +39,7 @@ public class SimpleJavadocCheck extends AbstractJavadocCheck
     @Override
     public void beginJavadocTree(DetailNode aRootAst)
     {
-//        TreeBuilder.buildTree(aRootAst);
+        TreeBuilder.buildTree(aRootAst);
     }
 
 }

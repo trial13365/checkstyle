@@ -1,4 +1,7 @@
+import com.example.Qax;
+
 /**
- * <a>
+ * @param T The bar. May be a rather longish description which placed the {@link
+ * Qax} at the end of a line.
  */
-class A{}
+public class Foo<T> {};

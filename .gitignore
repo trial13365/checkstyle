@@ -16,3 +16,4 @@ checkstyle.iml
 
 #Temp files
 *~
+/target/
