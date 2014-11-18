@@ -1,6 +1,7 @@
 package com.puppycrawl.tools.checkstyle;
 
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
+import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 
 public class TreeBuilder
 {
@@ -20,6 +21,11 @@ public class TreeBuilder
                         + " : ["
                         + node.getText().replaceAll("\n", "\\\\n").replaceAll("\t", "\\\\t")
                         + "]");
+
+                if (node.getType() == JavadocTokenTypes.TEXT) {
+                    continue;
+                }
+
                 buildTree(node);
             }
         }
@@ -32,7 +38,7 @@ public class TreeBuilder
     private static String getLevel(DetailNode aNode)
     {
         DetailNode parent = aNode;
-        String level = "|";
+        String level = "";
         while (parent.getParent() != null) {
             parent = parent.getParent();
             if (parent.getParent() != null) {
