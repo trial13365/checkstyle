@@ -559,7 +559,7 @@ public final class TreeWalker
      *        root of AST.
      * @return root of AST with comment nodes.
      */
-    private static DetailAST appendHiddenCommentNodes(DetailAST aRoot)
+    public static DetailAST appendHiddenCommentNodes(DetailAST aRoot)
     {
         DetailAST result = aRoot;
         DetailAST curNode = aRoot;

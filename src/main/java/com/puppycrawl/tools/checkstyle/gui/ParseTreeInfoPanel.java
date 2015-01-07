@@ -118,6 +118,7 @@ public class ParseTreeInfoPanel extends JPanel
             putValue(Action.MNEMONIC_KEY, KeyEvent.VK_S);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e)
         {
             final JFileChooser fc = new JFileChooser( mLastDirectory );
@@ -145,6 +146,7 @@ public class ParseTreeInfoPanel extends JPanel
             putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e)
         {
             final Component parent =
@@ -158,6 +160,7 @@ public class ParseTreeInfoPanel extends JPanel
     {
         private final JScrollPane mSp;
 
+        @Override
         public void filesDropped(File[] files)
         {
             if ((files != null) && (files.length > 0))
@@ -181,7 +184,7 @@ public class ParseTreeInfoPanel extends JPanel
                 Main.frame.setTitle("Checkstyle : " + aFile.getName());
                 final FileText text = new FileText(aFile.getAbsoluteFile(),
                                                    getEncoding());
-                final DetailAST parseTree = parseFile(text);
+                final DetailAST parseTree = parseFileWithComments(text);
                 mParseTreeModel.setParseTree(parseTree);
                 mCurrentFile = aFile;
                 mLastDirectory = aFile.getParentFile();
@@ -255,6 +258,15 @@ public class ParseTreeInfoPanel extends JPanel
         return TreeWalker.parse(contents);
     }
 
+    public static DetailAST parseFileWithComments(FileText aText)
+            throws ANTLRException
+    {
+        final FileContents contents = new FileContents(aText);
+        DetailAST tree = TreeWalker.parse(contents);
+        TreeWalker.appendHiddenCommentNodes(tree);
+        return tree;
+    }
+
     /**
      * Returns the configured file encoding.
      * This can be set using the {@code file.encoding} system property.
@@ -315,6 +327,7 @@ public class ParseTreeInfoPanel extends JPanel
     {
         final Runnable showError = new Runnable()
         {
+            @Override
             public void run()
             {
                 JOptionPane.showMessageDialog(parent, msg);
