@@ -45,8 +45,12 @@ import antlr.ANTLRException;
 
 import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.FileText;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+import com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck;
+import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocUtils;
 
 /**
  * Displays information about a parse tree.
@@ -185,6 +189,61 @@ public class ParseTreeInfoPanel extends JPanel
                 final FileText text = new FileText(aFile.getAbsoluteFile(),
                                                    getEncoding());
                 final DetailAST parseTree = parseFileWithComments(text);
+
+
+                AbstractJavadocCheck check = new AbstractJavadocCheck()
+                {
+
+                    @Override
+                    public int[] getDefaultJavadocTokens()
+                    {
+                        return null;
+                    }
+
+                    @Override
+                    public void beginJavadocTree(DetailNode aRootAst)
+                    {
+                        DetailAST javadoc = new DetailNodeAdapter(aRootAst);
+
+                        DetailAST blockComment = getBlockCommentAst();
+                        DetailAST prev = blockComment.getPreviousSibling();
+                        DetailAST next = blockComment.getNextSibling();
+
+                        if (prev == null) {
+                            blockComment.getParent().setFirstChild(javadoc);
+                        } else {
+                            prev.setNextSibling(javadoc);
+                        }
+
+                        if (next != null) {
+                            javadoc.setNextSibling(next);
+                        }
+                    }
+
+                    @Override
+                    public void log(int aLine, String aKey, Object... aArgs)
+                    {
+                        JOptionPane.showMessageDialog(ParseTreeInfoPanel.this,
+                                "Failed to parse Javadoc comment at line " + aLine);
+                    }
+
+                };
+
+                DetailAST curNode = parseTree;
+                while (curNode != null) {
+                    if (curNode.getType() == TokenTypes.BLOCK_COMMENT_BEGIN) {
+                        check.visitToken(curNode);
+                    }
+                    DetailAST toVisit = curNode.getFirstChild();
+                    while ((curNode != null) && (toVisit == null)) {
+                        toVisit = curNode.getNextSibling();
+                        if (toVisit == null) {
+                            curNode = curNode.getParent();
+                        }
+                    }
+                    curNode = toVisit;
+                }
+
                 mParseTreeModel.setParseTree(parseTree);
                 mCurrentFile = aFile;
                 mLastDirectory = aFile.getParentFile();
@@ -340,5 +399,90 @@ public class ParseTreeInfoPanel extends JPanel
     {
       return lines2position;
     }
+
+    /**
+     * Need to display DetailNode objects in JTable.
+     */
+    protected static class DetailNodeAdapter extends DetailAST {
+            private static final long serialVersionUID = 1L;
+
+            private DetailNodeAdapter parent, nextSibling, previousSibling, firstChild;
+            boolean parentCreated, nextSiblingCreated, previousSiblingCreated, firstChildCreated;
+            private final DetailNode node;
+
+            public DetailNodeAdapter(DetailNode node) {
+                this.node = node;
+
+                if (node != null) {
+                    setType(node.getType());
+                    setText(node.getText());
+                    setLineNo(node.getLineNumber());
+                    setColumnNo(node.getColumnNumber());
+                }
+            }
+
+            @Override
+            public DetailAST getParent()
+            {
+                if (!parentCreated) {
+                    DetailNode parentNode = node.getParent();
+                    if (parentNode != null) {
+                        parent = new DetailNodeAdapter(parentNode);
+                    }
+                    parentCreated = true;
+                }
+
+                return parent;
+            }
+
+            @Override
+            public DetailAST getNextSibling()
+            {
+                if (!nextSiblingCreated) {
+                    DetailNode nextNode = JavadocUtils.getNextSibling(node);
+                    if (nextNode != null) {
+                        nextSibling = new DetailNodeAdapter(nextNode);
+                    }
+                    nextSiblingCreated = true;
+                }
+
+                return nextSibling;
+            }
+
+            @Override
+            public DetailAST getPreviousSibling()
+            {
+                if (!previousSiblingCreated) {
+                    DetailNode prevNode = JavadocUtils.getPreviousSibling(node);
+                    if (prevNode != null) {
+                        previousSibling = new DetailNodeAdapter(prevNode);
+                    }
+                    previousSiblingCreated = true;
+                }
+
+                return previousSibling;
+            }
+
+            @Override
+            public DetailAST getFirstChild()
+            {
+                if (!firstChildCreated) {
+                    DetailNode childNode = JavadocUtils.getFirstChild(node);
+                    if (childNode != null) {
+                        firstChild = new DetailNodeAdapter(childNode);
+                    }
+                    firstChildCreated = true;
+                }
+
+                return firstChild;
+            }
+
+            @Override
+            public String toString()
+            {
+                return node.toString();
+            }
+
+        }
 }
 

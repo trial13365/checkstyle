@@ -21,8 +21,11 @@ package com.puppycrawl.tools.checkstyle.gui;
 
 import antlr.ASTFactory;
 import antlr.collections.AST;
+
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocUtils;
+import com.puppycrawl.tools.checkstyle.gui.ParseTreeInfoPanel.DetailNodeAdapter;
 
 /**
  * The model that backs the parse tree in the GUI.
@@ -59,11 +62,13 @@ public class ParseTreeModel extends AbstractTreeTableModel
         fireTreeStructureChanged(this, path, null, null);
     }
 
+    @Override
     public int getColumnCount()
     {
         return COLUMN_NAMES.length;
     }
 
+    @Override
     public String getColumnName(int column)
     {
         return COLUMN_NAMES[column];
@@ -87,6 +92,7 @@ public class ParseTreeModel extends AbstractTreeTableModel
         return Object.class;
     }
 
+    @Override
     public Object getValueAt(Object node, int column)
     {
         final DetailAST ast = (DetailAST) node;
@@ -94,6 +100,9 @@ public class ParseTreeModel extends AbstractTreeTableModel
             case 0:
                 return null;
             case 1:
+                if (node instanceof DetailNodeAdapter) {
+                    return JavadocUtils.getTokenName(ast.getType());
+                }
                 return TokenTypes.getTokenName(ast.getType());
             case 2:
                 return ast.getLineNo();
@@ -110,6 +119,7 @@ public class ParseTreeModel extends AbstractTreeTableModel
     {
     }
 
+    @Override
     public Object getChild(Object parent, int index)
     {
         final DetailAST ast = (DetailAST) parent;
@@ -122,6 +132,7 @@ public class ParseTreeModel extends AbstractTreeTableModel
         return child;
     }
 
+    @Override
     public int getChildCount(Object parent)
     {
         final DetailAST ast = (DetailAST) parent;

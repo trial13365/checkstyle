@@ -241,7 +241,7 @@ public abstract class Check extends AbstractViolationReporter
     }
 
     @Override
-    public final void log(int aLine, String aKey, Object... aArgs)
+    public void log(int aLine, String aKey, Object... aArgs)
     {
         mMessages.add(
             new LocalizedMessage(

@@ -34,7 +34,7 @@ public interface DetailNode
     /**
      * Node type.
      * @return node type.
-     * @see JavadocTokenType
+     * @see JavadocTokenTypes
      */
     int getType();
 
