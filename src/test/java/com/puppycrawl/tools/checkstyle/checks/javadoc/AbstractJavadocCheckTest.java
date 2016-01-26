@@ -42,6 +42,8 @@ import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+import com.puppycrawl.tools.checkstyle.internal.TestUtils;
+import com.puppycrawl.tools.checkstyle.utils.BlockCommentPosition;
 
 public class AbstractJavadocCheckTest extends BaseCheckTestSupport {
     @Override
@@ -150,6 +152,22 @@ public class AbstractJavadocCheckTest extends BaseCheckTestSupport {
         };
         verify(checkConfig, getPath("InputJavadocPositionWithSinglelineComments.java"), expected);
         Assert.assertEquals(55, JavadocCatchCheck.javadocsNumber);
+    }
+
+    @Test
+    public void testPositionOnlyComments()
+        throws Exception {
+        JavadocCatchCheck.clearCounter();
+        final DefaultConfiguration checkConfig = createCheckConfig(JavadocCatchCheck.class);
+        final String[] expected = {
+        };
+        verify(checkConfig, getPath("InputJavadocPositionOnlyComments.java"), expected);
+        Assert.assertEquals(0, JavadocCatchCheck.javadocsNumber);
+    }
+
+    @Test
+    public void testBlockCommentPositionHasPrivateConstr() throws Exception {
+        TestUtils.assertUtilsClassHasPrivateConstructor(BlockCommentPosition.class);
     }
 
     private static class TempCheck extends AbstractJavadocCheck {

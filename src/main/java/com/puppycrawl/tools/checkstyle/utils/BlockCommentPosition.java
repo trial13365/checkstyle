@@ -110,13 +110,11 @@ public final class BlockCommentPosition {
         final boolean isOnPlainConst = blockComment.getParent() != null
                 && blockComment.getParent().getType() == TokenTypes.ENUM_CONSTANT_DEF
                 && getPrevSiblingSkipComments(blockComment).getType() == TokenTypes.ANNOTATIONS
-                && getPrevSiblingSkipComments(blockComment).getChildCount() == 0
-                && getNextSiblingSkipComments(blockComment).getType() == TokenTypes.IDENT;
+                && getPrevSiblingSkipComments(blockComment).getChildCount() == 0;
         final boolean isOnConstWithAnnotation = !isOnPlainConst && blockComment.getParent() != null
                 && blockComment.getParent().getType() == TokenTypes.ANNOTATION
                 && blockComment.getParent().getParent().getParent().getType()
-                    == TokenTypes.ENUM_CONSTANT_DEF
-                && getPrevSiblingSkipComments(blockComment) == null;
+                    == TokenTypes.ENUM_CONSTANT_DEF;
         return isOnPlainConst || isOnConstWithAnnotation;
     }
 
@@ -132,7 +130,6 @@ public final class BlockCommentPosition {
         return blockComment.getParent() != null
                 && blockComment.getParent().getType() == parentTokenType
                 && getPrevSiblingSkipComments(blockComment).getChildCount() == 0
-                && getNextSiblingSkipComments(blockComment) != null
                 && getNextSiblingSkipComments(blockComment).getType() == nextTokenType;
     }
 
@@ -160,8 +157,7 @@ public final class BlockCommentPosition {
                 && blockComment.getParent().getType() == TokenTypes.ANNOTATION
                 && getPrevSiblingSkipComments(blockComment.getParent()) == null
                 && blockComment.getParent().getParent().getType() == TokenTypes.MODIFIERS
-                && blockComment.getParent().getParent().getParent().getType() == tokenType
-                && getPrevSiblingSkipComments(blockComment) == null;
+                && blockComment.getParent().getParent().getParent().getType() == tokenType;
     }
 
     /**
@@ -174,10 +170,8 @@ public final class BlockCommentPosition {
         return blockComment.getParent() != null
                 && blockComment.getParent().getType() == TokenTypes.TYPE
                 && blockComment.getParent().getParent().getType() == memberType
-                && blockComment.getParent().getPreviousSibling() != null
-                && blockComment.getParent().getPreviousSibling().getType() == TokenTypes.MODIFIERS
-                && blockComment.getParent().getPreviousSibling().getChildCount() == 0
-                && getPrevSiblingSkipComments(blockComment) == null;
+                // previous parent sibling is always TokenTypes.MODIFIERS
+                && blockComment.getParent().getPreviousSibling().getChildCount() == 0;
     }
 
     /**
@@ -187,9 +181,8 @@ public final class BlockCommentPosition {
      */
     private static DetailAST getNextSiblingSkipComments(DetailAST node) {
         DetailAST result = node.getNextSibling();
-        while (result != null
-                && (result.getType() == TokenTypes.SINGLE_LINE_COMMENT
-                || result.getType() == TokenTypes.BLOCK_COMMENT_BEGIN)) {
+        while (result.getType() == TokenTypes.SINGLE_LINE_COMMENT
+                || result.getType() == TokenTypes.BLOCK_COMMENT_BEGIN) {
             result = result.getNextSibling();
         }
         return result;
